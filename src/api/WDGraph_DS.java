@@ -318,7 +318,7 @@ public class WDGraph_DS implements directed_weighted_graph {
             _src = src;
             _dest = dest;
             _tag = 0;
-            weight = weight;
+            _weight = weight;
             _info = "";
         }
 
