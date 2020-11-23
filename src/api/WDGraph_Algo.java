@@ -3,10 +3,7 @@ package ex2.src.api;
 import ex1.src.node_info;
 import ex1.src.weighted_graph;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Stack;
+import java.util.*;
 
 public class WDGraph_Algo implements dw_graph_algorithms {
 
@@ -37,7 +34,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public directed_weighted_graph getGraph() {
-        return  this.g;
+        return this.g;
     }
 
     /**
@@ -71,8 +68,64 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public boolean isConnected() {
-        return false;
+//-------------------------------------------------------we need to see if we can randomize the chosen node
+        if (g.getV().iterator().hasNext()) {
+            // initialize the nodes tag
+            for (node_data i : this.g.getV()) {
+                i.setTag(-1);
+            }
+
+        node_data connectedNode = g.getV().iterator().next();
+        this.connectedCheck(connectedNode, connectedNode);
+
+            for (node_data j : g.getV()) {
+            if (j.getTag() == -1) {
+                return false;
+            }
+        }
+
+
+        for (node_data i : g.getV()) {
+            // initialize the nodes tag
+            for (node_data j : this.g.getV()) {
+                    j.setTag(-1);}
+
+            this.connectedCheck(i, connectedNode);
+            for (node_data j : g.getV()) {
+                if (j.getTag() == -1) {
+                    return false;
+                }
+            }
+        }
     }
+        return true;
+}
+
+    /**
+     * change the tag to the distance between node_data to the rest of the graph nodes until it reach the destination
+     * if the tag = -1 the nodes are not connected
+     *
+     * @@param node_data
+     */
+    private void connectedCheck(node_data src, node_data dest) {
+
+        Queue<node_data> q = new LinkedList<>();
+        src.setTag(1);
+        q.add(src);
+        while (!q.isEmpty()) {
+            int temp = q.poll().getKey();
+            for (edge_data i : this.g.getE(temp)) {
+                node_data n_d = g.getNode(i.getDest());
+                if (n_d.getTag() == -1) {
+                    q.add(n_d);
+                    n_d.setTag(1);
+                    if (n_d == dest)
+                        return;
+                }
+            }
+        }
+    }
+
 
     /**
      * returns the length of the shortest path between src to dest
@@ -94,10 +147,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             if (Src == Dest)
                 return 0;
 
-            // initialize the nodes tag
-            for (node_data i : g.getV()) {
-                i.setTag(-1);
-            }
+            this.initEdgeTag();//------------------------------------------
 
             setDistance(Src, Dest);
 
@@ -170,8 +220,8 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             }
         }
     }
+
     /**
-     *
      * return list with the path from one node to the other
      *
      * @@param node_info src
@@ -209,37 +259,38 @@ public class WDGraph_Algo implements dw_graph_algorithms {
         return ll;
     }
 
+    // initialize the nodes tag
+    private void initEdgeTag() {
+        for (node_data i : g.getV()) {
+            for (edge_data j : g.getE(i.getKey())) {
+                //-------------------------------------------------------------
+            }
+        }
 
 
+        /**
+         * Saves this weighted (directed) graph to the given
+         * file name - in JSON format
+         *
+         * @param file - the file name (may include a relative path).
+         * @return true - iff the file was successfully saved
+         */
+        @Override
+        public boolean save (String file){
+            return false;
+        }
 
-
-
-
-
-
-    /**
-     * Saves this weighted (directed) graph to the given
-     * file name - in JSON format
-     *
-     * @param file - the file name (may include a relative path).
-     * @return true - iff the file was successfully saved
-     */
-    @Override
-    public boolean save(String file) {
-        return false;
+        /**
+         * This method load a graph to this graph algorithm.
+         * if the file was successfully loaded - the underlying graph
+         * of this class will be changed (to the loaded one), in case the
+         * graph was not loaded the original graph should remain "as is".
+         *
+         * @param file - file name of JSON file
+         * @return true - iff the graph was successfully loaded.
+         */
+        @Override
+        public boolean load (String file){
+            return false;
+        }
     }
-
-    /**
-     * This method load a graph to this graph algorithm.
-     * if the file was successfully loaded - the underlying graph
-     * of this class will be changed (to the loaded one), in case the
-     * graph was not loaded the original graph should remain "as is".
-     *
-     * @param file - file name of JSON file
-     * @return true - iff the graph was successfully loaded.
-     */
-    @Override
-    public boolean load(String file) {
-        return false;
-    }
-}
