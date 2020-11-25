@@ -1,9 +1,6 @@
 package ex2.tests;
 
-import ex1.src.node_info;
-import ex1.src.weighted_graph;
 import ex2.src.api.*;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -111,9 +108,9 @@ class WDGraph_DSTest {
         for (int i = 1; i < 20; i++) {
             g.addNode(new NodeData());
             g.connect(i, 0, 0.2);
-            assertFalse(c.contains(g.getEdge(i,0)));
+            assertFalse(c.contains(g.getEdge(i, 0)));
             g.connect(0, i, 0.3);
-            assertTrue(c.contains(g.getEdge(0,i)));
+            assertTrue(c.contains(g.getEdge(0, i)));
         }
     }
 
@@ -164,7 +161,7 @@ class WDGraph_DSTest {
 
     @Test
     void edgeSize() {
-        int n = nextRnd(10, 100), e =nextRnd(n, n * 3);
+        int n = nextRnd(10, 100), e = nextRnd(n, n * 3);
         for (int i = 0; i < n; i++) {
             g.addNode(new NodeData());
         }
