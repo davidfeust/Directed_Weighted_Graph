@@ -2,18 +2,17 @@ package ex2.src.api;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.StringJoiner;
 
 public class WDGraph_DS implements directed_weighted_graph {
 
-    private HashMap<Integer, node_data> graphNodes;
-    private int edge_size;
-    private int mode_count;
+    private HashMap<Integer, node_data> _graphNodes;
+    private int _edge_size;
+    private int _mode_count;
 
     public WDGraph_DS() {
-        this.graphNodes = new HashMap<>();
-        this.edge_size = 0;
-        this.mode_count = 0;
+        this._graphNodes = new HashMap<>();
+        this._edge_size = 0;
+        this._mode_count = 0;
     }
 
     /**
@@ -24,7 +23,7 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public node_data getNode(int key) {
-        return this.graphNodes.get(key);
+        return this._graphNodes.get(key);
     }
 
     /**
@@ -51,7 +50,7 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public void addNode(node_data n) {
-        this.graphNodes.put(n.getKey(), n);
+        this._graphNodes.put(n.getKey(), n);
     }
 
     /**
@@ -73,12 +72,12 @@ public class WDGraph_DS implements directed_weighted_graph {
             return;
         }
         if (this.getEdge(src, dest) == null) {
-            this.edge_size++;
+            this._edge_size++;
         }
 
         tempDest.getNeighborNodes().put(src, tempSrc);
         tempSrc.getNeighborsDis().put(dest, new EdgeData(src, dest, w));
-        this.mode_count++;
+        this._mode_count++;
     }
 
     /**
@@ -90,7 +89,7 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public Collection<node_data> getV() {
-        return this.graphNodes.values();
+        return this._graphNodes.values();
     }
 
     /**
@@ -128,14 +127,14 @@ public class WDGraph_DS implements directed_weighted_graph {
             NodeData tempI = (NodeData) i;
             tempI.getNeighborsDis().remove(key);
             tempI.getNeighborNodes().remove(key);
-            this.edge_size--;
-            this.mode_count++;
+            this._edge_size--;
+            this._mode_count++;
         }
         int t = getE(key).size();
-        edge_size -= t;
-        mode_count += t;
-        mode_count++;
-        this.graphNodes.remove(key);
+        _edge_size -= t;
+        _mode_count += t;
+        _mode_count++;
+        this._graphNodes.remove(key);
         return temp;
     }
 
@@ -154,8 +153,8 @@ public class WDGraph_DS implements directed_weighted_graph {
         if (tempDest == null || tempSrc == null || this.getEdge(src, dest) == null) {
             return null;
         }
-        this.mode_count++;
-        this.edge_size--;
+        this._mode_count++;
+        this._edge_size--;
         tempDest.getNeighborNodes().remove(src);
         return tempSrc.getNeighborsDis().remove(dest);
     }
@@ -168,7 +167,7 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public int nodeSize() {
-        return this.graphNodes.size();
+        return this._graphNodes.size();
     }
 
     /**
@@ -179,7 +178,7 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public int edgeSize() {
-        return this.edge_size;
+        return this._edge_size;
     }
 
     /**
@@ -189,7 +188,7 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public int getMC() {
-        return this.mode_count;
+        return this._mode_count;
     }
 
     @Override
@@ -201,9 +200,9 @@ public class WDGraph_DS implements directed_weighted_graph {
             }
         }
         return "WDGraph_DS{" +
-                ", edge_size=" + edge_size +
-                ", mode_count=" + mode_count +
-                "\n\tNodes=" + graphNodes +
+                ", edge_size=" + _edge_size +
+                ", mode_count=" + _mode_count +
+                "\n\tNodes=" + _graphNodes +
                 "\n\tEdges=" + edgesStr + "]" +
                 '}';
     }

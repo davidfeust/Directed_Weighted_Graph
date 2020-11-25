@@ -5,36 +5,36 @@ import java.util.Objects;
 
 public class NodeData implements node_data {
 
-    static int masterKey = 0;
-    private final int key;
-    private HashMap<Integer, node_data> neighborNodes;
-    private HashMap<Integer, edge_data> neighborsDis;
-    private int tag;
-    private double weight;
-    private String remark;
-    private geo_location GLocation;
+    static int _masterKey = 0;
+    private final int _key;
+    private HashMap<Integer, node_data> _neighborNodes;
+    private HashMap<Integer, edge_data> _neighborsDis;
+    private int _tag;
+    private double _weight;
+    private String _remark;
+    private geo_location _GLocation;
 
     public NodeData() {
-        this.key = masterKey++;
-        this.neighborNodes = new HashMap<>();
-        this.neighborsDis = new HashMap<>();
-        this.remark = "";
+        this._key = _masterKey++;
+        this._neighborNodes = new HashMap<>();
+        this._neighborsDis = new HashMap<>();
+        this._remark = "";
         this.setTag(-1);
-        GLocation = null;
-        weight = 0;
+        _GLocation = null;
+        _weight = 0;
     }
 
     // should be removed & make masterKey private
     public static void setMaster(int s) {
-        masterKey = s;
+        _masterKey = s;
     }
 
     public HashMap<Integer, edge_data> getNeighborsDis() {
-        return neighborsDis;
+        return _neighborsDis;
     }
 
     public HashMap<Integer, node_data> getNeighborNodes() {
-        return neighborNodes;
+        return _neighborNodes;
     }
 
     /**
@@ -44,7 +44,7 @@ public class NodeData implements node_data {
      */
     @Override
     public int getKey() {
-        return this.key;
+        return this._key;
     }
 
     /**
@@ -55,7 +55,7 @@ public class NodeData implements node_data {
      */
     @Override
     public geo_location getLocation() {
-        return GLocation;
+        return _GLocation;
     }
 
     /**
@@ -65,7 +65,7 @@ public class NodeData implements node_data {
      */
     @Override
     public void setLocation(geo_location p) {
-        this.GLocation = p;
+        this._GLocation = p;
     }
 
     /**
@@ -75,7 +75,7 @@ public class NodeData implements node_data {
      */
     @Override
     public double getWeight() {
-        return weight;
+        return _weight;
     }
 
     /**
@@ -85,7 +85,7 @@ public class NodeData implements node_data {
      */
     @Override
     public void setWeight(double w) {
-        weight = w;
+        _weight = w;
     }
 
     /**
@@ -95,7 +95,7 @@ public class NodeData implements node_data {
      */
     @Override
     public String getInfo() {
-        return this.remark;
+        return this._remark;
     }
 
     /**
@@ -105,7 +105,7 @@ public class NodeData implements node_data {
      */
     @Override
     public void setInfo(String s) {
-        this.remark = s;
+        this._remark = s;
     }
 
     /**
@@ -116,7 +116,7 @@ public class NodeData implements node_data {
      */
     @Override
     public int getTag() {
-        return this.tag;
+        return this._tag;
     }
 
     /**
@@ -127,7 +127,7 @@ public class NodeData implements node_data {
      */
     @Override
     public void setTag(int t) {
-        this.tag = t;
+        this._tag = t;
     }
 
     @Override
@@ -135,16 +135,16 @@ public class NodeData implements node_data {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NodeData nodeData = (NodeData) o;
-        return key == nodeData.key;
+        return _key == nodeData._key;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key);
+        return Objects.hash(_key);
     }
 
     @Override
     public String toString() {
-        return "(" + key + ")";
+        return "(" + _key + ")";
     }
 }

@@ -1,13 +1,10 @@
 package ex2.src.api;
 
-import ex1.src.node_info;
-import ex1.src.weighted_graph;
-
 import java.util.*;
 
 public class WDGraph_Algo implements dw_graph_algorithms {
 
-    private directed_weighted_graph g;
+    private directed_weighted_graph _g;
 
     // default constructor
     public WDGraph_Algo() {
@@ -24,7 +21,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public void init(directed_weighted_graph g) {
-        this.g = g;
+        this._g = g;
     }
 
     /**
@@ -34,7 +31,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public directed_weighted_graph getGraph() {
-        return this.g;
+        return this._g;
     }
 
     /**
@@ -47,11 +44,11 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
         directed_weighted_graph g1 = new WDGraph_DS();
 
-        for (node_data i : g.getV()) {
+        for (node_data i : _g.getV()) {
             g1.addNode(i);//--------------------------------we need to correct the add
         }
-        for (node_data i : g.getV()) {
-            for (edge_data j : g.getE(i.getKey())) {
+        for (node_data i : _g.getV()) {
+            for (edge_data j : _g.getE(i.getKey())) {
 
                 g1.connect(j.getSrc(), j.getDest(), j.getWeight());
             }
@@ -69,29 +66,29 @@ public class WDGraph_Algo implements dw_graph_algorithms {
     @Override
     public boolean isConnected() {
 //-------------------------------------------------------we need to see if we can randomize the chosen node
-        if (g.getV().iterator().hasNext()) {
+        if (_g.getV().iterator().hasNext()) {
             // initialize the nodes tag
-            for (node_data i : this.g.getV()) {
+            for (node_data i : this._g.getV()) {
                 i.setTag(-1);
             }
 
-        node_data connectedNode = g.getV().iterator().next();
+        node_data connectedNode = _g.getV().iterator().next();
         this.connectedCheck(connectedNode, connectedNode);
 
-            for (node_data j : g.getV()) {
+            for (node_data j : _g.getV()) {
             if (j.getTag() == -1) {
                 return false;
             }
         }
 
 
-        for (node_data i : g.getV()) {
+        for (node_data i : _g.getV()) {
             // initialize the nodes tag
-            for (node_data j : this.g.getV()) {
+            for (node_data j : this._g.getV()) {
                     j.setTag(-1);}
 
             this.connectedCheck(i, connectedNode);
-            for (node_data j : g.getV()) {
+            for (node_data j : _g.getV()) {
                 if (j.getTag() == -1) {
                     return false;
                 }
@@ -114,8 +111,8 @@ public class WDGraph_Algo implements dw_graph_algorithms {
         q.add(src);
         while (!q.isEmpty()) {
             int temp = q.poll().getKey();
-            for (edge_data i : this.g.getE(temp)) {
-                node_data n_d = g.getNode(i.getDest());
+            for (edge_data i : this._g.getE(temp)) {
+                node_data n_d = _g.getNode(i.getDest());
                 if (n_d.getTag() == -1) {
                     q.add(n_d);
                     n_d.setTag(1);
@@ -138,8 +135,8 @@ public class WDGraph_Algo implements dw_graph_algorithms {
     @Override
     public double shortestPathDist(int src, int dest) {
 
-        node_data Src = g.getNode(src);
-        node_data Dest = g.getNode(dest);
+        node_data Src = _g.getNode(src);
+        node_data Dest = _g.getNode(dest);
 
         if (Src != null && Dest != null) {
 
@@ -175,8 +172,8 @@ public class WDGraph_Algo implements dw_graph_algorithms {
         double flag = shortestPathDist(src, dest);
 
         if (flag != -1) {
-            node_data Src = this.g.getNode(src);
-            node_data Dest = this.g.getNode(dest);
+            node_data Src = this._g.getNode(src);
+            node_data Dest = this._g.getNode(dest);
 
             return ShortPath(Dest, Src, ll, flag);
         }
@@ -210,11 +207,11 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             }
 
             if (temp != null) {
-                for (edge_data i : g.getE(temp.getKey())) {
+                for (edge_data i : _g.getE(temp.getKey())) {
                     double SEdge = i.getWeight() + temp.getTag();
-                    if (g.getNode(i.getDest()).getTag() == -1 || (g.getNode(i.getDest()).getTag() > SEdge && g.getNode(i.getDest()).getTag() != 0)) {
-                        q.add(g.getNode(i.getDest()));
-                        g.getNode(i.getDest()).setWeight(SEdge);
+                    if (_g.getNode(i.getDest()).getTag() == -1 || (_g.getNode(i.getDest()).getTag() > SEdge && _g.getNode(i.getDest()).getTag() != 0)) {
+                        q.add(_g.getNode(i.getDest()));
+                        _g.getNode(i.getDest()).setWeight(SEdge);
                     }
                 }
             }
@@ -240,10 +237,10 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
         while (temp != src) {
 
-            for (edge_data i : g.getE(temp.getKey())) {
+            for (edge_data i : _g.getE(temp.getKey())) {
 //                double edge = g.getEdge(i.getKey(), temp.getKey());
                 if (temp.getTag() == temp.getTag() + i.getWeight() && i.getTag() != -1) {
-                    stack.add(g.getNode(i.getDest()));
+                    stack.add(_g.getNode(i.getDest()));
                     temp.setTag(-1);
                     index = index - i.getWeight();
                     temp = stack.peek();
@@ -261,8 +258,8 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
     // initialize the nodes tag
     private void initEdgeTag() {
-        for (node_data i : g.getV()) {
-            for (edge_data j : g.getE(i.getKey())) {
+        for (node_data i : _g.getV()) {
+            for (edge_data j : _g.getE(i.getKey())) {
                 //-------------------------------------------------------------
             }
         }
