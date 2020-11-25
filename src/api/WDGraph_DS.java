@@ -2,6 +2,7 @@ package ex2.src.api;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.StringJoiner;
 
 public class WDGraph_DS implements directed_weighted_graph {
 
@@ -14,7 +15,6 @@ public class WDGraph_DS implements directed_weighted_graph {
         this.edge_size = 0;
         this.mode_count = 0;
     }
-
 
     /**
      * returns the node_data by the node_id,
@@ -37,8 +37,10 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public edge_data getEdge(int src, int dest) {
-        NodeData temp = (NodeData) this.graphNodes.get(src);
-        return temp.neighborsDis.get(dest);
+        NodeData temp = (NodeData) this.getNode(src);
+        if (temp == null)
+            return null;
+        return temp.getNeighborsDis().get(dest);
     }
 
     /**
@@ -62,18 +64,21 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public void connect(int src, int dest, double w) {
-        if (this.graphNodes.containsKey(src) && this.graphNodes.containsKey(dest)) {
-            if (this.getEdge(src, dest).getWeight() == w) {
-                return;
-            }
-
-            NodeData tempSrc = (NodeData) this.graphNodes.get(src);
-            NodeData tempDest = (NodeData) this.graphNodes.get(dest);
-            tempDest.neighborNodes.put(src, tempSrc);
-            tempSrc.neighborsDis.put(dest, new EdgeData(src, dest, w));
-            this.edge_size++;
-            this.mode_count++;
+        NodeData tempSrc = (NodeData) this.getNode(src);
+        NodeData tempDest = (NodeData) this.getNode(dest);
+        if (tempSrc == null && tempDest == null) {
+            return;
         }
+        if ((this.getEdge(src, dest) != null && this.getEdge(src, dest).getWeight() == w) || src == dest) {
+            return;
+        }
+        if (this.getEdge(src, dest) == null) {
+            this.edge_size++;
+        }
+
+        tempDest.getNeighborNodes().put(src, tempSrc);
+        tempSrc.getNeighborsDis().put(dest, new EdgeData(src, dest, w));
+        this.mode_count++;
     }
 
     /**
@@ -85,7 +90,6 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public Collection<node_data> getV() {
-
         return this.graphNodes.values();
     }
 
@@ -100,8 +104,10 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public Collection<edge_data> getE(int node_id) {
-        NodeData temp = (NodeData) this.graphNodes.get(node_id);
-        return temp.neighborsDis.values();
+        NodeData temp = (NodeData) this.getNode(node_id);
+        if (temp == null)
+            return null;
+        return temp.getNeighborsDis().values();
     }
 
     /**
@@ -114,15 +120,14 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public node_data removeNode(int key) {
-
-        NodeData temp = (NodeData) this.graphNodes.get(key);
+        NodeData temp = (NodeData) this.getNode(key);
         if (temp == null) {
             return null;
         }
-        for (node_data i : temp.neighborNodes.values()) {
+        for (node_data i : temp.getNeighborNodes().values()) {
             NodeData tempI = (NodeData) i;
-            tempI.neighborsDis.remove(key);
-            tempI.neighborNodes.remove(temp);
+            tempI.getNeighborsDis().remove(key);
+            tempI.getNeighborNodes().remove(key);
             this.edge_size--;
             this.mode_count++;
         }
@@ -130,6 +135,7 @@ public class WDGraph_DS implements directed_weighted_graph {
         edge_size -= t;
         mode_count += t;
         mode_count++;
+        this.graphNodes.remove(key);
         return temp;
     }
 
@@ -143,15 +149,15 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public edge_data removeEdge(int src, int dest) {
-
-        NodeData tempSrc = (NodeData) this.graphNodes.get(src);
-        NodeData tempDest = (NodeData) this.graphNodes.get(dest);
-        if(tempDest == null || tempSrc == null || this.getEdge(src, dest)==null) {
-            return null; }
+        NodeData tempSrc = (NodeData) this.getNode(src);
+        NodeData tempDest = (NodeData) this.getNode(dest);
+        if (tempDest == null || tempSrc == null || this.getEdge(src, dest) == null) {
+            return null;
+        }
         this.mode_count++;
         this.edge_size--;
-        tempDest.neighborNodes.remove(src);
-        return tempSrc.neighborsDis.remove(dest);
+        tempDest.getNeighborNodes().remove(src);
+        return tempSrc.getNeighborsDis().remove(dest);
     }
 
     /**
@@ -185,133 +191,28 @@ public class WDGraph_DS implements directed_weighted_graph {
     public int getMC() {
         return this.mode_count;
     }
-    public node_data newNode(){
-    return new NodeData();
+
+    @Override
+    public String toString() {
+        String edgesStr = "[";
+        for (node_data i : getV()) {
+            for (edge_data j : getE(i.getKey())) {
+                edgesStr += j;
+            }
+        }
+        return "WDGraph_DS{" +
+                ", edge_size=" + edge_size +
+                ", mode_count=" + mode_count +
+                "\n\tNodes=" + graphNodes +
+                "\n\tEdges=" + edgesStr + "]" +
+                '}';
     }
-
-    private static class NodeData implements node_data {
-        static int masterKey = 0;
-        private int key;
-        private HashMap<Integer, node_data> neighborNodes;
-        private HashMap<Integer, edge_data> neighborsDis;
-        private int Tag;
-        double weight;
-        private String remark;
-        geo_location GLocation;
-
-        public NodeData() {
-            this.key = masterKey++;
-            this.neighborNodes = new HashMap<>();
-            this.neighborsDis = new HashMap<>();
-            this.remark = "";
-            this.setTag(-1);
-            GLocation = null;
-            weight = 0;
-        }
-
-        public HashMap<Integer, edge_data> getNeighborsDis() {
-            return neighborsDis;
-        }
-
-        /**
-         * Returns the key (id) associated with this node.
-         *
-         * @return
-         */
-        @Override
-        public int getKey() {
-            return this.key;
-        }
-
-        /**
-         * Returns the location of this node, if
-         * none return null.
-         *
-         * @return
-         */
-        @Override
-        public geo_location getLocation() {
-            return GLocation;
-        }
-
-        /**
-         * Allows changing this node's location.
-         *
-         * @param p - new new location  (position) of this node.
-         */
-        @Override
-        public void setLocation(geo_location p) {
-            this.GLocation = p;
-        }
-
-        /**
-         * Returns the weight associated with this node.
-         *
-         * @return
-         */
-        @Override
-        public double getWeight() {
-            return weight;
-        }
-
-        /**
-         * Allows changing this node's weight.
-         *
-         * @param w - the new weight
-         */
-        @Override
-        public void setWeight(double w) {
-            weight = w;
-        }
-
-        /**
-         * Returns the remark (meta data) associated with this node.
-         *
-         * @return
-         */
-        @Override
-        public String getInfo() {
-            return this.remark;
-        }
-
-        /**
-         * Allows changing the remark (meta data) associated with this node.
-         *
-         * @param s
-         */
-        @Override
-        public void setInfo(String s) {
-            this.remark = s;
-        }
-
-        /**
-         * Temporal data (aka color: e,g, white, gray, black)
-         * which can be used be algorithms
-         *
-         * @return
-         */
-        @Override
-        public int getTag() {
-            return this.Tag;
-        }
-
-        /**
-         * Allows setting the "tag" value for temporal marking an node - common
-         * practice for marking by algorithms.
-         *
-         * @param t - the new value of the tag
-         */
-        @Override
-        public void setTag(int t) {
-            this.Tag = t;
-        }
-    }
-
 
     private class EdgeData implements edge_data {
-        int _src, _dest, _tag;
-        double _weight;
-        String _info;
+
+        private int _src, _dest, _tag;
+        private double _weight;
+        private String _info;
 
 
         public EdgeData(int src, int dest, double weight) {
@@ -390,6 +291,13 @@ public class WDGraph_DS implements directed_weighted_graph {
         @Override
         public void setTag(int t) {
             this._tag = t;
+        }
+
+        @Override
+        public String toString() {
+            return "EdgeData{" +
+                    "(" + _src + " -> " + _dest + "): weight=" + _weight +
+                    '}';
         }
     }
 }
