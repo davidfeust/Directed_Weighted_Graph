@@ -1,5 +1,15 @@
 package ex2.src.api;
 
+import com.google.gson.*;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class WDGraph_Algo implements dw_graph_algorithms {
@@ -41,19 +51,15 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public directed_weighted_graph copy() {
-
         directed_weighted_graph g1 = new WDGraph_DS();
-
         for (node_data i : _g.getV()) {
-            g1.addNode(i);//--------------------------------we need to correct the add
+            g1.addNode(i);
         }
         for (node_data i : _g.getV()) {
             for (edge_data j : _g.getE(i.getKey())) {
-
                 g1.connect(j.getSrc(), j.getDest(), j.getWeight());
             }
         }
-
         return g1;
     }
 
@@ -72,31 +78,31 @@ public class WDGraph_Algo implements dw_graph_algorithms {
                 i.setTag(-1);
             }
 
-        node_data connectedNode = _g.getV().iterator().next();
-        this.connectedCheck(connectedNode, connectedNode);
+            node_data connectedNode = _g.getV().iterator().next();
+            this.connectedCheck(connectedNode, connectedNode);
 
-            for (node_data j : _g.getV()) {
-            if (j.getTag() == -1) {
-                return false;
-            }
-        }
-
-
-        for (node_data i : _g.getV()) {
-            // initialize the nodes tag
-            for (node_data j : this._g.getV()) {
-                    j.setTag(-1);}
-
-            this.connectedCheck(i, connectedNode);
             for (node_data j : _g.getV()) {
                 if (j.getTag() == -1) {
                     return false;
                 }
             }
+
+            for (node_data i : _g.getV()) {
+                // initialize the nodes tag
+                for (node_data j : this._g.getV()) {
+                    j.setTag(-1);
+                }
+
+                this.connectedCheck(i, connectedNode);
+                for (node_data j : _g.getV()) {
+                    if (j.getTag() == -1) {
+                        return false;
+                    }
+                }
+            }
         }
-    }
         return true;
-}
+    }
 
     /**
      * change the tag to the distance between node_data to the rest of the graph nodes until it reach the destination
@@ -105,7 +111,6 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      * @@param node_data
      */
     private void connectedCheck(node_data src, node_data dest) {
-
         Queue<node_data> q = new LinkedList<>();
         src.setTag(1);
         q.add(src);
@@ -265,29 +270,94 @@ public class WDGraph_Algo implements dw_graph_algorithms {
         }
     }
 
-        /**
-         * Saves this weighted (directed) graph to the given
-         * file name - in JSON format
-         *
-         * @param file - the file name (may include a relative path).
-         * @return true - iff the file was successfully saved
-         */
-        @Override
-        public boolean save (String file){
-            return false;
+    /**
+     * Saves this weighted (directed) graph to the given
+     * file name - in JSON format
+     *
+     * @param file - the file name (may include a relative path).
+     * @return true - iff the file was successfully saved
+     */
+    @Override
+    public boolean save(String file) {
+        JsonObject json_obj = new JsonObject();
+        JsonArray nodes_arr = new JsonArray();
+        for (node_data i : _g.getV()) {
+            JsonObject jo_node = new JsonObject();
+            if (i.getLocation() != null) {
+                String loc = i.getLocation().x() + "," + i.getLocation().y() + "," + i.getLocation().z();
+                jo_node.addProperty("pos", loc);
+            } else {
+                jo_node.addProperty("pos", ",,");
+            }
+            jo_node.addProperty("id", i.getKey());
+            nodes_arr.add(jo_node);
         }
 
-        /**
-         * This method load a graph to this graph algorithm.
-         * if the file was successfully loaded - the underlying graph
-         * of this class will be changed (to the loaded one), in case the
-         * graph was not loaded the original graph should remain "as is".
-         *
-         * @param file - file name of JSON file
-         * @return true - iff the graph was successfully loaded.
-         */
-        @Override
-        public boolean load (String file){
-            return false;
+        JsonArray edges_arr = new JsonArray();
+        for (node_data i : _g.getV()) {
+            for (edge_data j : _g.getE(i.getKey())) {
+                JsonObject jo_edge = new JsonObject();
+                jo_edge.addProperty("src", j.getSrc());
+                jo_edge.addProperty("w", j.getWeight());
+                jo_edge.addProperty("dest", j.getDest());
+                edges_arr.add(jo_edge);
+            }
         }
+
+        json_obj.add("Edges", edges_arr);
+        json_obj.add("Nodes", nodes_arr);
+
+        Gson gs = new Gson();
+        File f = new File(file);
+        try {
+            FileWriter fw = new FileWriter(f);
+            fw.write(gs.toJson(json_obj));
+            fw.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
+
+    /**
+     * This method load a graph to this graph algorithm.
+     * if the file was successfully loaded - the underlying graph
+     * of this class will be changed (to the loaded one), in case the
+     * graph was not loaded the original graph should remain "as is".
+     *
+     * @param file - file name of JSON file
+     * @return true - iff the graph was successfully loaded.
+     */
+    @Override
+    public boolean load(String file) {
+        JsonObject json_obj;
+        try {
+            String json_str = new String(Files.readAllBytes(Paths.get(file)));
+            directed_weighted_graph g = new WDGraph_DS();
+            json_obj = JsonParser.parseString(json_str).getAsJsonObject();
+
+            JsonArray nodes_arr = json_obj.get("Nodes").getAsJsonArray();
+            for (JsonElement i : nodes_arr) {
+                String[] xyz = i.getAsJsonObject().get("pos").getAsString().split(",");
+                node_data n = new NodeData();
+                geo_location loc = new Geo_locationImpl
+                        (Double.parseDouble(xyz[0]), Double.parseDouble(xyz[1]), Double.parseDouble(xyz[2]));
+                n.setLocation(loc);
+                g.addNode(n);
+            }
+
+            JsonArray edges_arr = json_obj.get("Edges").getAsJsonArray();
+            for (JsonElement i : edges_arr) {
+                int src = i.getAsJsonObject().get("src").getAsInt();
+                int dest = i.getAsJsonObject().get("dest").getAsInt();
+                double w = i.getAsJsonObject().get("w").getAsDouble();
+                g.connect(src, dest, w);
+            }
+            init(g);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+}

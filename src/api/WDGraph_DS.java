@@ -196,7 +196,7 @@ public class WDGraph_DS implements directed_weighted_graph {
         String edgesStr = "[";
         for (node_data i : getV()) {
             for (edge_data j : getE(i.getKey())) {
-                edgesStr += j;
+                edgesStr += j + ", ";
             }
         }
         return "WDGraph_DS{" +
@@ -294,9 +294,7 @@ public class WDGraph_DS implements directed_weighted_graph {
 
         @Override
         public String toString() {
-            return "EdgeData{" +
-                    "(" + _src + " -> " + _dest + "): weight=" + _weight +
-                    '}';
+            return "(" + _src + " -> " + _dest + "): weight=" + _weight + '}';
         }
     }
 }
