@@ -65,12 +65,13 @@ public class WDGraph_DS implements directed_weighted_graph {
     public void connect(int src, int dest, double w) {
         NodeData tempSrc = (NodeData) this.getNode(src);
         NodeData tempDest = (NodeData) this.getNode(dest);
-        if (tempSrc == null && tempDest == null) {
+        if (tempSrc == null || tempDest == null) {
             return;
         }
-        if ((this.getEdge(src, dest) != null && this.getEdge(src, dest).getWeight() == w) || src == dest) {
-            return;
-        }
+        if (this.getEdge(src, dest) != null)
+            if (this.getEdge(src, dest).getWeight() == w || src == dest) {
+                return;
+            }
         if (this.getEdge(src, dest) == null) {
             this._edge_size++;
         }

@@ -49,11 +49,12 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      *
      * @return
      */
+//    TODO fix that method
     @Override
     public directed_weighted_graph copy() {
         directed_weighted_graph g1 = new WDGraph_DS();
         for (node_data i : _g.getV()) {
-            g1.addNode(i);
+            g1.addNode(i); /// not good, the same nodes will be in two graphs
         }
         for (node_data i : _g.getV()) {
             for (edge_data j : _g.getE(i.getKey())) {
