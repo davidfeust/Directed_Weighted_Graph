@@ -1,6 +1,6 @@
 package ex2.src.gameClient.util;
 
-import api.geo_location;
+import ex2.src.api.geo_location;
 
 /**
  * This class represents a simple world 2 frame conversion (both ways).

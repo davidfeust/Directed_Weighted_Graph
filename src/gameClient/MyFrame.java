@@ -1,12 +1,16 @@
+
+
 package ex2.src.gameClient;
 
-import api.directed_weighted_graph;
-import api.edge_data;
-import api.geo_location;
-import api.node_data;
-import gameClient.util.Point3D;
-import gameClient.util.Range;
-import gameClient.util.Range2D;
+import ex2.src.gameClient.util.*;
+
+import ex2.src.api.directed_weighted_graph;
+import ex2.src.api.edge_data;
+import ex2.src.api.geo_location;
+import ex2.src.api.node_data;
+import ex2.src.gameClient.util.Point3D;
+import ex2.src.gameClient.util.Range;
+import ex2.src.gameClient.util.Range2D;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +27,7 @@ import java.util.List;
 public class MyFrame extends JFrame{
 	private int _ind;
 	private Arena _ar;
-	private gameClient.util.Range2Range _w2f;
+	private ex2.src.gameClient.util.Range2Range _w2f;
 	MyFrame(String a) {
 		super(a);
 		int _ind = 0;
