@@ -36,7 +36,7 @@ public class WDGraph_DS implements directed_weighted_graph {
     /**
      * returns the node_data by the node_id,
      *
-     * @param key - the node_id
+     * @param key the node_id
      * @return the node_data by the node_id, null if none.
      */
     @Override
