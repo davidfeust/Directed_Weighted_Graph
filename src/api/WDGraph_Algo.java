@@ -228,16 +228,16 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
         stack.add(dest);
         node_data temp = stack.peek();
+        temp.setTag(-2);
 
         while (temp != src) {
-
 //            for (edge_data i : _g.getE(temp.getKey())) {
             NodeData n_d = (NodeData) temp;
                 for(node_data i : n_d.getConnectedNode().values()){
-                    if (n_d.getWeight() ==  i.getWeight()+_g.getEdge(i.getKey(),temp.getKey()).getWeight()  ) {//&&i.getTag() != -1
+                    if (n_d.getWeight() ==  i.getWeight()+_g.getEdge(i.getKey(),temp.getKey()).getWeight()&&i.getTag() != -2  ) {//
                         stack.add(i);
-                        temp.setTag(-1);
                         temp = stack.peek();
+                        temp.setTag(-2);
                         break;
 
                     }
