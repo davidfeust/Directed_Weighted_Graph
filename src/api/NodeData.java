@@ -157,7 +157,6 @@ public class NodeData implements node_data , Comparable<node_data> {
         if (o == null || getClass() != o.getClass()) return false;
         NodeData nodeData = (NodeData) o;
         return _key == nodeData._key &&
-                _connectedNode.equals(nodeData._connectedNode) &&
                 _neighborsDis.equals(nodeData._neighborsDis) &&
                 _GLocation.equals(nodeData._GLocation);
     }

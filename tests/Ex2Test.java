@@ -87,7 +87,7 @@ public class Ex2Test {
         dw_graph_algorithms ga2 = new WDGraph_Algo(g2);
         assertEquals(ga1.shortestPath(0, 10), ga2.shortestPath(0, 10));
         assertEquals(ga1.shortestPathDist(0, 10), ga2.shortestPathDist(0, 10));
-        g1.removeEdge(9,13);
+        g1.removeEdge(8,5);
         assertNotEquals(ga1.shortestPath(0, 10), ga2.shortestPath(0, 10));
         assertNotEquals(ga1.shortestPathDist(0, 10), ga2.shortestPathDist(0, 10));
     }
@@ -95,7 +95,6 @@ public class Ex2Test {
     /**
      * shortest path with weight 0
      */
-    @Disabled
     @Test
     public void test0dist() {
         WDGraph_DS g = new WDGraph_DS();
@@ -104,7 +103,7 @@ public class Ex2Test {
             g.addNode(new NodeData(i));
         }
         g.connect(1, 0, 3);
-        g.connect(0, 2, 0);
+        g.connect(0, 2, 0.0001);//0
         g.connect(0, 3, 2.5);
         g.connect(3, 4, 5);
         g.connect(4, 5, 1);
@@ -113,13 +112,12 @@ public class Ex2Test {
 
         List<node_data> sp_actual1 = ga.shortestPath(0, 5);
         node_data[] sp_expected1 = {g.getNode(0), g.getNode(2), g.getNode(4), g.getNode(5)};
-        assertEquals(3, ga.shortestPathDist(0, 5));
+        assertEquals(3.0001, ga.shortestPathDist(0, 5));
         assertArrayEquals(sp_expected1, sp_actual1.toArray());
 
         List<node_data> sp_actual2 = ga.shortestPath(5, 0);
-        node_data[] sp_expected2 = {g.getNode(5), g.getNode(4), g.getNode(2), g.getNode(0)};
-        assertEquals(3, ga.shortestPathDist(5, 0));
-        assertArrayEquals(sp_expected2, sp_actual2.toArray());
+        assertEquals(-1, ga.shortestPathDist(5, 0));
+        assertNull( sp_actual2);
     }
 
     /**
