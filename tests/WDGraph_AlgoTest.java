@@ -73,7 +73,7 @@ class WDGraph_AlgoTest {
         assertEquals(1.5, g.getEdge(1, 5).getWeight());
         assertNull(g1.getEdge(1, 5));
         g1.connect(3, 5, 1.9);
-        assertNull( g.getEdge(3, 5));
+        assertNull(g.getEdge(3, 5));
         assertEquals(1.9, g1.getEdge(3, 5).getWeight());
     }
 
@@ -83,29 +83,29 @@ class WDGraph_AlgoTest {
         for (int i = 1; i < 9; i++) {
             graph.addNode(new NodeData(i));
         }
-    //https://upload.wikimedia.org/wikipedia/commons/5/5c/Scc.png
-        graph.connect(1,2,0.5);
-        graph.connect(2,5,0.7);
-        graph.connect(2,6,10.5);
-        graph.connect(2,3,0);
-        graph.connect(3,4,0.5);
-        graph.connect(3,7,3);
-        graph.connect(4,3,0);
-        graph.connect(4,8,0.5);
-        graph.connect(5,1,7);
-        graph.connect(5,6,5.5);
-        graph.connect(6,7,5);
-        graph.connect(7,6,6.3);
-        graph.connect(8,7,10);
-        graph.connect(8,4,4);
+        //https://upload.wikimedia.org/wikipedia/commons/5/5c/Scc.png
+        graph.connect(1, 2, 0.5);
+        graph.connect(2, 5, 0.7);
+        graph.connect(2, 6, 10.5);
+        graph.connect(2, 3, 0);
+        graph.connect(3, 4, 0.5);
+        graph.connect(3, 7, 3);
+        graph.connect(4, 3, 0);
+        graph.connect(4, 8, 0.5);
+        graph.connect(5, 1, 7);
+        graph.connect(5, 6, 5.5);
+        graph.connect(6, 7, 5);
+        graph.connect(7, 6, 6.3);
+        graph.connect(8, 7, 10);
+        graph.connect(8, 4, 4);
 
         ga.init(graph);
-        assertFalse(ga.isConnected(),"is connected not working properly");
+        assertFalse(ga.isConnected(), "is connected not working properly");
 
-        graph.connect(6,2,10);
-        graph.connect(7,4,4);
+        graph.connect(6, 2, 10);
+        graph.connect(7, 4, 4);
 
-        assertTrue(ga.isConnected(),"is connected not working properly");
+        assertTrue(ga.isConnected(), "is connected not working properly");
     }
 
     @Test
@@ -115,30 +115,30 @@ class WDGraph_AlgoTest {
             graph.addNode(new NodeData(i));
         }
         //https://upload.wikimedia.org/wikipedia/commons/5/5c/Scc.png
-        graph.connect(1,2,1);
-        graph.connect(2,5,1);
-        graph.connect(2,6,1);
-        graph.connect(2,3,1);
-        graph.connect(3,4,1);
-        graph.connect(3,7,1);
-        graph.connect(4,3,1);
-        graph.connect(4,8,1);
-        graph.connect(5,1,1);
-        graph.connect(5,6,1);
-        graph.connect(6,7,1);
-        graph.connect(7,6,1);
-        graph.connect(8,7,1);
-        graph.connect(8,4,1);
+        graph.connect(1, 2, 1);
+        graph.connect(2, 5, 1);
+        graph.connect(2, 6, 1);
+        graph.connect(2, 3, 1);
+        graph.connect(3, 4, 1);
+        graph.connect(3, 7, 1);
+        graph.connect(4, 3, 1);
+        graph.connect(4, 8, 1);
+        graph.connect(5, 1, 1);
+        graph.connect(5, 6, 1);
+        graph.connect(6, 7, 1);
+        graph.connect(7, 6, 1);
+        graph.connect(8, 7, 1);
+        graph.connect(8, 4, 1);
 
         ga.init(graph);
-        assertEquals(4,ga.shortestPathDist(1,8),"is fuction shortestPathDist not working properly");
-        List<node_data> sl= new ArrayList<>();
+        assertEquals(4, ga.shortestPathDist(1, 8), "is fuction shortestPathDist not working properly");
+        List<node_data> sl = new ArrayList<>();
         sl.add(graph.getNode(1));
         sl.add(graph.getNode(2));
         sl.add(graph.getNode(3));
         sl.add(graph.getNode(4));
         sl.add(graph.getNode(8));
-        assertEquals(sl,ga.shortestPath(1,8),"is fuction shortestPathDist not working properly");
+        assertEquals(sl, ga.shortestPath(1, 8), "is fuction shortestPathDist not working properly");
 
     }
 
@@ -192,7 +192,7 @@ class WDGraph_AlgoTest {
                 e.printStackTrace();
                 fail("fail to read file!");
             }
-            if (!strA.equals(strB)) fail("not same file: A" + i + " != B" +i);
+            if (!strA.equals(strB)) fail("not same file: A" + i + " != B" + i);
             assertEquals(strA, strB);
         }
     }

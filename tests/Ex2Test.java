@@ -56,7 +56,7 @@ public class Ex2Test {
         dw_graph_algorithms ga0 = new WDGraph_Algo(g0);
         assertFalse(ga0.isConnected());
         g0 = graph_creator(2, 2, 1);
-        System.out.println(g0);
+        ga0.init(g0);
         assertTrue(ga0.isConnected());
     }
 

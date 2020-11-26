@@ -6,17 +6,15 @@ import java.util.Objects;
 public class NodeData implements node_data , Comparable<node_data> {
 
     private static int _masterKey = 0;
-//    private static final HashSet<Integer> _used_keys = new HashSet<>(); // allow use constructor get key param without create 2 nodes with same key
     private final int _key;
-    private HashMap<Integer, node_data> _connectedNode;
-    private HashMap<Integer, edge_data> _neighborsDis;
+    private final HashMap<Integer, node_data> _connectedNode;
+    private final HashMap<Integer, edge_data> _neighborsDis;
     private int _tag;
     private double _weight;
     private String _remark;
     private geo_location _GLocation;
 
     public NodeData() {
-//        _used_keys.add(_masterKey);
         this._key = _masterKey++;
         this._connectedNode = new HashMap<>();
         this._neighborsDis = new HashMap<>();
@@ -27,8 +25,6 @@ public class NodeData implements node_data , Comparable<node_data> {
     }
 
     public NodeData(int key) {
-//        if (_used_keys.contains(key))
-//            throw new RuntimeErrorException(new Error("this key already used"));
         this._key = key;
         this._connectedNode = new HashMap<>();
         this._neighborsDis = new HashMap<>();
@@ -55,11 +51,6 @@ public class NodeData implements node_data , Comparable<node_data> {
         else
             _GLocation = new Geo_locationImpl(n.getLocation());
     }
-
-//    // should be removed & make masterKey private
-//    public static void setMaster(int s) {
-//        _masterKey = s;
-//    }
 
     public HashMap<Integer, edge_data> getNeighborsDis() {
         return _neighborsDis;
@@ -183,12 +174,10 @@ public class NodeData implements node_data , Comparable<node_data> {
 
     @Override
     public int compareTo(node_data o) {
-
         if (this._weight > o.getWeight())
             return 1;
         if (this._weight < o.getWeight())
             return -1;
-
         return 0;
     }
 }

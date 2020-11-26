@@ -182,8 +182,8 @@ class WDGraph_DSTest {
             g2.addNode(new NodeData(i));
         }
         assertEquals(g2, g1);
-        g1.connect(0,1,5);
-        g2.connect(0,1,5);
+        g1.connect(0, 1, 5);
+        g2.connect(0, 1, 5);
         assertEquals(g2, g1);
     }
 

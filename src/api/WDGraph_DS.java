@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class WDGraph_DS implements directed_weighted_graph {
 
-    private HashMap<Integer, node_data> _graphNodes;
+    private final HashMap<Integer, node_data> _graphNodes;
     private int _edge_size;
     private int _mode_count;
 
@@ -69,8 +69,8 @@ public class WDGraph_DS implements directed_weighted_graph {
     @Override
     public void addNode(node_data n) {
         if (!this._graphNodes.containsKey(n.getKey())) {
-        this._graphNodes.put(n.getKey(), n);
-    }
+            this._graphNodes.put(n.getKey(), n);
+        }
     }
 
     /**
@@ -244,8 +244,9 @@ public class WDGraph_DS implements directed_weighted_graph {
 
     private class EdgeData implements edge_data {
 
-        private int _src, _dest, _tag;
-        private double _weight;
+        private final int _src, _dest;
+        private final double _weight;
+        private int _tag;
         private String _info;
 
 
