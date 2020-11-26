@@ -1,11 +1,14 @@
 package ex2.src.api;
 
+import javax.management.RuntimeErrorException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class NodeData implements node_data {
 
     static int _masterKey = 0;
+    private static final HashSet<Integer> _used_keys = new HashSet<>(); // allow use constructor get key param without create 2 nodes with same key
     private final int _key;
     private HashMap<Integer, node_data> _neighborNodes;
     private HashMap<Integer, edge_data> _neighborsDis;
@@ -15,7 +18,20 @@ public class NodeData implements node_data {
     private geo_location _GLocation;
 
     public NodeData() {
+        _used_keys.add(_masterKey);
         this._key = _masterKey++;
+        this._neighborNodes = new HashMap<>();
+        this._neighborsDis = new HashMap<>();
+        this._remark = "";
+        this.setTag(-1);
+        _GLocation = null;
+        _weight = 0;
+    }
+
+    public NodeData(int key) {
+        if (_used_keys.contains(key))
+            throw new RuntimeErrorException(new Error("this key already used"));
+        this._key = key;
         this._neighborNodes = new HashMap<>();
         this._neighborsDis = new HashMap<>();
         this._remark = "";

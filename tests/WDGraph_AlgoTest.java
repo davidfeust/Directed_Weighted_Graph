@@ -81,6 +81,18 @@ class WDGraph_AlgoTest {
 
     @Test
     void shortestPathDist() {
+        // this test maybe not correct
+        assertEquals(20, ga.shortestPathDist(1, 5));
+        assertEquals(20, ga.shortestPathDist(5, 1));
+        assertEquals(11, ga.shortestPathDist(6, 1));
+        assertEquals(0, ga.shortestPathDist(1, 1));
+        assertEquals(0, ga.shortestPathDist(5, 5));
+        assertEquals(-1, ga.shortestPathDist(10, 5));
+        assertEquals(-1, ga.shortestPathDist(5, 55));
+        assertEquals(13, ga.shortestPathDist(4, 6));
+        assertEquals(13, ga.shortestPathDist(6, 4));
+        assertEquals(21, ga.shortestPathDist(5, 2));
+        assertEquals(21, ga.shortestPathDist(2, 5));
     }
 
     @Test

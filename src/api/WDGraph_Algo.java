@@ -188,8 +188,8 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
     private void setDistance(node_data n, node_data dest) {
 
-        PriorityQueue<node_data> q = new PriorityQueue<>();
-
+        PriorityQueue<node_data> q = new PriorityQueue<>(); // NodeData dose not implements Comparable
+        // maybe we can use PriorityQueue that contains edge_data
         n.setTag(0);
         q.add(n);
 
@@ -315,8 +315,8 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**
@@ -354,9 +354,10 @@ public class WDGraph_Algo implements dw_graph_algorithms {
                 g.connect(src, dest, w);
             }
             init(g);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 }
