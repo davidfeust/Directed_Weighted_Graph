@@ -117,36 +117,6 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
 
     /**
-     * returns the length of the shortest path between src to dest
-     * Note: if no such path --> returns -1
-     *
-     * @param src  - start node
-     * @param dest - end (target) node
-     * @return
-     */
-    @Override
-    public double shortestPathDist(int src, int dest) {
-
-        node_data Src = _g.getNode(src);
-        node_data Dest = _g.getNode(dest);
-
-        if (Src != null && Dest != null) {
-
-            // if the dest is the src itself
-            if (Src == Dest)
-                return 0;
-
-            this.initNodeWeight();
-
-            setDistance(Src, Dest);
-
-            return Dest.getWeight();
-        }
-
-        return -1;
-    }
-
-    /**
      * returns the the shortest path between src to dest - as an ordered List of nodes:
      * src--> n1-->n2-->...dest
      * see: https://en.wikipedia.org/wiki/Shortest_path_problem
@@ -172,6 +142,38 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
 
         return null;
+    }
+
+    /**
+     * returns the length of the shortest path between src to dest
+     * Note: if no such path --> returns -1
+     *
+     * @param src  - start node
+     * @param dest - end (target) node
+     * @return
+     */
+    @Override
+    public double shortestPathDist(int src, int dest) {
+
+        node_data Src = _g.getNode(src);
+        node_data Dest = _g.getNode(dest);
+
+        if (Src != null && Dest != null) {
+
+            // if the dest is the src itself
+            if (Src == Dest)
+                return 0;
+
+            this.initNodeWeight();
+
+            this.initNodeTag();
+
+            setDistance(Src, Dest);
+
+            return Dest.getWeight();
+        }
+
+        return -1;
     }
 
     private void setDistance(node_data n, node_data dest) {
@@ -221,7 +223,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
     private List<node_data> ShortPath(node_data dest, node_data src, List<node_data> ll, double distance) {
         // check if the nodes are even connected return an empty path if they dosnt
         // connected
-        double index = distance;
+//        double index = distance;
         Stack<node_data> stack = new Stack<>();
 
         stack.add(dest);
@@ -229,18 +231,21 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
         while (temp != src) {
 
-            for (edge_data i : _g.getE(temp.getKey())) {
+//            for (edge_data i : _g.getE(temp.getKey())) {
+            NodeData n_d = (NodeData) temp;
+                for(node_data i : n_d.getConnectedNode().values()){
+                    if (n_d.getWeight() ==  i.getWeight()+_g.getEdge(i.getKey(),temp.getKey()).getWeight()  ) {//&&i.getTag() != -1
+                        stack.add(i);
+                        temp.setTag(-1);
+                        temp = stack.peek();
+                        break;
+
+                    }
 //                double edge = g.getEdge(i.getKey(), temp.getKey());
-                if (temp.getWeight() == temp.getWeight() + i.getWeight() ) {//&& i.getTag() != -1
-                    stack.add(_g.getNode(i.getDest()));
-                    temp.setTag(-1);
-                    index = index - i.getWeight();
-                    temp = stack.peek();
-                    break;
+//                    index = index - i.getWeight();
                 }
             }
 
-        }
         int t = stack.size();
         for (int i = 0; i < t; i++) {
             ll.add(stack.pop());
@@ -255,6 +260,11 @@ public class WDGraph_Algo implements dw_graph_algorithms {
         }
     }
 
+    private void  initNodeTag() {
+        for (node_data i : _g.getV()) {
+            i.setTag(-1);
+        }
+    }
     /**
      * Saves this weighted (directed) graph to the given
      * file name - in JSON format

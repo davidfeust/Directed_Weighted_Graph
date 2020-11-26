@@ -1,8 +1,5 @@
 package ex2.src.api;
 
-import ex1.src.WGraph_DS;
-import ex1.src.node_info;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Objects;
@@ -99,7 +96,7 @@ public class WDGraph_DS implements directed_weighted_graph {
             this._edge_size++;
         }
 
-        tempDest.getNeighborNodes().put(src, tempSrc);
+        tempDest.getConnectedNode().put(src, tempSrc);
         tempSrc.getNeighborsDis().put(dest, new EdgeData(src, dest, w));
         this._mode_count++;
     }
@@ -147,10 +144,10 @@ public class WDGraph_DS implements directed_weighted_graph {
         if (temp == null) {
             return null;
         }
-        for (node_data i : temp.getNeighborNodes().values()) {
+        for (node_data i : temp.getConnectedNode().values()) {
             NodeData tempI = (NodeData) i;
             tempI.getNeighborsDis().remove(key);
-            tempI.getNeighborNodes().remove(key);
+            tempI.getConnectedNode().remove(key);
             this._edge_size--;
             this._mode_count++;
         }
@@ -179,7 +176,7 @@ public class WDGraph_DS implements directed_weighted_graph {
         }
         this._mode_count++;
         this._edge_size--;
-        tempDest.getNeighborNodes().remove(src);
+        tempDest.getConnectedNode().remove(src);
         return tempSrc.getNeighborsDis().remove(dest);
     }
 

@@ -12,7 +12,7 @@ public class NodeData implements node_data , Comparable<node_data> {
     static int _masterKey = 0;
 //    private static final HashSet<Integer> _used_keys = new HashSet<>(); // allow use constructor get key param without create 2 nodes with same key
     private final int _key;
-    private HashMap<Integer, node_data> _neighborNodes;
+    private HashMap<Integer, node_data> _connectedNode;
     private HashMap<Integer, edge_data> _neighborsDis;
     private int _tag;
     private double _weight;
@@ -22,7 +22,7 @@ public class NodeData implements node_data , Comparable<node_data> {
     public NodeData() {
 //        _used_keys.add(_masterKey);
         this._key = _masterKey++;
-        this._neighborNodes = new HashMap<>();
+        this._connectedNode = new HashMap<>();
         this._neighborsDis = new HashMap<>();
         this._remark = "";
         this.setTag(-1);
@@ -34,7 +34,7 @@ public class NodeData implements node_data , Comparable<node_data> {
 //        if (_used_keys.contains(key))
 //            throw new RuntimeErrorException(new Error("this key already used"));
         this._key = key;
-        this._neighborNodes = new HashMap<>();
+        this._connectedNode = new HashMap<>();
         this._neighborsDis = new HashMap<>();
         this._remark = "";
         this.setTag(-1);
@@ -52,7 +52,7 @@ public class NodeData implements node_data , Comparable<node_data> {
         _remark = n.getInfo();
         _weight = n.getWeight();
         _tag = n.getTag();
-        _neighborNodes = new HashMap<>();
+        _connectedNode = new HashMap<>();
         _neighborsDis = new HashMap<>();
         if (n.getLocation() == null)
             _GLocation = null;
@@ -69,9 +69,7 @@ public class NodeData implements node_data , Comparable<node_data> {
         return _neighborsDis;
     }
 
-    public HashMap<Integer, node_data> getNeighborNodes() {
-        return _neighborNodes;
-    }
+    public HashMap<Integer, node_data> getConnectedNode() { return _connectedNode; }
 
     /**
      * Returns the key (id) associated with this node.

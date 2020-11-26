@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -145,6 +147,13 @@ class WDGraph_AlgoTest {
 
         ga.init(graph);
         assertEquals(4,ga.shortestPathDist(1,8),"is fuction shortestPathDist not working properly");
+        List<node_data> sl= new ArrayList<>();
+        sl.add(graph.getNode(1));
+        sl.add(graph.getNode(2));
+        sl.add(graph.getNode(3));
+        sl.add(graph.getNode(4));
+        sl.add(graph.getNode(8));
+        assertEquals(sl,ga.shortestPath(1,8),"is fuction shortestPathDist not working properly");
 
     }
 
