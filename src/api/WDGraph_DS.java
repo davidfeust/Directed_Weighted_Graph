@@ -331,5 +331,20 @@ public class WDGraph_DS implements directed_weighted_graph {
         public String toString() {
             return "(" + _src + " -> " + _dest + "): weight=" + _weight + '}';
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            EdgeData edgeData = (EdgeData) o;
+            return _src == edgeData._src &&
+                    _dest == edgeData._dest &&
+                    Double.compare(edgeData._weight, _weight) == 0;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(_src, _dest, _weight);
+        }
     }
 }

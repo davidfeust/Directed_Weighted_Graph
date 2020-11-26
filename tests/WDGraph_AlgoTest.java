@@ -25,7 +25,7 @@ class WDGraph_AlgoTest {
         ga = new WDGraph_Algo();
         ga.init(g);
         for (int i = 1; i < 7; i++) {
-            g.addNode(new NodeData());
+            g.addNode(new NodeData(i));
         }
         g.connect(1, 2, 7);
         g.connect(1, 6, 14);
@@ -50,11 +50,10 @@ class WDGraph_AlgoTest {
 
     @Test
     void getGraph() {
-        NodeData.setMaster(0);
         ga = new WDGraph_Algo();
         ga.init(g);
         directed_weighted_graph g1 = ga.getGraph();
-//        assertEquals(g1, g);  // needs to implements equal in WDGraph_DS
+        assertEquals(g1, g);
         assertSame(g1, g);
     }
 
@@ -107,24 +106,10 @@ class WDGraph_AlgoTest {
         graph.connect(7,4,4);
 
         assertTrue(ga.isConnected(),"is connected not working properly");
-
     }
 
     @Test
     void shortestPathDist() {
-        // this test maybe not correct
-//        assertEquals(20, ga.shortestPathDist(1, 5));
-//        assertEquals(20, ga.shortestPathDist(5, 1));
-//        assertEquals(11, ga.shortestPathDist(6, 1));
-//        assertEquals(0, ga.shortestPathDist(1, 1));
-//        assertEquals(0, ga.shortestPathDist(5, 5));
-//        assertEquals(-1, ga.shortestPathDist(10, 5));
-//        assertEquals(-1, ga.shortestPathDist(5, 55));
-//        assertEquals(13, ga.shortestPathDist(4, 6));
-//        assertEquals(13, ga.shortestPathDist(6, 4));
-//        assertEquals(21, ga.shortestPathDist(5, 2));
-//        assertEquals(21, ga.shortestPathDist(2, 5));
-
         directed_weighted_graph graph = new WDGraph_DS();
         for (int i = 1; i < 9; i++) {
             graph.addNode(new NodeData(i));
@@ -157,10 +142,10 @@ class WDGraph_AlgoTest {
 
     }
 
-    @Test
-    void shortestPath() {
-        fail();
-    }
+//    @Test
+//    void shortestPath() {
+//        fail();
+//    }
 
     @Test
     void save() {
@@ -169,7 +154,7 @@ class WDGraph_AlgoTest {
         directed_weighted_graph g = new WDGraph_DS();
         ga.init(g);
         for (int i = 0; i < 5; i++) {
-            g.addNode(new NodeData());
+            g.addNode(new NodeData(i));
         }
         g.connect(0, 1, 5.265);
         g.connect(1, 0, 8.965);
@@ -186,13 +171,11 @@ class WDGraph_AlgoTest {
         for (int i = 0; i <= 5; i++) {
             ga.load(path + "A" + i);
             System.out.println(ga.getGraph() + "\n");
-            NodeData.setMaster(0);
         }
     }
 
     @Test
     void save_load() {
-        NodeData.setMaster(0);
         String path = System.getProperty("user.dir") + "\\src\\ex2\\data\\";
         dw_graph_algorithms ga = new WDGraph_Algo();
         for (int i = 0; i <= 5; i++) {
@@ -211,12 +194,11 @@ class WDGraph_AlgoTest {
             }
             if (!strA.equals(strB)) fail("not same file: A" + i + " != B" +i);
             assertEquals(strA, strB);
-            NodeData.setMaster(0);
         }
     }
 
-    @AfterEach
-    void tearDown() {
-        NodeData.setMaster(0);
-    }
+//    @AfterEach
+//    void tearDown() {
+//        NodeData.setMaster(0);
+//    }
 }

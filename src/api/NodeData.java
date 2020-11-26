@@ -1,15 +1,11 @@
 package ex2.src.api;
 
-import ex1.src.node_info;
-
-import javax.management.RuntimeErrorException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Objects;
 
 public class NodeData implements node_data , Comparable<node_data> {
 
-    static int _masterKey = 0;
+    private static int _masterKey = 0;
 //    private static final HashSet<Integer> _used_keys = new HashSet<>(); // allow use constructor get key param without create 2 nodes with same key
     private final int _key;
     private HashMap<Integer, node_data> _connectedNode;
@@ -26,7 +22,7 @@ public class NodeData implements node_data , Comparable<node_data> {
         this._neighborsDis = new HashMap<>();
         this._remark = "";
         this.setTag(-1);
-        _GLocation = null;
+        _GLocation = new Geo_locationImpl(0,0,0);
         _weight = 0;
     }
 
@@ -38,7 +34,7 @@ public class NodeData implements node_data , Comparable<node_data> {
         this._neighborsDis = new HashMap<>();
         this._remark = "";
         this.setTag(-1);
-        _GLocation = null;
+        _GLocation = new Geo_locationImpl(0,0,0);
         _weight = 0;
     }
 
@@ -60,10 +56,10 @@ public class NodeData implements node_data , Comparable<node_data> {
             _GLocation = new Geo_locationImpl(n.getLocation());
     }
 
-    // should be removed & make masterKey private
-    public static void setMaster(int s) {
-        _masterKey = s;
-    }
+//    // should be removed & make masterKey private
+//    public static void setMaster(int s) {
+//        _masterKey = s;
+//    }
 
     public HashMap<Integer, edge_data> getNeighborsDis() {
         return _neighborsDis;
@@ -169,7 +165,10 @@ public class NodeData implements node_data , Comparable<node_data> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NodeData nodeData = (NodeData) o;
-        return _key == nodeData._key;
+        return _key == nodeData._key &&
+                _connectedNode.equals(nodeData._connectedNode) &&
+                _neighborsDis.equals(nodeData._neighborsDis) &&
+                _GLocation.equals(nodeData._GLocation);
     }
 
     @Override
@@ -181,7 +180,6 @@ public class NodeData implements node_data , Comparable<node_data> {
     public String toString() {
         return "(" + _key + ")";
     }
-
 
     @Override
     public int compareTo(node_data o) {

@@ -1,7 +1,6 @@
 package ex2.tests;
 
 import ex2.src.api.*;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,14 +19,9 @@ class WDGraph_DSTest {
         g = new WDGraph_DS();
     }
 
-    @AfterEach
-    void tearDown() {
-        NodeData.setMaster(0);
-    }
-
     @Test
     void getNode() {
-        node_data n = new NodeData();
+        node_data n = new NodeData(0);
         g.addNode(n);
         assertEquals(0, g.getNode(0).getKey());
         assertEquals("", g.getNode(0).getInfo());
@@ -42,8 +36,8 @@ class WDGraph_DSTest {
     @Test
     void getEdge() {
         assertNull(g.getEdge(0, 1));
-        g.addNode(new NodeData()); // 0
-        g.addNode(new NodeData()); // 1
+        g.addNode(new NodeData(0));
+        g.addNode(new NodeData(1));
         g.connect(0, 1, 1.5);
         assertNotNull(g.getEdge(0, 1));
         assertNull(g.getEdge(1, 0));
@@ -53,7 +47,7 @@ class WDGraph_DSTest {
         g.connect(0, 1, 2.5);
         g.connect(1, 0, 3.5);
         assertEquals(3.5, g.getEdge(1, 0).getWeight());
-        g.addNode(new NodeData()); // 2
+        g.addNode(new NodeData(2));
         assertNull(g.getEdge(0, 2));
         g.connect(0, 2, 1.5);
         g.connect(2, 0, 2.5);
@@ -67,7 +61,7 @@ class WDGraph_DSTest {
     void addNode() {
         assertEquals(0, g.nodeSize());
         for (int i = 0; i < 123; i++) {
-            g.addNode(new NodeData());
+            g.addNode(new NodeData(i));
         }
         assertEquals(123, g.nodeSize());
         for (int i = 0; i < 123; i++) {
@@ -77,9 +71,9 @@ class WDGraph_DSTest {
 
     @Test
     void connect() {
-        g.addNode(new NodeData()); // 0
-        g.addNode(new NodeData()); // 1
-        g.addNode(new NodeData()); // 2
+        g.addNode(new NodeData(0));
+        g.addNode(new NodeData(1));
+        g.addNode(new NodeData(2));
         g.connect(1, 2, 0.1);
         assertNotNull(g.getEdge(1, 2));
         assertNull(g.getEdge(2, 1));
@@ -93,7 +87,7 @@ class WDGraph_DSTest {
         assertNotNull(g.getV());
         Collection<node_data> c = g.getV();
         for (int i = 0; i < 20; i++) {
-            g.addNode(new NodeData());
+            g.addNode(new NodeData(i));
             assertTrue(c.contains(g.getNode(i)));
         }
     }
@@ -101,12 +95,12 @@ class WDGraph_DSTest {
     @Test
     void getE() {
         assertNull(g.getE(0));
-        g.addNode(new NodeData());
+        g.addNode(new NodeData(0));
         assertNotNull(g.getE(0));
         Collection<edge_data> c = g.getE(0);
         assertEquals(0, c.size());
         for (int i = 1; i < 20; i++) {
-            g.addNode(new NodeData());
+            g.addNode(new NodeData(i));
             g.connect(i, 0, 0.2);
             assertFalse(c.contains(g.getEdge(i, 0)));
             g.connect(0, i, 0.3);
@@ -116,9 +110,9 @@ class WDGraph_DSTest {
 
     @Test
     void removeNode() {
-        g.addNode(new NodeData());
-        g.addNode(new NodeData());
-        g.addNode(new NodeData());
+        g.addNode(new NodeData(0));
+        g.addNode(new NodeData(1));
+        g.addNode(new NodeData(2));
         assertEquals(3, g.nodeSize());
         g.removeNode(0);
         g.removeNode(0);
@@ -133,9 +127,9 @@ class WDGraph_DSTest {
 
     @Test
     void removeEdge() {
-        g.addNode(new NodeData());
-        g.addNode(new NodeData());
-        g.addNode(new NodeData());
+        g.addNode(new NodeData(0));
+        g.addNode(new NodeData(1));
+        g.addNode(new NodeData(2));
         g.connect(0, 1, 1);
         g.connect(0, 1, 1);
         g.connect(0, 2, 1);
@@ -149,7 +143,7 @@ class WDGraph_DSTest {
     void nodeSize() {
         int r1 = nextRnd(0, 100);
         for (int i = 0; i < r1; i++) {
-            g.addNode(new NodeData());
+            g.addNode(new NodeData(i));
         }
         assertEquals(r1, g.nodeSize());
         int r2 = nextRnd(0, r1);
@@ -163,7 +157,7 @@ class WDGraph_DSTest {
     void edgeSize() {
         int n = nextRnd(10, 100), e = nextRnd(n, n * 3);
         for (int i = 0; i < n; i++) {
-            g.addNode(new NodeData());
+            g.addNode(new NodeData(i));
         }
         while (g.edgeSize() < e) {
             int a = nextRnd(0, n);
@@ -179,8 +173,18 @@ class WDGraph_DSTest {
     }
 
     @Test
-    void getMC() {
-
+    void equal() {
+        directed_weighted_graph g1 = new WDGraph_DS();
+        directed_weighted_graph g2 = new WDGraph_DS();
+        assertEquals(g2, g1);
+        for (int i = 0; i < 6; i++) {
+            g1.addNode(new NodeData(i));
+            g2.addNode(new NodeData(i));
+        }
+        assertEquals(g2, g1);
+        g1.connect(0,1,5);
+        g2.connect(0,1,5);
+        assertEquals(g2, g1);
     }
 
 ///////////////
