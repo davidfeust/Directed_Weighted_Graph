@@ -28,9 +28,6 @@ public class WDGraph_DS implements directed_weighted_graph {
         _graphNodes = new HashMap<>();
         for (node_data i : g.getV()) {
             _graphNodes.put(i.getKey(), new NodeData(i));
-            for (edge_data j : g.getE(i.getKey())) {
-                connect(i.getKey(), j.getDest(), g.getEdge(i.getKey(), j.getDest()).getWeight());
-            }
         }
         for (node_data i : g.getV()) {
             for (edge_data j : g.getE(i.getKey())) {
@@ -74,7 +71,9 @@ public class WDGraph_DS implements directed_weighted_graph {
      */
     @Override
     public void addNode(node_data n) {
+        if (!this._graphNodes.containsKey(n.getKey())) {
         this._graphNodes.put(n.getKey(), n);
+    }
     }
 
     /**

@@ -49,16 +49,6 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 //    TODO fix that method
     @Override
     public directed_weighted_graph copy() {
-//        directed_weighted_graph g1 = new WDGraph_DS();
-//        for (node_data i : _g.getV()) {
-//            g1.addNode(i); /// not good, the same nodes will be in two graphs
-//        }
-//        for (node_data i : _g.getV()) {
-//            for (edge_data j : _g.getE(i.getKey())) {
-//                g1.connect(j.getSrc(), j.getDest(), j.getWeight());
-//            }
-//        }
-//        return g1;
         return new WDGraph_DS(_g);
     }
 
@@ -70,34 +60,27 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public boolean isConnected() {
-//-------------------------------------------------------we need to see if we can randomize the chosen node
+        int num = -1;
         if (_g.getV().iterator().hasNext()) {
             // initialize the nodes tag
             for (node_data i : this._g.getV()) {
-                i.setTag(-1);
+                i.setTag(num);
             }
 
             node_data connectedNode = _g.getV().iterator().next();
-            this.connectedCheck(connectedNode, connectedNode);
+            int sum = this.connectedCheck(connectedNode, connectedNode, num);
 
-            for (node_data j : _g.getV()) {
-                if (j.getTag() == -1) {
-                    return false;
-                }
+            if (sum != _g.getV().size()) {
+                return false;
             }
 
             for (node_data i : _g.getV()) {
-                // initialize the nodes tag
-                for (node_data j : this._g.getV()) {
-                    j.setTag(-1);
-                }
 
-                this.connectedCheck(i, connectedNode);
-                for (node_data j : _g.getV()) {
-                    if (j.getTag() == -1) {
+                    this.connectedCheck(i, connectedNode, ++num);
+
+                    if (connectedNode.getTag() == num) {
                         return false;
                     }
-                }
             }
         }
         return true;
@@ -109,22 +92,27 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      *
      * @@param node_data
      */
-    private void connectedCheck(node_data src, node_data dest) {
+    private int connectedCheck(node_data src, node_data dest, int num) {
+        int sum = 0;
+
         Queue<node_data> q = new LinkedList<>();
-        src.setTag(1);
+        src.setTag(num + 1);
+        sum++;
         q.add(src);
         while (!q.isEmpty()) {
             int temp = q.poll().getKey();
             for (edge_data i : this._g.getE(temp)) {
                 node_data n_d = _g.getNode(i.getDest());
-                if (n_d.getTag() == -1) {
+                if (n_d.getTag() != num +1) {
+                    sum++;
                     q.add(n_d);
-                    n_d.setTag(1);
+                    n_d.setTag(num + 1);
                     if (n_d == dest)
-                        return;
+                        return 0;
                 }
             }
         }
+        return sum;
     }
 
 
@@ -148,11 +136,11 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             if (Src == Dest)
                 return 0;
 
-            this.initEdgeTag();//------------------------------------------
+            this.initNodeWeight();
 
             setDistance(Src, Dest);
 
-            return Dest.getTag();
+            return Dest.getWeight();
         }
 
         return -1;
@@ -190,7 +178,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
         PriorityQueue<node_data> q = new PriorityQueue<>(); // NodeData dose not implements Comparable
         // maybe we can use PriorityQueue that contains edge_data
-        n.setTag(0);
+        n.setWeight(0);
         q.add(n);
 
         while (!q.isEmpty()) {
@@ -198,11 +186,11 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
             boolean flag = true;
 
-            if (dest.getTag() > 0) {
+            if (dest.getWeight() > 0) {
                 {
                     while (flag) {
                         flag = false;
-                        if (temp != null && temp.getTag() > dest.getTag()) {
+                        if (temp != null && temp.getWeight() > dest.getWeight()) {
                             temp = q.poll();
                             flag = true;
                         }
@@ -212,8 +200,8 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
             if (temp != null) {
                 for (edge_data i : _g.getE(temp.getKey())) {
-                    double SEdge = i.getWeight() + temp.getTag();
-                    if (_g.getNode(i.getDest()).getTag() == -1 || (_g.getNode(i.getDest()).getTag() > SEdge && _g.getNode(i.getDest()).getTag() != 0)) {
+                    double SEdge = i.getWeight() + temp.getWeight();
+                    if (_g.getNode(i.getDest()).getWeight() == -1 || (_g.getNode(i.getDest()).getWeight() > SEdge && _g.getNode(i.getDest()).getWeight() != 0)) {
                         q.add(_g.getNode(i.getDest()));
                         _g.getNode(i.getDest()).setWeight(SEdge);
                     }
@@ -243,7 +231,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
             for (edge_data i : _g.getE(temp.getKey())) {
 //                double edge = g.getEdge(i.getKey(), temp.getKey());
-                if (temp.getTag() == temp.getTag() + i.getWeight() && i.getTag() != -1) {
+                if (temp.getWeight() == temp.getWeight() + i.getWeight() ) {//&& i.getTag() != -1
                     stack.add(_g.getNode(i.getDest()));
                     temp.setTag(-1);
                     index = index - i.getWeight();
@@ -261,11 +249,9 @@ public class WDGraph_Algo implements dw_graph_algorithms {
     }
 
     // initialize the nodes tag
-    private void initEdgeTag() {
+    private void initNodeWeight() {
         for (node_data i : _g.getV()) {
-            for (edge_data j : _g.getE(i.getKey())) {
-                //-------------------------------------------------------------
-            }
+            i.setWeight(-1);
         }
     }
 
@@ -339,7 +325,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             JsonArray nodes_arr = json_obj.get("Nodes").getAsJsonArray();
             for (JsonElement i : nodes_arr) {
                 String[] xyz = i.getAsJsonObject().get("pos").getAsString().split(",");
-                node_data n = new NodeData();
+                node_data n = new NodeData(i.getAsJsonObject().get("id").getAsInt());
                 geo_location loc = new Geo_locationImpl
                         (Double.parseDouble(xyz[0]), Double.parseDouble(xyz[1]), Double.parseDouble(xyz[2]));
                 n.setLocation(loc);
