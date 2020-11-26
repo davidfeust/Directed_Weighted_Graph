@@ -24,6 +24,24 @@ public class NodeData implements node_data {
         _weight = 0;
     }
 
+    /**
+     * Copy constructor
+     *
+     * @param n node data
+     */
+    public NodeData(node_data n) {
+        _key = n.getKey();
+        _remark = n.getInfo();
+        _weight = n.getWeight();
+        _tag = n.getTag();
+        _neighborNodes = new HashMap<>();
+        _neighborsDis = new HashMap<>();
+        if (n.getLocation() == null)
+            _GLocation = null;
+        else
+            _GLocation = new Geo_locationImpl(n.getLocation());
+    }
+
     // should be removed & make masterKey private
     public static void setMaster(int s) {
         _masterKey = s;

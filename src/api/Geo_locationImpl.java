@@ -10,6 +10,10 @@ public class Geo_locationImpl implements geo_location {
         _z = z;
     }
 
+    public Geo_locationImpl(geo_location location) {
+        this(location.x(), location.y(), location.z());
+    }
+
     @Override
     public double x() {
         return _x;

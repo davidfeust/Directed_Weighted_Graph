@@ -58,6 +58,8 @@ class WDGraph_AlgoTest {
     @Test
     void copy() {
         directed_weighted_graph g1 = ga.copy();
+        System.out.println(g);
+        System.out.println(g1);
         assertEquals(g.edgeSize(), g1.edgeSize());
         assertEquals(g.nodeSize(), g1.nodeSize());
         assertEquals(g, g1);
@@ -66,9 +68,9 @@ class WDGraph_AlgoTest {
         g1.getNode(2).setTag(4);
         assertEquals(5, g.getNode(2).getTag());
         assertEquals(4, g1.getNode(2).getTag());
-        g.connect(2, 4, 1.5);
-        assertEquals(1.5, g.getEdge(2, 4).getWeight());
-        assertNull(g1.getEdge(2, 4));
+        g.connect(1, 5, 1.5);
+        assertEquals(1.5, g.getEdge(1, 5).getWeight());
+        assertNull(g1.getEdge(1, 5));
         g1.connect(3, 5, 1.9);
         assertNull( g.getEdge(3, 5));
         assertEquals(1.9, g1.getEdge(5, 3).getWeight());

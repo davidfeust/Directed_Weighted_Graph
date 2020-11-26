@@ -1,7 +1,11 @@
 package ex2.src.api;
 
+import ex1.src.WGraph_DS;
+import ex1.src.node_info;
+
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class WDGraph_DS implements directed_weighted_graph {
 
@@ -13,6 +17,26 @@ public class WDGraph_DS implements directed_weighted_graph {
         this._graphNodes = new HashMap<>();
         this._edge_size = 0;
         this._mode_count = 0;
+    }
+
+    /**
+     * Copy constructor
+     *
+     * @param g
+     */
+    public WDGraph_DS(directed_weighted_graph g) {
+        _graphNodes = new HashMap<>();
+        for (node_data i : g.getV()) {
+            _graphNodes.put(i.getKey(), new NodeData(i));
+            for (edge_data j : g.getE(i.getKey())) {
+                connect(i.getKey(), j.getDest(), g.getEdge(i.getKey(), j.getDest()).getWeight());
+            }
+        }
+        for (node_data i : g.getV()) {
+            for (edge_data j : g.getE(i.getKey())) {
+                connect(i.getKey(), j.getDest(), g.getEdge(i.getKey(), j.getDest()).getWeight());
+            }
+        }
     }
 
     /**
@@ -206,6 +230,20 @@ public class WDGraph_DS implements directed_weighted_graph {
                 "\n\tNodes=" + _graphNodes +
                 "\n\tEdges=" + edgesStr + "]" +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WDGraph_DS that = (WDGraph_DS) o;
+        return _edge_size == that._edge_size &&
+                _graphNodes.equals(that._graphNodes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_graphNodes, _edge_size);
     }
 
     private class EdgeData implements edge_data {

@@ -3,12 +3,9 @@ package ex2.src.api;
 import com.google.gson.*;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -52,16 +49,17 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 //    TODO fix that method
     @Override
     public directed_weighted_graph copy() {
-        directed_weighted_graph g1 = new WDGraph_DS();
-        for (node_data i : _g.getV()) {
-            g1.addNode(i); /// not good, the same nodes will be in two graphs
-        }
-        for (node_data i : _g.getV()) {
-            for (edge_data j : _g.getE(i.getKey())) {
-                g1.connect(j.getSrc(), j.getDest(), j.getWeight());
-            }
-        }
-        return g1;
+//        directed_weighted_graph g1 = new WDGraph_DS();
+//        for (node_data i : _g.getV()) {
+//            g1.addNode(i); /// not good, the same nodes will be in two graphs
+//        }
+//        for (node_data i : _g.getV()) {
+//            for (edge_data j : _g.getE(i.getKey())) {
+//                g1.connect(j.getSrc(), j.getDest(), j.getWeight());
+//            }
+//        }
+//        return g1;
+        return new WDGraph_DS(_g);
     }
 
     /**
