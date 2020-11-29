@@ -1,9 +1,9 @@
-package ex2.src.gameClient;
+package gameClient;
 import Server.Game_Server_Ex2;
-import ex2.src.api.directed_weighted_graph;
-import ex2.src.api.edge_data;
-import ex2.src.api.game_service;
-import ex2.src.api.node_data;
+import api.directed_weighted_graph;
+import api.edge_data;
+import api.game_service;
+import api.node_data;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -20,7 +20,7 @@ public class SimpleGameClient {
 		test1();
 	}
 	public static void test1() {
-		ex2.src.api.game_service game = ex2.src.api.Game_Server_Ex2.getServer(2); // you have [0,23] games
+		game_service game = Game_Server_Ex2.getServer(0); // you have [0,23] games
 		String g = game.getGraph();
 		directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
 		//game.login(12345);  // please use your ID only as a key. uncomment this will upload your results to the server

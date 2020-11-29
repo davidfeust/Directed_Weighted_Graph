@@ -1,8 +1,13 @@
-package ex2.src.gameClient;
+package gameClient;
 
-import ex2.src.api.*;
-import ex2.src.gameClient.util.Point3D;
-import ex2.src.gameClient.util.*;
+import api.directed_weighted_graph;
+import api.edge_data;
+import api.geo_location;
+import api.node_data;
+import gameClient.util.Point3D;
+import gameClient.util.Range;
+import gameClient.util.Range2D;
+import gameClient.util.Range2Range;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,7 +15,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 
 /**
  * This class represents a multi Agents Arena which move on a graph - grabs Pokemons and avoid the Zombies.

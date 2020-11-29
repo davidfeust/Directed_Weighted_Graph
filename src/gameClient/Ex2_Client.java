@@ -1,9 +1,9 @@
-package ex2.src.gameClient;
+package gameClient;
 
 import Server.Game_Server_Ex2;
-import ex2.src.api.directed_weighted_graph;
-import ex2.src.api.edge_data;
-import ex2.src.api.game_service;
+import api.directed_weighted_graph;
+import api.edge_data;
+import api.game_service;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +23,7 @@ public class Ex2_Client implements Runnable{
 	@Override
 	public void run() {
 		int scenario_num = 11;
-		ex2.src.api.game_service game = ex2.src.api.Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
+		game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
 	//	int id = 999;
 	//	game.login(id);
 		String g = game.getGraph();
