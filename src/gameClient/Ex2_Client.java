@@ -37,15 +37,15 @@ public class Ex2_Client implements Runnable{
 		long dt=100;
 		
 		while(game.isRunning()) {
-//			moveAgants(game, gg);
-//			try {
-//				if(ind%1==0) {_win.repaint();}
-//				Thread.sleep(dt);
-//				ind++;
-//			}
-//			catch(Exception e) {
-//				e.printStackTrace();
-//			}
+			moveAgants(game, gg);
+			try {
+				if(ind%1==0) {_win.repaint();}
+				Thread.sleep(dt);
+				ind++;
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		String res = game.toString();
 
@@ -101,7 +101,7 @@ public class Ex2_Client implements Runnable{
 		String g = game.getGraph();
 		String fs = game.getPokemons();
 		directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
-		//gg.init(g);
+//		gg.init(g);
 		_ar = new Arena();
 		_ar.setGraph(gg);
 		_ar.setPokemons(Arena.json2Pokemons(fs));
