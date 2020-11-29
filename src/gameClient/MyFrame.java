@@ -20,7 +20,7 @@ import java.util.List;
  * code and not to take it "as is".
  *
  */
-public class MyFrame extends JFrame{
+public class MyFrame extends JFrame {
 	private int _ind;
 	private Arena _ar;
 	private gameClient.util.Range2Range _w2f;
@@ -49,7 +49,6 @@ public class MyFrame extends JFrame{
 		drawGraph(g);
 		drawAgants(g);
 		drawInfo(g);
-		
 	}
 	private void drawInfo(Graphics g) {
 		List<String> str = _ar.get_info();

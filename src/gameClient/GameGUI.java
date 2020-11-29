@@ -3,6 +3,7 @@ package gameClient;
 import javax.swing.*;
 
 public class GameGUI extends JFrame {
+
     private Arena _ar;
 
     public GameGUI(String name) {
