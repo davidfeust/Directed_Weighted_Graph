@@ -203,7 +203,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             if (temp != null) {
                 for (edge_data i : _g.getE(temp.getKey())) {
                     double SEdge = i.getWeight() + temp.getWeight();
-                    if (_g.getNode(i.getDest()).getWeight() == -1 || (_g.getNode(i.getDest()).getWeight() > SEdge && _g.getNode(i.getDest()).getWeight() != 0)) {
+                    if (_g.getNode(i.getDest()).getWeight() == -1 || (_g.getNode(i.getDest()).getWeight() > SEdge )){//&& _g.getNode(i.getDest()).getWeight() != 0)
                         q.add(_g.getNode(i.getDest()));
                         _g.getNode(i.getDest()).setWeight(SEdge);
                     }
@@ -234,7 +234,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 //            for (edge_data i : _g.getE(temp.getKey())) {
             NodeData n_d = (NodeData) temp;
                 for(node_data i : n_d.getConnectedNode().values()){
-                    if (n_d.getWeight() ==  i.getWeight()+_g.getEdge(i.getKey(),temp.getKey()).getWeight()&&i.getTag() != -2  ) {//
+                    if (n_d.getWeight() ==  i.getWeight()+_g.getEdge(i.getKey(),temp.getKey()).getWeight() && i.getTag() != -2  ) {//
                         stack.add(i);
                         temp = stack.peek();
                         temp.setTag(-2);
