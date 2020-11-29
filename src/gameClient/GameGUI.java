@@ -52,7 +52,7 @@ public class GameGUI extends JFrame {
     private void drawGraph(Graphics g) {
         directed_weighted_graph graph = _ar.getGraph();
         for (node_data i : graph.getV()) {
-            drawNode(i, 0, g);
+            drawNode(i, 3, g);
         }
     }
 
@@ -63,7 +63,9 @@ public class GameGUI extends JFrame {
     private void drawNode(node_data n, int r, Graphics g) {
         geo_location pos = n.getLocation();
         geo_location fp = this._w2f.world2frame(pos);
+        g.setColor(Color.green);
         g.fillOval((int)fp.x()-r, (int)fp.y()-r, 2*r, 2*r);
+        g.setColor(Color.BLACK);
         g.drawString(""+n.getKey(), (int)fp.x(), (int)fp.y()-4*r);
     }
 

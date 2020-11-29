@@ -1,40 +1,34 @@
 package gameClient;
 
 
+import Server.Game_Server_Ex2;
 import trys.GUI_102;
 import api.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Ex2{
+public class Ex2 {
 
     public static void main(String[] args) {
-//        JFrame jf = new JFrame("Pockemons Game");
-//        jf.setSize(400,400);
-//        jf.addWindowListener(new WindowAdapter() {
-//            public void windowClosing(WindowEvent e) {
-//                System.out.println("done");
-//                System.exit(0);
-//            }
-//        });
-//        ImageIcon img = new ImageIcon("src/ex2/img/pokeball.png");
-//        jf.setIconImage(img.getImage());
-////        jf.addWindowListe;
-//        Container contentPane = jf.getContentPane();
-//        jf.show();
-        GameGUI gui = new GameGUI(4);
-        Arena ar = new Arena();
-        directed_weighted_graph g = new WDGraph_DS();
-        g.addNode(new NodeData(1));
-        g.addNode(new NodeData(2));
-        g.addNode(new NodeData(3));
-        g.addNode(new NodeData(4));
-        ar.setGraph(g);
-        gui.set_ar(ar);
-//        gui.paint();
-        gui.show();
+        game_service game = Game_Server_Ex2.getServer(1); // you have [0,23] games
+        game.startGame();
+        String g = game.getGraph();
+        String fs = game.getPokemons();
+        directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
+        //gg.init(g);
+        Arena _ar = new Arena();
+        _ar.setGraph(gg);
+        _ar.setPokemons(Arena.json2Pokemons(fs));
+        GameGUI _win = new GameGUI(1);
+        _win.setSize(1000, 700);
+        _win.set_ar(_ar);
+
+        _win.show();
+
+//
     }
 
 }
