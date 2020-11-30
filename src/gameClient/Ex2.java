@@ -20,7 +20,7 @@ public class Ex2 {
         int id; //= Integer.parseInt(args[0]);
 //        int num = Integer.parseInt(args[0]);
 
-        final int scenario_num = 3;
+        final int scenario_num = 1;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
         System.out.println(game.toString());
 //        id = 314699059;
