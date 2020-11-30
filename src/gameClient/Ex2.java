@@ -20,7 +20,7 @@ public class Ex2 {
         int id; //= Integer.parseInt(args[0]);
 //        int num = Integer.parseInt(args[0]);
 
-        final int scenario_num = 1;
+        final int scenario_num = 22;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
         System.out.println(game.toString());
 //        id = 314699059;
@@ -39,7 +39,7 @@ public class Ex2 {
             moveAgants(game);
             try {
                 _win.repaint();
-                Thread.sleep(100);
+                Thread.sleep(10);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -75,12 +75,33 @@ public class Ex2 {
         }
     }
 
+
+
     private static List<CL_Agent> cerateAgents(int numOfAgents, game_service game) {
+        findEdges();
+        dw_graph_algorithms ga = new WDGraph_Algo(_graph);
+        ga.shortestPathDist(0,0);
+
+        PriorityQueue<node_data> pq = new PriorityQueue<>(new Comparator<node_data>() {
+            @Override
+            public int compare(node_data o1, node_data o2) {
+                return Double.compare(o1.getWeight(), o2.getWeight());
+            }
+        });
+
+        for(CL_Pokemon i : _ar.getPokemons()){
+            pq.add(_graph.getNode(i.get_edge().getSrc()));
+        }
+        int div = 1;
+        div = pq.size()/numOfAgents;
         List<CL_Agent> agents_list = new ArrayList<>();
         for (int i = 0; i < numOfAgents; i++) {
-            CL_Agent agents = new CL_Agent(_graph, i, 0);
+            CL_Agent agents = new CL_Agent(_graph, pq.peek().getKey(), i);
             agents_list.add(agents);
-            game.addAgent(i);
+            game.addAgent(pq.peek().getKey());
+            for (int j = 0; j < div; j++) {
+                pq.poll();
+            }
         }
         return agents_list;
     }
@@ -105,9 +126,21 @@ public class Ex2 {
         dw_graph_algorithms ga = new WDGraph_Algo();
         ga.init(_graph);
         //change and  do the shortest path dist  one time and chek the wight for the closest one
+
         for (CL_Agent a : _ar.getAgents()) {
-            CL_Pokemon shortest_pok = pokemons_list.get(0);
-            int n = shortest_pok.get_edge().getSrc();
+//            ga.shortestPathDist(a.getSrcNode(), a.getSrcNode());
+//            double minWight = _graph.getNode(pokemons_list.get(0).get_edge().getSrc()).getWeight();
+//            CL_Pokemon minPokemon = pokemons_list.get(0);
+//            for (CL_Pokemon p : _ar.getPokemons()) {
+//                if(_graph.getNode(p.get_edge().getSrc()).getWeight()<minWight){
+//                    minPokemon = p;
+//                    minWight = _graph.getNode(p.get_edge().getSrc()).getWeight();
+//                }
+//            }
+
+
+                CL_Pokemon minPokemon = pokemons_list.get(0);
+            int n = minPokemon.get_edge().getSrc();
             double shortest_way = ga.shortestPathDist(a.getSrcNode(), n);
             for (CL_Pokemon p : _ar.getPokemons()) {
                 edge_data pokemon_edge = p.get_edge();
@@ -115,19 +148,20 @@ public class Ex2 {
                 double dist_src = ga.shortestPathDist(a.getSrcNode(), s);
                 if (dist_src < shortest_way) {
                     shortest_way = dist_src;
-                    shortest_pok = p;
+                    minPokemon = p;
                     n = s;
                 }
             }
-            List<node_data> path = ga.shortestPath(a.getSrcNode(), n);
-            path.add(_graph.getNode(shortest_pok.get_edge().getDest()));
+            List<node_data> path = ga.shortestPath(a.getSrcNode(), minPokemon.get_edge().getSrc());
+            path.add(_graph.getNode(minPokemon.get_edge().getDest()));
+            System.out.println(path);
 //            System.out.println(path);
             int dest;
             if (path.size() > 1)
                 dest = path.get(1).getKey();
             else
                 dest = path.get(0).getKey();
-            a.set_curr_fruit(shortest_pok);
+            a.set_curr_fruit(minPokemon);
 //                a.setCurrNode();
             a.setNextNode(dest);
             game.chooseNextEdge(a.getID(), dest);
