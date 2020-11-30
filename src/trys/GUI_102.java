@@ -1,18 +1,22 @@
 package trys;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Graphics;
-import java.awt.Polygon;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+
+//package javaTutorial.net;
+import java.awt.FlowLayout;
+import javax.swing.JTextField;
+
+import javax.swing.*;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
 
 /**
  * Taken from: https://www.tutorialspoint.com/javaexamples/gui_polygon.htm
  */
+
 public class GUI_102 extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -23,6 +27,7 @@ public class GUI_102 extends JPanel {
 
         g.drawPolygon(p);
     }
+
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.getContentPane().setBackground(Color.BLACK);
@@ -34,8 +39,21 @@ public class GUI_102 extends JPanel {
                 System.exit(0);
             }
         });
-        Container contentPane = frame.getContentPane();
-        contentPane.add(new GUI_102());
-        frame.show();
+        JFrame f = new JFrame("Text Field Examples");
+        f.getContentPane().setLayout(new FlowLayout());
+        JTextField textfield1 = new JTextField("Text field 1", 10);
+        JTextField textfield2 = new JTextField("Text field 2", 10);
+        JTextField textfield3 = new JTextField("Text field 3", 10);
+        f.getContentPane().add(textfield1);
+        f.getContentPane().add(textfield2);
+        f.getContentPane().add(textfield3);
+//        textfield1.addActionListener(new actionLisiner a);
+//        addActionListener(a);
+        f.pack();
+        f.setVisible(true);
     }
-}
+//        Container contentPane = frame.getContentPane();
+//        contentPane.add(new GUI_102());
+//        frame.show();
+    }
+//}
