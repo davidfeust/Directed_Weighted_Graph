@@ -15,6 +15,7 @@ import java.util.List;
 public class Ex2_Client implements Runnable{
 	private static MyFrame _win;
 	private static Arena _ar;
+
 	public static void main(String[] a) {
 		Thread client = new Thread(new Ex2_Client());
 		client.start();
