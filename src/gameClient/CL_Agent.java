@@ -11,6 +11,7 @@ public class CL_Agent {
 		public static final double EPS = 0.0001;
 		private static int _count = 0;
 		private static int _seed = 3331;
+//		private static int master_key = 0;
 		private int _id;
 	//	private long _key;
 		private geo_location _pos;
@@ -24,12 +25,13 @@ public class CL_Agent {
 		private double _value;
 		
 		
-		public CL_Agent(directed_weighted_graph g, int start_node) {
+		public CL_Agent(directed_weighted_graph g, int start_node, int id) {
 			_gg = g;
 			setMoney(0);
 			this._curr_node = _gg.getNode(start_node);
 			_pos = _curr_node.getLocation();
-			_id = -1;
+//			_id = -1;
+			_id = id;
 			setSpeed(0);
 		}
 		public void update(String json) {

@@ -24,7 +24,7 @@ public class GameGUI extends JFrame {
     public GameGUI(int scenario_num) {
         super("Pockemons Game " + scenario_num);
         _scenario_num = scenario_num;
-        setSize(800, 400);
+        setSize(1000, 700);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.out.println("done");
@@ -66,6 +66,7 @@ public class GameGUI extends JFrame {
 
     public void set_ar(Arena _ar) {
         this._ar = _ar;
+        updateFrame();
     }
 
     private void drawNode(node_data n, Graphics g) {

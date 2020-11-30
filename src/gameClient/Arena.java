@@ -96,7 +96,7 @@ public class Arena {
 			JSONObject ttt = new JSONObject(aa);
 			JSONArray ags = ttt.getJSONArray("Agents");
 			for(int i=0;i<ags.length();i++) {
-				CL_Agent c = new CL_Agent(gg,0);
+				CL_Agent c = new CL_Agent(gg,0, -1);
 				c.update(ags.get(i).toString());
 				ans.add(c);
 			}
