@@ -8,10 +8,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.SimpleTimeZone;
+import java.util.*;
 
 public class Ex2 {
 
@@ -100,6 +97,9 @@ public class Ex2 {
 
     private static void moveAgants(game_service game) {
 //        findEdges();
+        String lg = game.move();
+        List<CL_Agent> log = Arena.getAgents(lg, _graph);
+        _ar.setAgents(log);
         List<CL_Pokemon> pokemons_list = _ar.getPokemons();
         dw_graph_algorithms ga = new WDGraph_Algo();
         ga.init(_graph);
@@ -111,7 +111,6 @@ public class Ex2 {
             for (CL_Pokemon p : _ar.getPokemons()) {
                 edge_data pokemon_edge = p.get_edge();
                 int s = pokemon_edge.getSrc();
-                int d = pokemon_edge.getDest();
                 double dist_src = ga.shortestPathDist(a.getSrcNode(), s);
                 if (dist_src < shortest_way) {
                     shortest_way = dist_src;
@@ -120,10 +119,14 @@ public class Ex2 {
                 }
                 List<node_data> path = ga.shortestPath(a.getSrcNode(), n);
                 System.out.println(path);
-                int dest = path.get(1).getKey();
+                int dest;
+                if (path.size() > 1)
+                    dest = path.get(1).getKey();
+                else
+                    dest = path.get(0).getKey();
                 a.set_curr_fruit(shortest_pok);
+//                a.setCurrNode();
                 a.setNextNode(dest);
-                System.out.println(a.getID() + "****");
                 System.out.println(game.chooseNextEdge(a.getID(), dest));
                 System.out.println("Agent: " + a.getID() + ", val: " + a.getValue() + "   turned to node: " + dest);
             }
@@ -139,7 +142,7 @@ public class Ex2 {
                 geo_location n_pos = n.getLocation();
                 for (edge_data e : _graph.getE(n.getKey())) {
                     geo_location dest_pos = _graph.getNode(e.getDest()).getLocation();
-                    if (Math.abs(n_pos.distance(dest_pos) - (n_pos.distance(pok_pos) + pok_pos.distance(dest_pos))) <= 0.0001){
+                    if (Math.abs(n_pos.distance(dest_pos) - (n_pos.distance(pok_pos) + pok_pos.distance(dest_pos))) <= 0.0001) {
                         p.set_edge(e);
                         break;
                     }
@@ -147,4 +150,44 @@ public class Ex2 {
             }
         }
     }
+//
+//    private static void moveAgants(game_service game) {
+//        String lg = game.move();
+//        System.out.println("$$$" + lg);
+//        List<CL_Agent> log = Arena.getAgents(lg, _graph);
+//        _ar.setAgents(log);
+//        //ArrayList<OOP_Point3D> rs = new ArrayList<OOP_Point3D>();
+//        String fs =  game.getPokemons();
+//        List<CL_Pokemon> ffs = Arena.json2Pokemons(fs);
+//        _ar.setPokemons(ffs);
+//        for(int i=0;i<log.size();i++) {
+//            CL_Agent ag = log.get(i);
+//            int id = ag.getID();
+//            int dest = ag.getNextNode();
+//            int src = ag.getSrcNode();
+//            double v = ag.getValue();
+//            if(dest==-1) {
+//                dest = nextNode(_graph, src);
+//                game.chooseNextEdge(ag.getID(), dest);
+//                System.out.println("Agent: "+id+", val: "+v+"   turned to node: "+dest);
+//            }
+//        }
+//    }
+//    /**
+//     * a very simple random walk implementation!
+//     * @param g
+//     * @param src
+//     * @return
+//     */
+//    private static int nextNode(directed_weighted_graph g, int src) {
+//        int ans = -1;
+//        Collection<edge_data> ee = g.getE(src);
+//        Iterator<edge_data> itr = ee.iterator();
+//        int s = ee.size();
+//        int r = (int)(Math.random()*s);
+//        int i=0;
+//        while(i<r) {itr.next();i++;}
+//        ans = itr.next().getDest();
+//        return ans;
+//    }
 }
