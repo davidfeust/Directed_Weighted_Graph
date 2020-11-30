@@ -7,6 +7,7 @@ import api.node_data;
 import gameClient.util.Point3D;
 import gameClient.util.Range;
 import gameClient.util.Range2D;
+import trys.GUI_102;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,6 +32,11 @@ public class GameGUI extends JFrame {
                 System.exit(0);
             }
         });
+//        JLabel text = new JLabel("Agent 0");
+//        text.setBounds(50,100, 250,20);
+//        Container contentPane = this.getContentPane();
+//        contentPane.add(text);
+//        this.add(text);
     }
 
     private void updateFrame() {
