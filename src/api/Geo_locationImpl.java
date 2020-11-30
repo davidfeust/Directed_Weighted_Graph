@@ -48,7 +48,7 @@ public class Geo_locationImpl implements geo_location {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(_x, _y, _z);
+    public String toString() {
+        return "Geo_locationImpl{" + _x + "," + _y + "," + _z + '}';
     }
 }

@@ -4,6 +4,7 @@ package gameClient;
 import Server.Game_Server_Ex2;
 import api.*;
 import com.google.gson.JsonObject;
+import gameClient.util.Point3D;
 import netscape.javascript.JSObject;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,12 +26,15 @@ public class Ex2 {
     public static void main(String[] args) {
         final int scenario_num = 1;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
-        System.out.println(game.getPokemons());
         initArena(game);
         initGUI(scenario_num);
 
-        game.addAgent(0);
         System.out.println(game.startGame());
+        findEdges();
+        System.out.println(game.getPokemons());
+        for (CL_Pokemon p : _ar.getPokemons()) {
+            System.out.println(p);
+        }
 
         while (game.isRunning()) {
             moveAgants(game, _graph);
@@ -62,16 +66,17 @@ public class Ex2 {
             _ar = new Arena();
             _ar.setGraph(graph);
             _ar.setPokemons(Arena.json2Pokemons(game.getPokemons()));
-            _ar.setAgents(cerateAgents(jo.getInt("agents"), graph));
+            _ar.setAgents(cerateAgents(jo.getInt("agents"), game));
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private static List<CL_Agent> cerateAgents(int numOfAgents, directed_weighted_graph g) {
+    private static List<CL_Agent> cerateAgents(int numOfAgents, game_service game) {
         List<CL_Agent> agents_list = new ArrayList<>();
         for (int i = 0; i < numOfAgents; i++) {
-            agents_list.add(new CL_Agent(g, i));
+            agents_list.add(new CL_Agent(_graph, i));
+            game.addAgent(i);
         }
         return agents_list;
     }
@@ -90,13 +95,12 @@ public class Ex2 {
     }
 
     private static void moveAgants(game_service game, directed_weighted_graph gg) {
-        List<CL_Pokemon> pokemons_list = Arena.json2Pokemons(game.getPokemons());
+//        findEdges();
+        List<CL_Pokemon> pokemons_list = _ar.getPokemons();
         dw_graph_algorithms ga = new WDGraph_Algo();
         ga.init(gg);
-//        HashMap<Integer, Double> len_to_pokemon = new HashMap<>();
         for (CL_Agent a : _ar.getAgents()) {
             CL_Pokemon shortest_pok = pokemons_list.get(0);
-//            shortest_pok.getLocation();
             int n = shortest_pok.get_edge().getSrc();
             double shortest_way = ga.shortestPathDist(a.getSrcNode(), n);
             for (CL_Pokemon p : _ar.getPokemons()) {
@@ -119,10 +123,28 @@ public class Ex2 {
             Iterator<node_data> it = path.iterator();
             it.next();
             int dest = it.next().getKey();
-            game.chooseNextEdge(a.getID(), dest);
+            a.set_curr_fruit(shortest_pok);
+            a.setNextNode(dest);
+            System.out.println(game.chooseNextEdge(a.getID(), dest));
             System.out.println("Agent: " + a.getID() + ", val: " + a.getValue() + "   turned to node: " + dest);
         }
 
 
+    }
+
+    public static void findEdges() {
+        int i = 0;
+        for (CL_Pokemon p : _ar.getPokemons()) {
+            geo_location pok_pos = p.getLocation();
+//            System.out.println(p.getLocation());
+            for (node_data n : _graph.getV()) {
+                geo_location n_pos = n.getLocation();
+                for (edge_data e : _graph.getE(n.getKey())) {
+                    geo_location dest_pos = _graph.getNode(e.getDest()).getLocation();
+                    if (Math.abs(n_pos.distance(dest_pos) - (n_pos.distance(pok_pos) + pok_pos.distance(dest_pos))) <= 0.0001)
+                        p.set_edge(e);
+                }
+            }
+        }
     }
 }
