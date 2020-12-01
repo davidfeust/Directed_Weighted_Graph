@@ -8,6 +8,7 @@ import gameClient.util.Point3D;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Queue;
 
 public class CL_Agent {
     public static final double EPS = 0.0001;
@@ -24,6 +25,10 @@ public class CL_Agent {
     private CL_Pokemon _curr_fruit;
     private long _sg_dt;
     private List<node_data> _curr_path;
+    public Queue<node_data> _curr_pathQ=null;
+    public CL_Pokemon minPokemon=null;
+
+
 
     private double _value;
 
@@ -106,7 +111,11 @@ public class CL_Agent {
     }
 
     public boolean isMoving() {
-        return this._curr_edge != null;
+//        return this._curr_edge != null;
+//        return this.getNextNode() != -1;
+//        return _curr_node.getLocation().equals(getLocation());
+        return Math.abs(_curr_node.getLocation().distance(getLocation())) < 0.1;
+
     }
 
     public String toString() {
@@ -142,7 +151,7 @@ public class CL_Agent {
     public int getNextNode() {
         int ans = -2;
         if (this._curr_edge == null) {
-            ans = -1;
+                ans = -1;
         } else {
             ans = this._curr_edge.getDest();
         }

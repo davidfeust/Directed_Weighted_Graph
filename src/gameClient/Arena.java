@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,16 +28,21 @@ public class Arena {
 	private List<CL_Agent> _agents;
 	private List<CL_Pokemon> _pokemons;
 	private List<String> _info;
+	private List<CL_Pokemon> _pokemonsWithOwner;
 	private static Point3D MIN = new Point3D(0, 100,0);
 	private static Point3D MAX = new Point3D(0, 100,0);
+//	private HashMap<Integer,ge>
+
 
 	public Arena() {;
 		_info = new ArrayList<String>();
+		_pokemonsWithOwner = new ArrayList<>();
 	}
 	private Arena(directed_weighted_graph g, List<CL_Agent> r, List<CL_Pokemon> p) {
 		_gg = g;
 		this.setAgents(r);
 		this.setPokemons(p);
+		_pokemonsWithOwner = new ArrayList<>();
 	}
 	public void setPokemons(List<CL_Pokemon> f) {
 		this._pokemons = f;
@@ -78,7 +84,18 @@ public class Arena {
 	public List<CL_Agent> getAgents() {return _agents;}
 	public List<CL_Pokemon> getPokemons() {return _pokemons;}
 
-	
+	public List<CL_Pokemon> get_pokemonsWithOwner() {
+		return _pokemonsWithOwner;
+	}
+
+	public void add_pokemonsWithOwner(CL_Pokemon pok) {
+		this._pokemonsWithOwner.add(pok);
+	}
+
+	public void remove_pokemonsWithOwner(CL_Pokemon pok) {
+		this._pokemonsWithOwner.remove(pok);
+	}
+
 	public directed_weighted_graph getGraph() {
 		return _gg;
 	}
@@ -138,7 +155,7 @@ public class Arena {
 		}
 	}
 
-	private static boolean isOnEdge(geo_location p, geo_location src, geo_location dest ) {
+	public static boolean isOnEdge(geo_location p, geo_location src, geo_location dest ) {
 		boolean ans = false;
 		double dist = src.distance(dest);
 		double d1 = src.distance(p) + p.distance(dest);
