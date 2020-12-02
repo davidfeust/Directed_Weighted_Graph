@@ -22,12 +22,12 @@ public class CL_Agent {
     private edge_data _curr_edge;
     private node_data _curr_node;
     private directed_weighted_graph _gg;
-    private CL_Pokemon _curr_fruit;
     private long _sg_dt;
     private List<node_data> _curr_path;
-    public Queue<node_data> _curr_pathQ=null;
-    public CL_Pokemon minPokemon=null;
+    private CL_Pokemon _curr_fruit=null;
 
+//    public Queue<node_data> _curr_pathQ=null;
+//    private CL_Pokemon _curr_fruit;
 
 
     private double _value;
@@ -112,9 +112,9 @@ public class CL_Agent {
 
     public boolean isMoving() {
 //        return this._curr_edge != null;
-//        return this.getNextNode() != -1;
+        return this.getNextNode() != -1;
 //        return _curr_node.getLocation().equals(getLocation());
-        return Math.abs(_curr_node.getLocation().distance(getLocation())) < 0.1;
+//        return Math.abs(_curr_node.getLocation().distance(getLocation())) < 0.1;
 
     }
 

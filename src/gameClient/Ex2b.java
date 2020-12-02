@@ -20,14 +20,22 @@ public class Ex2b {
     private static GameGUI _win;
     private static Arena _ar;
     private static directed_weighted_graph _graph;
+    int scenario_num =0;
 
     static int _counter = 0;
-
+    String[] args = new String[2];
     public static void main(String[] args) {
+        int   flag=1;
+        for(String s : args){
+            flag=Integer.parseInt(s);
+        }
         int id; //= Integer.parseInt(args[0]);
 //        int num = Integer.parseInt(args[0]);
 
-        final int scenario_num = 23;
+//        final
+//        int scenario_num = Integer.parseInt(flag);
+        int scenario_num = flag;
+
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
         System.out.println(game.toString());
 //        id = 314699059;
@@ -46,8 +54,8 @@ public class Ex2b {
 //                    if (!a.isMoving()) {
 
 //                    if (_ar.isOnEdge(a.getLocation(), a.get_curr_path().get(0).getLocation(),a.get_curr_path().get(0).getLocation())){
-                        a.get_curr_path().remove(0);
-                    moveAgant(game, a);
+                a.get_curr_path().remove(0);
+                moveAgant(game, a);
 //                } else {
 //                    updateArena(game);
 //                }
@@ -142,14 +150,14 @@ public class Ex2b {
 //        a.get_curr_path();
         a.setCurrNode(dest);
         if (a.get_curr_path().size() == 1) {
-            _ar.remove_pokemonsWithOwner(a.minPokemon);
+            _ar.remove_pokemonsWithOwner(a.get_curr_fruit());
         }
         a.setNextNode(dest);
         long is_choosen = game.chooseNextEdge(a.getID(), dest);
         System.out.println("**" + is_choosen);
         System.out.println(game.getAgents());
 //        if (is_choosen != -1) {
-            game.move();
+        game.move();
 //        } else {
 //        }
         updateArena(game);
