@@ -111,8 +111,8 @@ public class CL_Agent {
     }
 
     public boolean isMoving() {
-//        return this._curr_edge != null;
-        return this.getNextNode() != -1;
+        return this._curr_edge != null;
+//        return this.getNextNode() != -1;
 //        return _curr_node.getLocation().equals(getLocation());
 //        return Math.abs(_curr_node.getLocation().distance(getLocation())) < 0.1;
 

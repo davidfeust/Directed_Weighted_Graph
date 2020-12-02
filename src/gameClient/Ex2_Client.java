@@ -38,6 +38,7 @@ public class Ex2_Client implements Runnable{
 		long dt=100;
 		
 		while(game.isRunning()) {
+
 			moveAgants(game, gg);
 			try {
 				if(ind%1==0) {_win.repaint();}
@@ -75,7 +76,8 @@ public class Ex2_Client implements Runnable{
 			double v = ag.getValue();
 			if(dest==-1) {
 				dest = nextNode(gg, src);
-				game.chooseNextEdge(ag.getID(), dest);
+				long l = game.chooseNextEdge(ag.getID(), dest);
+				System.out.println("**" + l);
 				System.out.println("Agent: "+id+", val: "+v+"   turned to node: "+dest);
 			}
 		}

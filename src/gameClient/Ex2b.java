@@ -20,10 +20,9 @@ public class Ex2b {
     private static GameGUI _win;
     private static Arena _ar;
     private static directed_weighted_graph _graph;
-    int scenario_num =0;
 
     static int _counter = 0;
-//    String[] args = new String[2];
+
     public static void main(String[] args) {
         int   flag=1;
 if (args.length>0)
@@ -36,10 +35,7 @@ if (args.length>0)
         int id; //= Integer.parseInt(args[0]);
 //        int num = Integer.parseInt(args[0]);
 
-//        final
-//        int scenario_num = Integer.parseInt(flag);
-        int scenario_num = flag;
-        System.out.println(scenario_num);
+        final int scenario_num = 23;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
         System.out.println(game.toString());
 //        id = 314699059;
@@ -56,9 +52,10 @@ if (args.length>0)
                 }
 //                if (!isMoving(game, a.getID())) {
 //                    if (!a.isMoving()) {
-
 //                    if (_ar.isOnEdge(a.getLocation(), a.get_curr_path().get(0).getLocation(),a.get_curr_path().get(0).getLocation())){
-                a.get_curr_path().remove(0);
+//                else {
+//                }
+//                a.get_curr_path().remove(0);
                 moveAgant(game, a);
 //                } else {
 //                    updateArena(game);
@@ -149,19 +146,29 @@ if (args.length>0)
     }
 
     private static void moveAgant(game_service game, CL_Agent a) {
+
+        updateArena(game);
+        if (a.getNextNode() != -1) {
+            return;
+        }
+
+        a.get_curr_path().remove(0);
+        game.move();
         int dest;
         dest = a.get_curr_path().get(0).getKey();
+        System.out.println("##" + _counter++);
+
 //        a.get_curr_path();
-        a.setCurrNode(dest);
+//        a.setCurrNode(dest);
         if (a.get_curr_path().size() == 1) {
             _ar.remove_pokemonsWithOwner(a.get_curr_fruit());
         }
-        a.setNextNode(dest);
+//        a.setNextNode(dest);
         long is_choosen = game.chooseNextEdge(a.getID(), dest);
         System.out.println("**" + is_choosen);
         System.out.println(game.getAgents());
 //        if (is_choosen != -1) {
-        game.move();
+//            game.move();
 //        } else {
 //        }
         updateArena(game);
@@ -205,6 +212,10 @@ if (args.length>0)
         a.set_curr_fruit(minPokemon);
         _ar.add_pokemonsWithOwner(minPokemon);
 //        System.out.println(path);
+        game.move();
+//        moveAgant(game, a);
+        System.out.println("$$" + _counter++);
+
     }
 
     private static void updateArena(game_service game) {

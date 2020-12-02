@@ -155,15 +155,24 @@ public class GameGUI extends JFrame implements ActionListener {
 
     @Override
     public void paint(Graphics g) {
-        updateFrame();
         int w = this.getWidth();
         int h = this.getHeight();
-        g.clearRect(0, 0, w, h);
+        Image buffer_image;
+        Graphics buffer_graphics;
+        buffer_image = createImage(w, h);
+        buffer_graphics = buffer_image.getGraphics();
+        paintComponents(buffer_graphics);
+        g.drawImage(buffer_image, 0, 0, this);
+    }
+
+    @Override
+    public void paintComponents(Graphics g) {
         updateFrame();
         drawPokemons(g);
         drawGraph(g);
         drawAgants(g);
         drawInfo(g);
+        updateFrame();
     }
 
     private void drawGraph(Graphics g) {
@@ -272,7 +281,7 @@ public class GameGUI extends JFrame implements ActionListener {
 //        String[] strA= {m.toString()};
 //        this._scenario_num = Integer.parseInt(strA[0]);0
         System.out.println("-----------------------------------------"+strA[1]);
-        Ex2b.
-        Ex2b.main(strA);
+//        Ex2b.
+//        Ex2b.main(strA);
     }
 }
