@@ -23,19 +23,23 @@ public class Ex2b {
     int scenario_num =0;
 
     static int _counter = 0;
-    String[] args = new String[2];
+//    String[] args = new String[2];
     public static void main(String[] args) {
         int   flag=1;
-        for(String s : args){
-            flag=Integer.parseInt(s);
-        }
+if (args.length>0)
+        flag=Integer.parseInt(args[1]);
+
+//        for(String s : args){
+//            if(s.equals(""))
+//            flag=Integer.parseInt(s);
+//        }
         int id; //= Integer.parseInt(args[0]);
 //        int num = Integer.parseInt(args[0]);
 
 //        final
 //        int scenario_num = Integer.parseInt(flag);
         int scenario_num = flag;
-
+        System.out.println(scenario_num);
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
         System.out.println(game.toString());
 //        id = 314699059;

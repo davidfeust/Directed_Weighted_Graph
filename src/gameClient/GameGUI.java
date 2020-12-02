@@ -266,12 +266,13 @@ public class GameGUI extends JFrame implements ActionListener {
         System.out.println("-----------------222222222222222222222------------------------"+str);
         System.out.println();
         System.out.println();
-        String[] strA = str.split("\\d+");
+        String[] strA = str.split("\\D+");
 //        Pattern p = Pattern.compile("numFound=\"([0-9]+)\"");
 //        Matcher m = p.matcher(str);
 //        String[] strA= {m.toString()};
 //        this._scenario_num = Integer.parseInt(strA[0]);0
-        System.out.println("-----------------------------------------"+strA[0]);
+        System.out.println("-----------------------------------------"+strA[1]);
+        Ex2b.
         Ex2b.main(strA);
     }
 }
