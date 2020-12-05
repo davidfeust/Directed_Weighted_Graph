@@ -1,13 +1,7 @@
-package gameClient;
+package game;
 
-import api.directed_weighted_graph;
-import api.edge_data;
-import api.geo_location;
-import api.node_data;
-import gameClient.util.Point3D;
-import gameClient.util.Range;
-import gameClient.util.Range2D;
-import trys.GUI_102;
+import api.*;
+import game.util.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,16 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GameGUI extends JFrame implements ActionListener {
 
     private Arena _ar;
     private int _scenario_num;
-    private gameClient.util.Range2Range _w2f;
+    private Range2Range _w2f;
 
     public GameGUI(int scenario_num) {
         super("Pockemons Game " + scenario_num);
@@ -145,11 +136,16 @@ public class GameGUI extends JFrame implements ActionListener {
     }
 
 
+    public void set_ar(Arena _ar) {
+        this._ar = _ar;
+        updateFrame();
+    }
+
     private void updateFrame() {
         Range rx = new Range(40, this.getWidth() - 40);
-        Range ry = new Range(this.getHeight() - 40, 60);
+        Range ry = new Range(this.getHeight() - 40, 80);
         Range2D frame = new Range2D(rx, ry);
-        directed_weighted_graph g = _ar.getGraph();
+        directed_weighted_graph g = _ar.get_graph();
         _w2f = Arena.w2f(g, frame);
     }
 
@@ -167,16 +163,15 @@ public class GameGUI extends JFrame implements ActionListener {
 
     @Override
     public void paintComponents(Graphics g) {
-        updateFrame();
         drawPokemons(g);
         drawGraph(g);
         drawAgants(g);
-        drawInfo(g);
+//        drawTime(g);
         updateFrame();
     }
 
     private void drawGraph(Graphics g) {
-        directed_weighted_graph graph = _ar.getGraph();
+        directed_weighted_graph graph = _ar.get_graph();
         for (node_data i : graph.getV()) {
             drawNode(i, g);
             for (edge_data e : graph.getE(i.getKey())) {
@@ -185,19 +180,14 @@ public class GameGUI extends JFrame implements ActionListener {
         }
     }
 
-    public void set_ar(Arena _ar) {
-        this._ar = _ar;
-        updateFrame();
-    }
-
     private void drawNode(node_data n, Graphics g) {
         int radius = 5;
         geo_location pos = n.getLocation();
         geo_location fp = this._w2f.world2frame(pos);
-        g.setColor(Color.green);
+        g.setColor(Color.BLUE);
         g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
         g.setColor(Color.BLACK);
-        g.drawString("" + n.getKey(), (int) fp.x(), (int) fp.y() - 4 * radius);
+        g.drawString("" + n.getKey(), (int) fp.x(), (int) fp.y() - 2 * radius);
 
 /*
         ** for represent node with image:
@@ -211,7 +201,7 @@ public class GameGUI extends JFrame implements ActionListener {
     }
 
     private void drawEdge(edge_data e, Graphics g) {
-        directed_weighted_graph gg = _ar.getGraph();
+        directed_weighted_graph gg = _ar.get_graph();
         geo_location s = gg.getNode(e.getSrc()).getLocation();
         geo_location d = gg.getNode(e.getDest()).getLocation();
         geo_location s0 = this._w2f.world2frame(s);
@@ -222,14 +212,14 @@ public class GameGUI extends JFrame implements ActionListener {
     }
 
     private void drawPokemons(Graphics g) {
-        List<CL_Pokemon> fs = _ar.getPokemons();
+        List<Pokemon> fs = _ar.getPokemons();
         if (fs == null)
             return;
-        for (CL_Pokemon f : fs) {
-            Point3D c = f.getLocation();
+        for (Pokemon f : fs) {
+            Point3D c = f.get_pos();
             int radius = 10;
             g.setColor(Color.green);
-            if (f.getType() < 0) {
+            if (f.get_type() < 0) {
                 g.setColor(Color.orange);
             }
             if (c != null) {
@@ -241,27 +231,25 @@ public class GameGUI extends JFrame implements ActionListener {
     }
 
     private void drawAgants(Graphics g) {
-        List<CL_Agent> rs = _ar.getAgents();
-        g.setColor(Color.red);
-        int i = 0;
-        while (rs != null && i < rs.size()) {
-            geo_location c = rs.get(i).getLocation();
+        List<Agent> rs = _ar.getAgents();
+        for (Agent a : rs) {
+            geo_location loc = a.getPos();
             int r = 8;
-            i++;
-            if (c != null) {
-                geo_location fp = this._w2f.world2frame(c);
-                g.fillOval((int) fp.x() - r, (int) fp.y() - r, 2 * r, 2 * r);
-            }
+            geo_location fp = this._w2f.world2frame(loc);
+            g.setColor(Color.red);
+            g.fillOval((int) fp.x() - r, (int) fp.y() - r, 2 * r, 2 * r);
+            String v = (int) a.getValue() + "";
+            g.setColor(Color.BLACK);
+            g.drawString(v, (int) fp.x() + 10, (int) fp.y() + 10);
         }
     }
 
-    private void drawInfo(Graphics g) {
-        List<String> str = _ar.get_info();
-        String dt = "none";
-        for(int i=0;i<str.size();i++) {
-            g.drawString(str.get(i)+" dt: "+dt,100,60+i*20);
-        }
-
+    private void drawTime(Graphics g) {
+        g.setColor(Color.red);
+//        long t = _ar.getTime();
+        g.drawString("" + _ar.getTime(), 100, 100);
+        g.fillRoundRect(0, 50, (int) (_ar.getTime()), 10, 10, 10);
+        g.fillRoundRect(0, 50, (int) (_ar.getTime()), 10, 10, 10);
     }
 
     /**
@@ -272,7 +260,7 @@ public class GameGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String str = e.getActionCommand();
-        System.out.println("-----------------222222222222222222222------------------------"+str);
+        System.out.println("-----------------222222222222222222222------------------------" + str);
         System.out.println();
         System.out.println();
         String[] strA = str.split("\\D+");
@@ -280,7 +268,7 @@ public class GameGUI extends JFrame implements ActionListener {
 //        Matcher m = p.matcher(str);
 //        String[] strA= {m.toString()};
 //        this._scenario_num = Integer.parseInt(strA[0]);0
-        System.out.println("-----------------------------------------"+strA[1]);
+        System.out.println("-----------------------------------------" + strA[1]);
 //        Ex2b.
 //        Ex2b.main(strA);
     }
