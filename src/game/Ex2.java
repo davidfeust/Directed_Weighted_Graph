@@ -37,13 +37,10 @@ public class Ex2 {
                 }
                 if (!a.isMoving()) {
                     nextMove(game, a);
-                } //else {
+                }
+
                 game.move();
                 _ar.update(game);
-                //}
-
-//                System.out.println(game.timeToEnd() /1000.);
-
                 _win.repaint();
 
                 try {
@@ -55,17 +52,6 @@ public class Ex2 {
         }
         System.out.println(game);
         System.exit(0);
-    }
-
-    private static void nextMove(game_service game, Agent a) {
-        int id = a.getId();
-        int next_dest = a.get_path().get(0).getKey();
-        a.get_path().remove(0);
-
-        long is_choosen = game.chooseNextEdge(id, next_dest);
-        System.out.println("**" + is_choosen);
-        System.out.println("Agent: " + id + ", val: " + a.getValue() + "   turned to node: " + next_dest +
-                "   on the way to: " + a.get_curr_fruit());
     }
 
     public static void initArena(game_service game) {
@@ -104,6 +90,17 @@ public class Ex2 {
                 pq.poll();
             }
         }
+    }
+
+    private static void nextMove(game_service game, Agent a) {
+        int id = a.getId();
+        int next_dest = a.get_path().get(0).getKey();
+        a.get_path().remove(0);
+
+        long is_choosen = game.chooseNextEdge(id, next_dest);
+        System.out.println("Agent: " + id + ", val: " + a.getValue() + "   turned to node: " + next_dest);
+//        System.out.println("**" + is_choosen);
+//        System.out.println("\t\ton the way to: " + a.get_curr_fruit());
     }
 
 
