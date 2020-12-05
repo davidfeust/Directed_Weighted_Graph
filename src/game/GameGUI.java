@@ -166,7 +166,7 @@ public class GameGUI extends JFrame implements ActionListener {
         drawPokemons(g);
         drawGraph(g);
         drawAgants(g);
-//        drawTime(g);
+        drawTime(g);
         updateFrame();
     }
 
@@ -247,9 +247,10 @@ public class GameGUI extends JFrame implements ActionListener {
     private void drawTime(Graphics g) {
         g.setColor(Color.red);
 //        long t = _ar.getTime();
-        g.drawString("" + _ar.getTime(), 100, 100);
+//        g.drawString("" + _ar.getTime(), 100, 100);
+
         g.fillRoundRect(0, 50, (int) (_ar.getTime()), 10, 10, 10);
-        g.fillRoundRect(0, 50, (int) (_ar.getTime()), 10, 10, 10);
+//        g.fillRoundRect(0, 50, (int) (_ar.getTime()), 10, 10, 10);
     }
 
     /**

@@ -17,11 +17,13 @@ public class Arena {
     private directed_weighted_graph _graph;
     private List<Agent> _agents;
     private List<Pokemon> _pokemons;
-    private List<Pokemon> _pokemonsWithOwner;
+    private List<edge_data> _pokemonsWithOwner;
     private long _time;
-    private double _time_to_end;
-    private long _all_time;
-    private boolean _start = false;
+    private long _timeStart;
+
+//    private double _time_to_end;
+//    private long _all_time;
+//    private boolean _start = false;
 
     public Arena(game_service game) {
         updateGraph(game.toString());
@@ -33,13 +35,16 @@ public class Arena {
         _pokemonsWithOwner = new ArrayList<>();
     }
 
-    public void update(game_service game) {
-        updateGraph(game.toString());
-        Agent.set_graph(_graph);
-        _agents = new ArrayList<>();
+    public long get_timeStart() {
+        return _timeStart;
+    }
+
+    public void set_timeStart(long _timeStart) {
+        this._timeStart = _timeStart;
+    }
+
+    public synchronized void update(game_service game) {
         updateAgents(game.getAgents());
-        Pokemon.set_graph(_graph);
-        _pokemons = new ArrayList<>();
         updatePokemons(game.getPokemons());
         _time = game.timeToEnd();
 //        _time_to_end = (double) _time / _all_time;
@@ -49,28 +54,35 @@ public class Arena {
 //        }
     }
 
-    private void updatePokemons(String json) {
+    public void updatePokemons(String json) {
         JsonObject json_obj = JsonParser.parseString(json).getAsJsonObject();
         JsonArray pokemons_arr = json_obj.getAsJsonArray("Pokemons");
+
+//        if (_pokemons.isEmpty()) {
+        _pokemons.clear();
         for (JsonElement i : pokemons_arr) {
             JsonObject pok = i.getAsJsonObject().get("Pokemon").getAsJsonObject();
-            Point3D pos = new Point3D(pok.get("pos").getAsString());
-            Pokemon update_pok = null;
-            for (Pokemon j : _pokemons) {
-                if (pos.equals(j.get_pos())) {
-                    update_pok = j;
-                }
-            }
-            if (update_pok == null) {
-                update_pok = new Pokemon(pok);
-                _pokemons.add(update_pok);
-            } else {
-                update_pok.update(pok);
-            }
+            _pokemons.add(new Pokemon(pok));
         }
+//        } else {
+//            for (JsonElement i : pokemons_arr) {
+//                JsonObject pok = i.getAsJsonObject().get("Pokemon").getAsJsonObject();
+//                Point3D pos = new Point3D(pok.get("pos").getAsString());
+//                Pokemon update_pok = null;
+//                for (Pokemon j : _pokemons) {
+//                    if (pos.equals(j.get_pos())) {
+//                        update_pok = j;
+//                    }
+//                }
+//                if (update_pok == null) {
+//                    update_pok = new Pokemon(pok);
+//                    _pokemons.add(update_pok);
+//                }
+//            }
+//        }
     }
 
-    private void updateAgents(String json) {
+    public void updateAgents(String json) {
         JsonObject json_obj = JsonParser.parseString(json).getAsJsonObject();
         JsonArray agents_arr = json_obj.getAsJsonArray("Agents");
         for (JsonElement i : agents_arr) {
@@ -112,7 +124,7 @@ public class Arena {
         return _pokemons;
     }
 
-    public List<Pokemon> get_pokemonsWithOwner() {
+    public List<edge_data> get_pokemonsWithOwner() {
         return _pokemonsWithOwner;
     }
 

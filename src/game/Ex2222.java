@@ -3,12 +3,16 @@ package game;
 import Server.Game_Server_Ex2;
 import api.*;
 import com.google.gson.JsonParser;
+import okhttp3.internal.concurrent.Task;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class Ex2 {
+public class Ex2222 {
 
     private static GameGUI _win;
     private static Arena _ar;
@@ -29,29 +33,34 @@ public class Ex2 {
 
 
         game.startGame();
-        while (game.isRunning()) {
-            for (Agent a : _ar.getAgents()) {
-                if (a.get_path().isEmpty()) {
-                    createPath(game, a);
-                }
-                if (!a.isMoving()) {
-                    nextMove(game, a);
-                }
-//                System.out.println(_ar.get_pokemonsWithOwner());
-//                System.out.println(_ar.getPokemons());
-                game.move();
-                _ar.update(game);
-                _win.repaint();
+        _ar.set_timeStart(game.timeToEnd());
 
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+        ExecutorService pool = Executors.newFixedThreadPool(_ar.getAgents().size());
+        ArrayList<Runnable> run_arr = new ArrayList<>();
+
+        for (Agent a : _ar.getAgents()) {
+            run_arr.add(new AgentThread(game, a));
         }
-        System.out.println(game);
-        System.exit(0);
+        for (Runnable tmp_run : run_arr) {
+            pool.execute(tmp_run);
+        }
+        pool.shutdown();
+
+//        ArrayList<Thread> threads_arr = new ArrayList<>();
+//        for (Agent a : _ar.getAgents()) {
+//            Thread at = new Thread(new AgentThread(game, a));
+//            threads_arr.add(at);
+////            at.start();
+//        }
+//        for (Thread at : threads_arr) {
+//            at.start();
+////                at.join();
+//        }
+
+        while (!game.isRunning()) {
+            System.out.println(game);
+            System.exit(0);
+        }
     }
 
     public static void initArena(game_service game) {
@@ -108,7 +117,7 @@ public class Ex2 {
     }
 
 
-    private static void createPath(game_service game, Agent a) {
+    private synchronized static void createPath(game_service game, Agent a) {
         dw_graph_algorithms ga = new WDGraph_Algo();
         ga.init(_graph);
 
@@ -135,5 +144,40 @@ public class Ex2 {
 
         a.set_curr_fruit(min_pokemon);
         _ar.get_pokemonsWithOwner().add(min_pokemon.get_edge());
+    }
+
+    private static class AgentThread implements Runnable {
+
+        game_service _game;
+        Agent _a;
+
+        public AgentThread(game_service g, Agent a) {
+            _game = g;
+            _a = a;
+        }
+
+        @Override
+        public void run() {
+            while (_game.isRunning()) {
+                if (_a.get_path().isEmpty()) {
+                    createPath(_game, _a);
+                }
+                if (!_a.isMoving()) {
+                    nextMove(_game, _a);
+                }
+
+                _game.move();
+                _ar.update(_game);
+                synchronized (this) {
+                    _win.repaint();
+                }
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

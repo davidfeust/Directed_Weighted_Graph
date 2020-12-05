@@ -67,7 +67,7 @@ public class Pokemon {
         return "Pokemon{" +
                 "_value=" + _value +
                 ", _type=" + _type +
-//                ", _pos=" + _pos +
+                ", _pos=" + _pos +
                 ", _edge=" + _edge +
                 '}';
     }
