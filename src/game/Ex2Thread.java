@@ -12,7 +12,7 @@ import java.util.PriorityQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Ex2222 {
+public class Ex2Thread {
 
     private static GameGUI _win;
     private static Arena _ar;
