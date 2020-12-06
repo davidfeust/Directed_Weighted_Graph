@@ -12,7 +12,7 @@ public class Arena {
     private directed_weighted_graph _graph;
     private List<Agent> _agents;
     private List<Pokemon> _pokemons;
-    private List<edge_data> _pokemonsWithOwner;
+    private List<Pokemon> _pokemonsWithOwner;
     private long _time;
     private long _timeStart;
 
@@ -61,60 +61,16 @@ public class Arena {
             Pokemon pok = new Pokemon(p);
             new_list.add(pok);
         }
-//        if (_pokemons.isEmpty()) {
-//        _pokemons.clear();
-//        for (JsonElement i : pokemons_arr) {
-//            JsonObject pok = i.getAsJsonObject().get("Pokemon").getAsJsonObject();
-//            _pokemons.add(new Pokemon(pok));
-//        }
-//        } else {
         for (Pokemon i : _pokemons) {
             int index = new_list.indexOf(i);
             if (index != -1) {
                 new_list.set(index, i);
             }
         }
-        System.out.println(_pokemons);
 
         _pokemons.clear();
         _pokemons = new_list;
 
-        System.out.println(_pokemons);
-        System.out.println();
-
-
-//        List<Pokemon> new_list = new ArrayList<>();
-//        for (JsonElement i : pokemons_arr) {
-//            JsonObject p = i.getAsJsonObject().get("Pokemon").getAsJsonObject();
-//            Pokemon pok = new Pokemon(p);
-//            Pokemon update_pok = null;
-//            for (Pokemon j : _pokemons) {
-//                if (pok.equals(j)) {
-//                    update_pok = j;
-//                }
-//            }
-//            if (update_pok == null) {
-//                update_pok = pok;
-//                new_list.add(update_pok);
-//            } else {
-//                new_list.add(update_pok);
-//            }
-//        }
-//        _pokemons.clear();
-//        _pokemons = new_list;
-//        for (int i = 0; i < _pokemons.size(); i++) {
-//            Pokemon to_remove = null;
-//            for (Pokemon j : new_list) {
-//                if (_pokemons.get(i).equals(j)) {
-//                    to_remove = _pokemons.get(i);
-//                    break;
-//                }
-//            }
-//            if (to_remove == null)
-//                _pokemons.remove(i);
-//        }
-//        _pokemons.addAll(new_list);
-//        System.out.println(_pokemons);
     }
 
     public void updateAgents(String json) {
@@ -159,7 +115,7 @@ public class Arena {
         return _pokemons;
     }
 
-    public List<edge_data> get_pokemonsWithOwner() {
+    public List<Pokemon> get_pokemonsWithOwner() {
         return _pokemonsWithOwner;
     }
 

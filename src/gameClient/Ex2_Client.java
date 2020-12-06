@@ -90,6 +90,7 @@ public class Ex2_Client implements Runnable{
 	 */
 	private static int nextNode(directed_weighted_graph g, int src) {
 		int ans = -1;
+
 		Collection<edge_data> ee = g.getE(src);
 		Iterator<edge_data> itr = ee.iterator();
 		int s = ee.size();
@@ -99,6 +100,9 @@ public class Ex2_Client implements Runnable{
 		ans = itr.next().getDest();
 		return ans;
 	}
+
+
+
 	private void init(game_service game) {
 		String g = game.getGraph();
 		String fs = game.getPokemons();
