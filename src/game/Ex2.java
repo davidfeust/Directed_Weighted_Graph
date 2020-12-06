@@ -33,7 +33,10 @@ public class Ex2 {
         game.startGame();
         _ar.set_timeStart(game.timeToEnd());
 
+        int iteration = 0;
+
         while (game.isRunning()) {
+            iteration++;
             for (Agent a : _ar.getAgents()) {
                 if (a.get_path().isEmpty()) {
                     createPath(game, a);
@@ -41,15 +44,18 @@ public class Ex2 {
                 if (!a.isMoving()) {
                     nextMove(game, a);
                 }
-                game.move();
-                _ar.update(game);
-                _win.repaint();
-
-                try {
-                    Thread.sleep(2);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if (iteration == 630) {
+                    iteration=0;
+                    game.move();
+                    _ar.update(game);
+                    _win.repaint();
                 }
+
+//                try {
+//                    Thread.sleep(2);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
             }
         }
         System.out.println(game);
