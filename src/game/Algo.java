@@ -50,8 +50,8 @@ public class Algo {
         }
 
         long is_choosen = game.chooseNextEdge(id, next_dest);
-        System.out.println("Agent: " + id + ", val: " + a.getValue() + "   turned to node: " + next_dest);
-        System.out.println("\t\ton the way to: " + a.get_curr_fruit());
+//        System.out.println("Agent: " + id + ", val: " + a.getValue() + "   turned to node: " + next_dest);
+//        System.out.println("\t\ton the way to: " + a.get_curr_fruit());
 //        System.out.println("**" + is_choosen);
 //        System.out.println("&& " + game.getPokemons());
     }

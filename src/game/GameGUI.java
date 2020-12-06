@@ -12,15 +12,19 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameGUI extends JFrame implements ActionListener {
+ public class GameGUI extends JFrame  {//implements ActionListener
 
     private Arena _ar;
     private int _scenario_num;
     private Range2Range _w2f;
+    private game_service _game;
+    private Controller _ctrl;
 
-    public GameGUI(int scenario_num) {
+    public GameGUI(int scenario_num, game_service game) {
         super("Pockemons Game " + scenario_num);
+        _game = game;
         _scenario_num = scenario_num;
+        _ctrl = new Controller(_game);
         setSize(700, 400);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -36,7 +40,7 @@ public class GameGUI extends JFrame implements ActionListener {
         ArrayList<MenuItem> menuItems = new ArrayList<>();
         String s = "scenario number - ";
         for(int i =0; i<24; i++){menuItems.add(new MenuItem(s+i));}
-        for (MenuItem i :menuItems) { i.addActionListener(this);menu.add(i); }
+        for (MenuItem i :menuItems) { i.addActionListener(_ctrl);menu.add(i); }
 
 //        JLabel text = new JLabel("Agent 0");
 //        text.setBounds(50,100, 250,20);
@@ -51,7 +55,11 @@ public class GameGUI extends JFrame implements ActionListener {
         updateFrame();
     }
 
-    private void updateFrame() {
+     public void set_scenario_num(int _scenario_num) {
+         this._scenario_num = _scenario_num;
+     }
+
+     private void updateFrame() {
         Range rx = new Range(40, this.getWidth() - 40);
         Range ry = new Range(this.getHeight() - 40, 100);
         Range2D frame = new Range2D(rx, ry);
@@ -60,7 +68,7 @@ public class GameGUI extends JFrame implements ActionListener {
     }
 
     @Override
-    public void paint(Graphics g) {
+      public void paint(Graphics g) {
         int w = this.getWidth();
         int h = this.getHeight();
         Image buffer_image;
@@ -79,6 +87,7 @@ public class GameGUI extends JFrame implements ActionListener {
         drawTime(g);
         infoBox(g);
         updateFrame();
+
     }
 
     private void drawGraph(Graphics g) {
@@ -180,24 +189,13 @@ public class GameGUI extends JFrame implements ActionListener {
     }
 
 
-    /**
-     * Invoked when an action occurs.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String str = e.getActionCommand();
-        System.out.println("-----------------222222222222222222222------------------------" + str);
-        System.out.println();
-        System.out.println();
-        String[] strA = str.split("\\D+");
-//        Pattern p = Pattern.compile("numFound=\"([0-9]+)\"");
-//        Matcher m = p.matcher(str);
-//        String[] strA= {m.toString()};
-//        this._scenario_num = Integer.parseInt(strA[0]);0
-        System.out.println("-----------------------------------------" + strA[1]);
-//        Ex2b.
-//        Ex2b.main(strA);
-    }
+//    /**
+//     * Invoked when an action occurs.
+//     *
+//     * @param e the event to be processed
+//     */
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//
+//    }
 }

@@ -4,10 +4,6 @@ import Server.Game_Server_Ex2;
 import api.*;
 import com.google.gson.JsonParser;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
-
 import static game.Algo.*;
 
 public class Ex2 {
@@ -17,18 +13,21 @@ public class Ex2 {
     private static directed_weighted_graph _graph;
 
     public static void main(String[] args) {
-        play();
+        if (args.length >= 2) {
+            play(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+        } else {
+            play(23, 314699059);
+        }
     }
 
-    private static void play() {
-        final int scenario_num = 23;
+    private static void play(int scenario_num, int loginId) {
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
-        game.login(314699059);
+//        game.login(314699059);
 //        game.login(205474026);
         System.out.println("Game Info: " + game);
 
         initArena(game);
-        initGUI(scenario_num);
+        initGUI(scenario_num, game);
 
         game.startGame();
         _ar.set_timeStart(game.timeToEnd());
@@ -44,18 +43,18 @@ public class Ex2 {
                 if (!a.isMoving()) {
                     nextMove(game, a);
                 }
-                if (iteration == 630) {
-                    iteration=0;
-                    game.move();
-                    _ar.update(game);
-                    _win.repaint();
-                }
 
-//                try {
-//                    Thread.sleep(2);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
+            }
+            if (iteration == 580) {
+                iteration = 0;
+                game.move();
+//                _win.repaint();
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                _ar.update(game);
             }
         }
         System.out.println(game);
@@ -77,8 +76,12 @@ public class Ex2 {
         _ar.updateAgents(game.getAgents());
     }
 
-    private static void initGUI(int scenario_num) {
-        _win = new GameGUI(scenario_num);
+    private static void initGUI(int scenario_num, game_service game) {
+        if (_win == null) {
+            _win = new GameGUI(scenario_num, game);
+        } else {
+            _win.set_scenario_num(scenario_num);
+        }
         _win.set_ar(_ar);
         _win.setVisible(true);
     }

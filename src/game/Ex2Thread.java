@@ -28,7 +28,7 @@ public class Ex2Thread {
         System.out.println("Game Info: " + game);
 
         initArena(game);
-        initGUI(scenario_num);
+        initGUI(scenario_num, game);
 
         game.startGame();
         _ar.set_timeStart(game.timeToEnd());
@@ -55,8 +55,8 @@ public class Ex2Thread {
         _ar.updateAgents(game.getAgents());
     }
 
-    private static void initGUI(int scenario_num) {
-        _win = new GameGUI(scenario_num);
+    private static void initGUI(int scenario_num, game_service game) {
+        _win = new GameGUI(scenario_num, game);
         _win.set_ar(_ar);
         _win.setVisible(true);
     }
