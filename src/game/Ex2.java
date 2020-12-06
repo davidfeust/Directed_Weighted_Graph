@@ -19,7 +19,7 @@ public class Ex2 {
     }
 
     private static void play() {
-        final int scenario_num = 11;
+        final int scenario_num = 23;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
 //        game.login(314699059);
         System.out.println("Game Info: " + game);

@@ -21,6 +21,9 @@ public class Arena {
     private long _time;
     private long _timeStart;
 
+//    public long get_time() {
+//        return _time;
+//    }
 //    private double _time_to_end;
 //    private long _all_time;
 //    private boolean _start = false;

@@ -35,7 +35,7 @@ if (args.length>0)
         int id; //= Integer.parseInt(args[0]);
 //        int num = Integer.parseInt(args[0]);
 
-        final int scenario_num = 11;
+        final int scenario_num = 0;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
         System.out.println(game.toString());
 //        id = 314699059;
@@ -155,7 +155,7 @@ if (args.length>0)
         a.get_curr_path().remove(0);
         game.move();
         int dest;
-        dest = a.get_curr_path().get(0).getKey();
+//        dest = a.get_curr_path().get(0).getKey();
         System.out.println("##" + _counter++);
 
 //        a.get_curr_path();
@@ -164,15 +164,15 @@ if (args.length>0)
             _ar.remove_pokemonsWithOwner(a.get_curr_fruit());
         }
 //        a.setNextNode(dest);
-        long is_choosen = game.chooseNextEdge(a.getID(), dest);
-        System.out.println("**" + is_choosen);
+//        long is_choosen = game.chooseNextEdge(a.getID(), dest);
+//        System.out.println("**" + is_choosen);
         System.out.println(game.getAgents());
 //        if (is_choosen != -1) {
 //            game.move();
 //        } else {
 //        }
         updateArena(game);
-        System.out.println("Agent: " + a.getID() + ", val: " + a.getValue() + "   turned to node: " + dest);
+//        System.out.println("Agent: " + a.getID() + ", val: " + a.getValue() + "   turned to node: " + dest);
     }
 
     private static void createPath(game_service game, CL_Agent a) {
@@ -208,7 +208,7 @@ if (args.length>0)
         }
         List<node_data> path = ga.shortestPath(a.getSrcNode(), minPokemon.get_edge().getSrc());
         path.add(_graph.getNode(minPokemon.get_edge().getDest()));
-        a.set_curr_path(path);
+//        a.set_curr_path(path);
         a.set_curr_fruit(minPokemon);
         _ar.add_pokemonsWithOwner(minPokemon);
 //        System.out.println(path);

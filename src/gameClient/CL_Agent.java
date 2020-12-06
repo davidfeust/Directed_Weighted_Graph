@@ -7,6 +7,7 @@ import api.node_data;
 import gameClient.util.Point3D;
 import org.json.JSONObject;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
@@ -23,7 +24,7 @@ public class CL_Agent {
     private node_data _curr_node;
     private directed_weighted_graph _gg;
     private long _sg_dt;
-    private List<node_data> _curr_path;
+    private Queue<node_data> _curr_path=new LinkedList<>();
     private CL_Pokemon _curr_fruit=null;
 
 //    public Queue<node_data> _curr_pathQ=null;
@@ -140,11 +141,11 @@ public class CL_Agent {
         return this._value;
     }
 
-    public List<node_data> get_curr_path() {
+    public Queue<node_data> get_curr_path() {
         return _curr_path;
     }
 
-    public void set_curr_path(List<node_data> _curr_path) {
+    public void set_curr_path(Queue<node_data> _curr_path) {
         this._curr_path = _curr_path;
     }
 

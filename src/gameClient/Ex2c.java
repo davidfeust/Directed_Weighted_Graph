@@ -21,7 +21,7 @@ public class Ex2c {
     }
 
     private static void play() {
-        final int scenario_num = 11;
+        final int scenario_num = 23;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
         System.out.println("Game Info: " + game);
 
@@ -46,7 +46,8 @@ public class Ex2c {
                 _win.repaint();
 
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(10);
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -63,6 +64,7 @@ public class Ex2c {
 //            _ar.remove_pokemonsWithOwner(a.get_curr_fruit());
 //            createPath(game, a);
 //        }
+
         if (a.getNextNode() != -1) {
             return;
         }

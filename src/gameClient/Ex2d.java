@@ -21,7 +21,7 @@ public class Ex2d {
     }
 
     private static void play() {
-        final int scenario_num = 11;
+        final int scenario_num = 23;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
         System.out.println("Game Info: " + game);
 
@@ -37,7 +37,7 @@ public class Ex2d {
                 _win.repaint();
 
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
