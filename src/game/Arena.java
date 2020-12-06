@@ -59,27 +59,40 @@ public class Arena {
         JsonArray pokemons_arr = json_obj.getAsJsonArray("Pokemons");
 
 //        if (_pokemons.isEmpty()) {
-        _pokemons.clear();
-        for (JsonElement i : pokemons_arr) {
-            JsonObject pok = i.getAsJsonObject().get("Pokemon").getAsJsonObject();
-            _pokemons.add(new Pokemon(pok));
-        }
-//        } else {
-//            for (JsonElement i : pokemons_arr) {
-//                JsonObject pok = i.getAsJsonObject().get("Pokemon").getAsJsonObject();
-//                Point3D pos = new Point3D(pok.get("pos").getAsString());
-//                Pokemon update_pok = null;
-//                for (Pokemon j : _pokemons) {
-//                    if (pos.equals(j.get_pos())) {
-//                        update_pok = j;
-//                    }
-//                }
-//                if (update_pok == null) {
-//                    update_pok = new Pokemon(pok);
-//                    _pokemons.add(update_pok);
-//                }
-//            }
+//        _pokemons.clear();
+//        for (JsonElement i : pokemons_arr) {
+//            JsonObject pok = i.getAsJsonObject().get("Pokemon").getAsJsonObject();
+//            _pokemons.add(new Pokemon(pok));
 //        }
+//        } else {
+        List<Pokemon> new_list = new ArrayList<>();
+        for (JsonElement i : pokemons_arr) {
+            JsonObject p = i.getAsJsonObject().get("Pokemon").getAsJsonObject();
+            Pokemon pok = new Pokemon(p);
+            Pokemon update_pok = null;
+            for (Pokemon j : _pokemons) {
+                if (pok.equals(j)) {
+                    update_pok = j;
+                }
+            }
+            if (update_pok == null) {
+                update_pok = pok;
+                new_list.add(update_pok);
+            }
+        }
+        for (int i = 0; i < _pokemons.size(); i++) {
+            Pokemon to_remove = null;
+            for (Pokemon j : new_list) {
+                if (_pokemons.get(i).equals(j)) {
+                    to_remove = _pokemons.get(i);
+                    break;
+                }
+            }
+            if (to_remove == null)
+                _pokemons.remove(i);
+        }
+        _pokemons.addAll(new_list);
+        System.out.println(_pokemons);
     }
 
     public void updateAgents(String json) {
@@ -171,6 +184,6 @@ public class Arena {
     }
 
     public long getTime() {
-        return _time / 1000;
+        return _time;
     }
 }
