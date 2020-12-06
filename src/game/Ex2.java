@@ -23,7 +23,8 @@ public class Ex2 {
     private static void play() {
         final int scenario_num = 23;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
-//        game.login(314699059);
+        game.login(314699059);
+//        game.login(205474026);
         System.out.println("Game Info: " + game);
 
         initArena(game);
@@ -45,7 +46,7 @@ public class Ex2 {
                 _win.repaint();
 
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(2);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

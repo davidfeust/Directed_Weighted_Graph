@@ -62,7 +62,7 @@ public class Arena {
             new_list.add(pok);
         }
         for (Pokemon i : _pokemons) {
-            int index = new_list.indexOf(i);
+            int index = Algo.indexOfPok(new_list, i);
             if (index != -1) {
                 new_list.set(index, i);
             }
