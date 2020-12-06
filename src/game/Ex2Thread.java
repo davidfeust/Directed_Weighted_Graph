@@ -23,7 +23,7 @@ public class Ex2Thread {
     }
 
     private static void play() {
-        final int scenario_num = 11;
+        final int scenario_num = 23;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
 //        game.login(314699059);
         System.out.println("Game Info: " + game);
@@ -57,10 +57,10 @@ public class Ex2Thread {
 ////                at.join();
 //        }
 
-        while (!game.isRunning()) {
-            System.out.println(game);
-            System.exit(0);
-        }
+//        while (!game.isRunning()) {
+//            System.out.println(game);
+//            System.exit(0);
+//        }
     }
 
     public static void initArena(game_service game) {
@@ -103,6 +103,11 @@ public class Ex2Thread {
 
     private static void nextMove(game_service game, Agent a) {
         int id = a.getId();
+        if (!_ar.getPokemons().contains(a.get_curr_fruit())) {
+            createPath(game, a);
+            System.out.println("&&&&&&&&&&&&&&&&&&&&&7");
+            return;
+        }
 
         int next_dest = a.get_path().get(0).getKey();
         a.get_path().remove(0);
@@ -178,6 +183,8 @@ public class Ex2Thread {
                     e.printStackTrace();
                 }
             }
+            System.out.println(_game);
+            System.exit(0);
         }
     }
 }

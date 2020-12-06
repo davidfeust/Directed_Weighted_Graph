@@ -37,7 +37,7 @@ public class Ex2d {
                 _win.repaint();
 
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

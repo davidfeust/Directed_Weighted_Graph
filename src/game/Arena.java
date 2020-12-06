@@ -1,16 +1,11 @@
 package game;
 
 import api.*;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import game.util.*;
 
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Arena {
 
@@ -60,7 +55,12 @@ public class Arena {
     public void updatePokemons(String json) {
         JsonObject json_obj = JsonParser.parseString(json).getAsJsonObject();
         JsonArray pokemons_arr = json_obj.getAsJsonArray("Pokemons");
-
+        List<Pokemon> new_list = new ArrayList<>();
+        for (JsonElement i : pokemons_arr) {
+            JsonObject p = i.getAsJsonObject().get("Pokemon").getAsJsonObject();
+            Pokemon pok = new Pokemon(p);
+            new_list.add(pok);
+        }
 //        if (_pokemons.isEmpty()) {
 //        _pokemons.clear();
 //        for (JsonElement i : pokemons_arr) {
@@ -68,34 +68,53 @@ public class Arena {
 //            _pokemons.add(new Pokemon(pok));
 //        }
 //        } else {
-        List<Pokemon> new_list = new ArrayList<>();
-        for (JsonElement i : pokemons_arr) {
-            JsonObject p = i.getAsJsonObject().get("Pokemon").getAsJsonObject();
-            Pokemon pok = new Pokemon(p);
-            Pokemon update_pok = null;
-            for (Pokemon j : _pokemons) {
-                if (pok.equals(j)) {
-                    update_pok = j;
-                }
-            }
-            if (update_pok == null) {
-                update_pok = pok;
-                new_list.add(update_pok);
+        for (Pokemon i : _pokemons) {
+            int index = new_list.indexOf(i);
+            if (index != -1) {
+                new_list.set(index, i);
             }
         }
-        for (int i = 0; i < _pokemons.size(); i++) {
-            Pokemon to_remove = null;
-            for (Pokemon j : new_list) {
-                if (_pokemons.get(i).equals(j)) {
-                    to_remove = _pokemons.get(i);
-                    break;
-                }
-            }
-            if (to_remove == null)
-                _pokemons.remove(i);
-        }
-        _pokemons.addAll(new_list);
         System.out.println(_pokemons);
+
+        _pokemons.clear();
+        _pokemons = new_list;
+
+        System.out.println(_pokemons);
+        System.out.println();
+
+
+//        List<Pokemon> new_list = new ArrayList<>();
+//        for (JsonElement i : pokemons_arr) {
+//            JsonObject p = i.getAsJsonObject().get("Pokemon").getAsJsonObject();
+//            Pokemon pok = new Pokemon(p);
+//            Pokemon update_pok = null;
+//            for (Pokemon j : _pokemons) {
+//                if (pok.equals(j)) {
+//                    update_pok = j;
+//                }
+//            }
+//            if (update_pok == null) {
+//                update_pok = pok;
+//                new_list.add(update_pok);
+//            } else {
+//                new_list.add(update_pok);
+//            }
+//        }
+//        _pokemons.clear();
+//        _pokemons = new_list;
+//        for (int i = 0; i < _pokemons.size(); i++) {
+//            Pokemon to_remove = null;
+//            for (Pokemon j : new_list) {
+//                if (_pokemons.get(i).equals(j)) {
+//                    to_remove = _pokemons.get(i);
+//                    break;
+//                }
+//            }
+//            if (to_remove == null)
+//                _pokemons.remove(i);
+//        }
+//        _pokemons.addAll(new_list);
+//        System.out.println(_pokemons);
     }
 
     public void updateAgents(String json) {

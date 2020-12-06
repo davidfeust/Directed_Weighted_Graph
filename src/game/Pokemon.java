@@ -4,6 +4,8 @@ import api.*;
 import game.util.*;
 import com.google.gson.JsonObject;
 
+import java.util.Objects;
+
 public class Pokemon {
 
     private double _value;
@@ -65,10 +67,19 @@ public class Pokemon {
     @Override
     public String toString() {
         return "Pokemon{" +
-                "_value=" + _value +
-                ", _type=" + _type +
-                ", _pos=" + _pos +
+//                "_value=" + _value +
+//                ", _type=" + _type +
+//                ", _pos=" + _pos +
                 ", _edge=" + _edge +
-                '}';
+                '}' + super.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pokemon pokemon = (Pokemon) o;
+        return Double.compare(pokemon._value, _value) == 0 && _type == pokemon._type && _pos.equals(pokemon._pos) && _edge.equals(pokemon._edge);
+    }
+
 }
