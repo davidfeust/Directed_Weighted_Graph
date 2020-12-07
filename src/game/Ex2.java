@@ -16,13 +16,13 @@ public class Ex2 {
         if (args.length >= 2) {
             play(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         } else {
-            play(23, 314699059);
+            play(13, 314699059);
         }
     }
 
     private static void play(int scenario_num, int loginId) {
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
-//        game.login(314699059);
+//       game.login(314699059);
 //        game.login(205474026);
         System.out.println("Game Info: " + game);
 
@@ -45,15 +45,15 @@ public class Ex2 {
                 }
 
             }
-            if (iteration == 580) {
+            if (iteration == 600 ) {
                 iteration = 0;
                 game.move();
-//                _win.repaint();
-                try {
-                    Thread.sleep(2);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                _win.repaint();
+//                try {
+//                    Thread.sleep(2);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
                 _ar.update(game);
             }
         }
