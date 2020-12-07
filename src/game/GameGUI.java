@@ -143,7 +143,7 @@ public class GameGUI extends JFrame {//implements ActionListener
             int r = 8;
             geo_location fp = this._w2f.world2frame(loc);
 //            g.setColor(Color.red);
-            agentIcon(g, r, fp,a.getId());
+            agentIcon(g, r, fp, a.getId());
             String v = (int) a.getValue() + "";
             g.setColor(Color.BLACK);
             g.setFont(new Font(null, Font.BOLD, 12));
@@ -152,7 +152,7 @@ public class GameGUI extends JFrame {//implements ActionListener
     }
 
     public void agentIcon(Graphics g, int r, geo_location fp, int id) {
-        g.setColor(new Color(150,60,90));
+        g.setColor(new Color(150, 60, 90));
         g.fillOval((int) fp.x() - r, (int) fp.y() - r, 2 * r, 2 * r);
     }
 

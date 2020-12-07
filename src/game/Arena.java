@@ -17,13 +17,6 @@ public class Arena {
     private long _timeStart;
     private int _grade;
 
-//    public long get_time() {
-//        return _time;
-//    }
-//    private double _time_to_end;
-//    private long _all_time;
-//    private boolean _start = false;
-
     public Arena(game_service game) {
         updateGraph(game.toString());
         Agent.set_graph(_graph);

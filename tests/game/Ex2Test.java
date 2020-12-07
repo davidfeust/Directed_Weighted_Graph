@@ -2,11 +2,6 @@ package game;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Stack;
-import java.util.StringJoiner;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class Ex2Test {
 
     @Test

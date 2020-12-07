@@ -37,9 +37,8 @@ public class Algo {
 
     static void nextMove(game_service game, Agent a) {
         int id = a.getId();
-            if(indexOfPok(_ar.getPokemons(), a.get_curr_fruit())==-1){
-                createPath(game, a);
-//            System.out.println("&&&&&&&&&&&&&&&&&&&&&7");
+        if (indexOfPok(_ar.getPokemons(), a.get_curr_fruit()) == -1) {
+            createPath(game, a);
             return;
         }
 
@@ -66,7 +65,7 @@ public class Algo {
         double shortest_way = ga.shortestPathDist(a.getSrcNode(), n);
 
         for (Pokemon p : _ar.getPokemons()) {
-            if (indexOfPok(_ar.get_pokemonsWithOwner(),p)==-1){
+            if (indexOfPok(_ar.get_pokemonsWithOwner(), p) == -1) {
                 edge_data pokemon_edge = p.get_edge();
                 int s = pokemon_edge.getSrc();
                 double dist_src = ga.shortestPathDist(a.getSrcNode(), s);
@@ -85,11 +84,12 @@ public class Algo {
         a.set_curr_fruit(min_pokemon);
         _ar.get_pokemonsWithOwner().add(min_pokemon);
     }
+
     public static int indexOfPok(List<Pokemon> arr, Pokemon pok) {
-        int ans =-1;
+        int ans = -1;
         for (int i = 0; i < arr.size(); i++) {
-            if(arr.get(i).equals(pok)){
-                ans=i;
+            if (arr.get(i).equals(pok)) {
+                ans = i;
                 break;
             }
         }
