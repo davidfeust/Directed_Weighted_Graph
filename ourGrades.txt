@@ -1,0 +1,72 @@
+Game Info: {"GameServer":{"pokemons":1,"is_logged_in":true,"moves":0,"grade":0,"game_level":0,"max_user_level":-1,"id":205474026,"graph":"data/A0","agents":1}}
+Data uploaded for user:205474026
+Grade: 164	Moves: 9808
+Game Info: {"GameServer":{"pokemons":2,"is_logged_in":true,"moves":0,"grade":0,"game_level":1,"max_user_level":-1,"id":205474026,"graph":"data/A0","agents":1}}
+Data uploaded for user:205474026
+Grade: 766	Moves: 19662
+Game Info: {"GameServer":{"pokemons":3,"is_logged_in":true,"moves":0,"grade":0,"game_level":2,"max_user_level":-1,"id":205474026,"graph":"data/A0","agents":1}}
+Data uploaded for user:205474026
+Grade: 305	Moves: 9827
+Game Info: {"GameServer":{"pokemons":4,"is_logged_in":true,"moves":0,"grade":0,"game_level":3,"max_user_level":-1,"id":205474026,"graph":"data/A0","agents":1}}
+Data uploaded for user:205474026
+Grade: 1030	Moves: 19462
+Game Info: {"GameServer":{"pokemons":5,"is_logged_in":true,"moves":0,"grade":0,"game_level":4,"max_user_level":-1,"id":205474026,"graph":"data/A1","agents":1}}
+Data uploaded for user:205474026
+Grade: 277	Moves: 9647
+Game Info: {"GameServer":{"pokemons":6,"is_logged_in":true,"moves":0,"grade":0,"game_level":5,"max_user_level":-1,"id":205474026,"graph":"data/A1","agents":1}}
+Data uploaded for user:205474026
+Grade: 721	Moves: 18882
+Game Info: {"GameServer":{"pokemons":1,"is_logged_in":true,"moves":0,"grade":0,"game_level":6,"max_user_level":-1,"id":205474026,"graph":"data/A1","agents":1}}
+Grade: 85	Moves: 9769
+Data uploaded for user:205474026
+Game Info: {"GameServer":{"pokemons":2,"is_logged_in":true,"moves":0,"grade":0,"game_level":7,"max_user_level":-1,"id":205474026,"graph":"data/A1","agents":1}}
+Data uploaded for user:205474026
+Grade: 455	Moves: 19677
+Game Info: {"GameServer":{"pokemons":3,"is_logged_in":true,"moves":0,"grade":0,"game_level":8,"max_user_level":-1,"id":205474026,"graph":"data/A2","agents":1}}
+Data uploaded for user:205474026
+Grade: 88	Moves: 9676
+Game Info: {"GameServer":{"pokemons":4,"is_logged_in":true,"moves":0,"grade":0,"game_level":9,"max_user_level":-1,"id":205474026,"graph":"data/A2","agents":1}}
+Data uploaded for user:205474026
+Grade: 644	Moves: 19007
+Game Info: {"GameServer":{"pokemons":5,"is_logged_in":true,"moves":0,"grade":0,"game_level":10,"max_user_level":-1,"id":205474026,"graph":"data/A2","agents":1}}
+Data uploaded for user:205474026
+Grade: 241	Moves: 9463
+Game Info: {"GameServer":{"pokemons":6,"is_logged_in":true,"moves":0,"grade":0,"game_level":11,"max_user_level":-1,"id":205474026,"graph":"data/A2","agents":3}}
+Data uploaded for user:205474026
+Grade: 2560	Moves: 17798
+Game Info: {"GameServer":{"pokemons":1,"is_logged_in":true,"moves":0,"grade":0,"game_level":12,"max_user_level":-1,"id":205474026,"graph":"data/A3","agents":1}}
+Data uploaded for user:205474026
+Grade: 79	Moves: 9916
+Game Info: {"GameServer":{"pokemons":2,"is_logged_in":true,"moves":0,"grade":0,"game_level":13,"max_user_level":-1,"id":205474026,"graph":"data/A3","agents":2}}
+Data uploaded for user:205474026
+Grade: 327	Moves: 19002
+Game Info: {"GameServer":{"pokemons":3,"is_logged_in":true,"moves":0,"grade":0,"game_level":14,"max_user_level":-1,"id":205474026,"graph":"data/A3","agents":3}}
+Data uploaded for user:205474026
+Grade: 130	Moves: 9488
+Game Info: {"GameServer":{"pokemons":4,"is_logged_in":true,"moves":0,"grade":0,"game_level":15,"max_user_level":-1,"id":205474026,"graph":"data/A3","agents":1}}
+Data uploaded for user:205474026
+Grade: 521	Moves: 18586
+Game Info: {"GameServer":{"pokemons":5,"is_logged_in":true,"moves":0,"grade":0,"game_level":16,"max_user_level":-1,"id":205474026,"graph":"data/A4","agents":2}}
+Data uploaded for user:205474026
+Grade: 241	Moves: 9346
+Game Info: {"GameServer":{"pokemons":6,"is_logged_in":true,"moves":0,"grade":0,"game_level":17,"max_user_level":-1,"id":205474026,"graph":"data/A4","agents":3}}
+Data uploaded for user:205474026
+Grade: 1124	Moves: 17786
+Game Info: {"GameServer":{"pokemons":1,"is_logged_in":true,"moves":0,"grade":0,"game_level":18,"max_user_level":-1,"id":205474026,"graph":"data/A4","agents":1}}
+Data uploaded for user:205474026
+Grade: 52	Moves: 9512
+Game Info: {"GameServer":{"pokemons":2,"is_logged_in":true,"moves":0,"grade":0,"game_level":19,"max_user_level":-1,"id":205474026,"graph":"data/A4","agents":2}}
+Data uploaded for user:205474026
+Grade: 386	Moves: 18944
+Game Info: {"GameServer":{"pokemons":3,"is_logged_in":true,"moves":0,"grade":0,"game_level":20,"max_user_level":-1,"id":205474026,"graph":"data/A5","agents":3}}
+Data uploaded for user:205474026
+Grade: 262	Moves: 9423
+Game Info: {"GameServer":{"pokemons":4,"is_logged_in":true,"moves":0,"grade":0,"game_level":21,"max_user_level":-1,"id":205474026,"graph":"data/A5","agents":1}}
+Data uploaded for user:205474026
+Grade: 496	Moves: 18470
+Game Info: {"GameServer":{"pokemons":5,"is_logged_in":true,"moves":0,"grade":0,"game_level":22,"max_user_level":-1,"id":205474026,"graph":"data/A5","agents":2}}
+Data uploaded for user:205474026
+Grade: 224	Moves: 9366
+Game Info: {"GameServer":{"pokemons":6,"is_logged_in":true,"moves":0,"grade":0,"game_level":23,"max_user_level":-1,"id":205474026,"graph":"data/A5","agents":3}}
+Data uploaded for user:205474026
+Grade: 1505	Moves: 17151
