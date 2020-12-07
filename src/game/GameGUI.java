@@ -97,8 +97,6 @@ public class GameGUI extends JFrame {//implements ActionListener
         int radius = 5;
         geo_location pos = n.getLocation();
         geo_location fp = this._w2f.world2frame(pos);
-//        g.setColor(Color.BLUE);
-//        g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
         nodeIcon(g, radius, fp);
         g.setColor(Color.BLACK);
         g.drawString("" + n.getKey(), (int) fp.x(), (int) fp.y() - 2 * radius);
@@ -110,7 +108,8 @@ public class GameGUI extends JFrame {//implements ActionListener
         geo_location d = gg.getNode(e.getDest()).getLocation();
         geo_location s0 = this._w2f.world2frame(s);
         geo_location d0 = this._w2f.world2frame(d);
-        g.setColor(Color.blue);
+//        g.setColor(Color.blue);
+        g.setColor(new Color(0x000099));
         g.drawLine((int) s0.x(), (int) s0.y(), (int) d0.x(), (int) d0.y());
 //        	g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
     }
@@ -143,7 +142,8 @@ public class GameGUI extends JFrame {//implements ActionListener
             geo_location loc = a.getPos();
             int r = 8;
             geo_location fp = this._w2f.world2frame(loc);
-            g.setColor(Color.red);
+//            g.setColor(Color.red);
+            g.setColor(new Color(150,60,90));
             g.fillOval((int) fp.x() - r, (int) fp.y() - r, 2 * r, 2 * r);
             String v = (int) a.getValue() + "";
             g.setColor(Color.BLACK);
@@ -153,7 +153,8 @@ public class GameGUI extends JFrame {//implements ActionListener
     }
 
     private void drawTime(Graphics g) {
-        g.setColor(Color.red);
+//        g.setColor(Color.red);
+        g.setColor(new Color(0xCD1818));
         double ts = (double) _ar.get_timeStart();
         double curT = (double) _ar.getTime();
         double dt = ((ts - curT) / ts);
@@ -179,7 +180,8 @@ public class GameGUI extends JFrame {//implements ActionListener
     }
 
     public void nodeIcon(Graphics g, int radius, geo_location fp) {
-        g.setColor(Color.BLUE);
+//        g.setColor(Color.BLUE);
+        g.setColor(new Color(0x000099));
         g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
     }
 
