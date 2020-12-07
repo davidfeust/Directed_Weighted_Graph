@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class Ex2Test {
 
     @Test
-    void main() {
+    void runAllGames() {
         String[] args = new String[2];
         args[1] = "205474026";
         for (int i = 0; i < 24; i++) {

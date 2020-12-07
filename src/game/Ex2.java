@@ -30,7 +30,7 @@ public class Ex2 {
 
     private static void play(int scenario_num, int loginId) {
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
-//        game.login(loginId);
+        game.login(loginId);
         System.out.println("Game Info: " + game);
 
         initArena(game);
