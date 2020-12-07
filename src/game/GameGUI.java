@@ -13,18 +13,18 @@ import java.util.List;
 
 public class GameGUI extends JFrame {//implements ActionListener
 
-    private Arena _ar;
-    private int _scenario_num;
-    private Range2Range _w2f;
-    private game_service _game;
-    private Controller _ctrl;
+    private static Arena _ar;
+    private static int _scenario_num;
+    private static Range2Range _w2f;
+    private static game_service _game;
+    private static Controller _ctrl;
 
     public GameGUI(int scenario_num, game_service game) {
         super("Pockemons Game " + scenario_num);
         _game = game;
         _scenario_num = scenario_num;
         _ctrl = new Controller(_game);
-        setSize(1000, 500);
+        setSize(1000, 600);
         addWindowListener(_ctrl);
 
         MenuBar menuBar = new MenuBar();
@@ -54,7 +54,7 @@ public class GameGUI extends JFrame {//implements ActionListener
 
     private void updateFrame() {
         Range rx = new Range(40, this.getWidth() - 40);
-        Range ry = new Range(this.getHeight() - 40, 100);
+        Range ry = new Range(this.getHeight() - 40, 200);
         Range2D frame = new Range2D(rx, ry);
         directed_weighted_graph g = _ar.get_graph();
         _w2f = Arena.w2f(g, frame);
@@ -143,13 +143,17 @@ public class GameGUI extends JFrame {//implements ActionListener
             int r = 8;
             geo_location fp = this._w2f.world2frame(loc);
 //            g.setColor(Color.red);
-            g.setColor(new Color(150,60,90));
-            g.fillOval((int) fp.x() - r, (int) fp.y() - r, 2 * r, 2 * r);
+            agentIcon(g, r, fp,a.getId());
             String v = (int) a.getValue() + "";
             g.setColor(Color.BLACK);
             g.setFont(new Font(null, Font.BOLD, 12));
             g.drawString(v, (int) fp.x() + 10, (int) fp.y() + 10);
         }
+    }
+
+    public void agentIcon(Graphics g, int r, geo_location fp, int id) {
+        g.setColor(new Color(150,60,90));
+        g.fillOval((int) fp.x() - r, (int) fp.y() - r, 2 * r, 2 * r);
     }
 
     private void drawTime(Graphics g) {
