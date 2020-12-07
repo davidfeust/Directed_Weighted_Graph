@@ -15,6 +15,7 @@ public class Arena {
     private List<Pokemon> _pokemonsWithOwner;
     private long _time;
     private long _timeStart;
+    private int _grade;
 
 //    public long get_time() {
 //        return _time;
@@ -45,11 +46,8 @@ public class Arena {
         updateAgents(game.getAgents());
         updatePokemons(game.getPokemons());
         _time = game.timeToEnd();
-//        _time_to_end = (double) _time / _all_time;
-//        if (!_start) {
-//            _all_time = _time;
-//            _start = true;
-//        }
+        JsonObject json_obj = JsonParser.parseString(game.toString()).getAsJsonObject();
+        _grade = json_obj.getAsJsonObject("GameServer").get("grade").getAsInt();
     }
 
     public void updatePokemons(String json) {
@@ -163,5 +161,9 @@ public class Arena {
 
     public long getTime() {
         return _time;
+    }
+
+    public int getGrade() {
+        return _grade;
     }
 }

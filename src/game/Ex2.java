@@ -3,6 +3,7 @@ package game;
 import Server.Game_Server_Ex2;
 import api.*;
 import com.google.gson.JsonParser;
+import org.junit.jupiter.api.parallel.Execution;
 
 import static game.Algo.*;
 
@@ -13,17 +14,23 @@ public class Ex2 {
     private static directed_weighted_graph _graph;
 
     public static void main(String[] args) {
-        if (args.length >= 2) {
+//        if (args.length >= 2) {
+//            play(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+//        } else {
+////            play(1, 314699059);
+//            play(1, 205474026);
+//        }
+        try {
             play(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-        } else {
-            play(23, 314699059);
+        } catch (Exception e) {
+//            play(1, 314699059);
+            play(9, 205474026);
         }
     }
 
     private static void play(int scenario_num, int loginId) {
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
-//        game.login(314699059);
-//        game.login(205474026);
+//        game.login(loginId);
         System.out.println("Game Info: " + game);
 
         initArena(game);
@@ -48,7 +55,7 @@ public class Ex2 {
             if (iteration == 580) {
                 iteration = 0;
                 game.move();
-//                _win.repaint();
+                _win.repaint();
                 try {
                     Thread.sleep(2);
                 } catch (InterruptedException e) {
@@ -57,8 +64,9 @@ public class Ex2 {
                 _ar.update(game);
             }
         }
-        System.out.println(game);
-        System.exit(0);
+        int moves = JsonParser.parseString(game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
+        System.out.println("Grade: " + _ar.getGrade() + "\tMoves: " + moves);
+//        System.exit(0);
     }
 
     private static void initAlgo() {
@@ -72,13 +80,14 @@ public class Ex2 {
         initAlgo();
         int num_of_agents = JsonParser.parseString(game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("agents").getAsInt();
         placeAgents(num_of_agents, game);
-//        _ar.updatePokemons(game.getPokemons());
+        _ar.updatePokemons(game.getPokemons());
         _ar.updateAgents(game.getAgents());
     }
 
     private static void initGUI(int scenario_num, game_service game) {
         if (_win == null) {
             _win = new GameGUI(scenario_num, game);
+//            _win = new GameGUIPlus(scenario_num, game);
         } else {
             _win.set_scenario_num(scenario_num);
         }

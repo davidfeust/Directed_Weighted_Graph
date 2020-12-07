@@ -1,18 +1,17 @@
 package game;
 
 import api.*;
-import game.util.*;
+import game.util.Point3D;
+import game.util.Range;
+import game.util.Range2D;
+import game.util.Range2Range;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
- public class GameGUI extends JFrame  {//implements ActionListener
+public class GameGUI extends JFrame {//implements ActionListener
 
     private Arena _ar;
     private int _scenario_num;
@@ -25,13 +24,8 @@ import java.util.List;
         _game = game;
         _scenario_num = scenario_num;
         _ctrl = new Controller(_game);
-        setSize(700, 400);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                System.out.println("done");
-                System.exit(0);
-            }
-        });
+        setSize(1000, 500);
+        addWindowListener(_ctrl);
 
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Menu");
@@ -39,14 +33,13 @@ import java.util.List;
         this.setMenuBar(menuBar);
         ArrayList<MenuItem> menuItems = new ArrayList<>();
         String s = "scenario number - ";
-        for(int i =0; i<24; i++){menuItems.add(new MenuItem(s+i));}
-        for (MenuItem i :menuItems) { i.addActionListener(_ctrl);menu.add(i); }
-
-//        JLabel text = new JLabel("Agent 0");
-//        text.setBounds(50,100, 250,20);
-//        Container contentPane = this.getContentPane();
-//        contentPane.add(text);
-//        this.add(text);
+        for (int i = 0; i < 24; i++) {
+            menuItems.add(new MenuItem(s + i));
+        }
+        for (MenuItem i : menuItems) {
+            i.addActionListener(_ctrl);
+            menu.add(i);
+        }
     }
 
 
@@ -55,11 +48,11 @@ import java.util.List;
         updateFrame();
     }
 
-     public void set_scenario_num(int _scenario_num) {
-         this._scenario_num = _scenario_num;
-     }
+    public void set_scenario_num(int _scenario_num) {
+        this._scenario_num = _scenario_num;
+    }
 
-     private void updateFrame() {
+    private void updateFrame() {
         Range rx = new Range(40, this.getWidth() - 40);
         Range ry = new Range(this.getHeight() - 40, 100);
         Range2D frame = new Range2D(rx, ry);
@@ -68,7 +61,7 @@ import java.util.List;
     }
 
     @Override
-      public void paint(Graphics g) {
+    public void paint(Graphics g) {
         int w = this.getWidth();
         int h = this.getHeight();
         Image buffer_image;
@@ -104,20 +97,11 @@ import java.util.List;
         int radius = 5;
         geo_location pos = n.getLocation();
         geo_location fp = this._w2f.world2frame(pos);
-        g.setColor(Color.BLUE);
-        g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
+//        g.setColor(Color.BLUE);
+//        g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
+        nodeIcon(g, radius, fp);
         g.setColor(Color.BLACK);
         g.drawString("" + n.getKey(), (int) fp.x(), (int) fp.y() - 2 * radius);
-
-/*
-        ** for represent node with image:
-        try {
-            BufferedImage image_node = ImageIO.read(new File("src/ex2/img/node.jpg"));
-            g.drawImage(image_node, (int) fp.x() - r, (int) fp.y() - r, 5 * r, 5 * r, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-*/
     }
 
     private void drawEdge(edge_data e, Graphics g) {
@@ -132,10 +116,11 @@ import java.util.List;
     }
 
     private void drawPokemons(Graphics g) {
-        List<Pokemon> fs = _ar.getPokemons();
-        if (fs == null)
+        List<Pokemon> fs = new ArrayList<>(_ar.getPokemons());
+        if (fs.isEmpty())
             return;
         for (Pokemon f : fs) {
+            if (f == null) continue;
             Point3D c = f.get_pos();
             int radius = 10;
             g.setColor(Color.green);
@@ -144,8 +129,10 @@ import java.util.List;
             }
             if (c != null) {
                 geo_location fp = this._w2f.world2frame(c);
-                g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
-                //	g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
+                pokIcon(g, radius, fp);
+                g.setColor(Color.BLACK);
+                g.setFont(new Font(null, Font.BOLD, 12));
+                g.drawString("" + (int) f.get_value(), (int) fp.x(), (int) fp.y() + 2);
             }
         }
     }
@@ -160,42 +147,45 @@ import java.util.List;
             g.fillOval((int) fp.x() - r, (int) fp.y() - r, 2 * r, 2 * r);
             String v = (int) a.getValue() + "";
             g.setColor(Color.BLACK);
+            g.setFont(new Font(null, Font.BOLD, 12));
             g.drawString(v, (int) fp.x() + 10, (int) fp.y() + 10);
         }
     }
 
     private void drawTime(Graphics g) {
         g.setColor(Color.red);
-        double ts  = (double)_ar.get_timeStart();
-        double curT = (double)_ar.getTime();
-        double dt =  ((ts-curT)/ts);
+        double ts = (double) _ar.get_timeStart();
+        double curT = (double) _ar.getTime();
+        double dt = ((ts - curT) / ts);
         double w = getWidth();
-        g.fillRoundRect(10, 50, (int) (w*dt), 10, 10, 10);
+        g.fillRoundRect(10, 50, (int) (w * dt), 10, 10, 10);
     }
 
     private void infoBox(Graphics g) {
         g.setColor(Color.black);
         double w = getWidth();
         double h = getHeight();
-        int tx = (int) (w*0.02);
-        int ty = (int) (h*0.02);
-        int th = (int) (h*0.13);
-        int tw = (int) (w*0.13);
-        int currTime = (int) _ar.getTime()/1000;
-        g.fillRoundRect(tx, ty+60, tw, th, 10, 10);
+        int tx = (int) (w * 0.02);
+        int ty = (int) (h * 0.02);
+        int th = (int) (h * 0.16);
+        int tw = (int) (w * 0.13);
+        int currTime = (int) _ar.getTime() / 1000;
+        g.fillRoundRect(tx, ty + 60, tw, th, 10, 10);
         g.setColor(Color.white);
-        g.drawString("time to end: "+currTime,tx+10,ty+80 );
-        g.drawString("game level: "+this._scenario_num,tx+10,ty+100 );
+        g.setFont(new Font(null, Font.PLAIN, 13));
+        g.drawString("time to end: " + currTime, tx + 10, ty + 80);
+        g.drawString("game level: " + this._scenario_num, tx + 10, ty + 100);
+        g.drawString("score: " + _ar.getGrade(), tx + 10, ty + 120);
     }
 
+    public void nodeIcon(Graphics g, int radius, geo_location fp) {
+        g.setColor(Color.BLUE);
+        g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
+    }
 
-//    /**
-//     * Invoked when an action occurs.
-//     *
-//     * @param e the event to be processed
-//     */
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//
-//    }
+    public void pokIcon(Graphics g, int radius, geo_location fp) {
+        g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
+
+    }
+
 }
