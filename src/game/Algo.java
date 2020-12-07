@@ -16,22 +16,38 @@ public class Algo {
         dw_graph_algorithms ga = new WDGraph_Algo(_graph);
         ga.shortestPathDist(0, 0);
 
-        PriorityQueue<node_data> pq = new PriorityQueue<>(new Comparator<node_data>() {
+//        by distance :
+//        PriorityQueue<node_data> pq = new PriorityQueue<>(new Comparator<node_data>() {
+//            @Override
+//            public int compare(node_data o1, node_data o2) {
+//                return Double.compare(o1.getWeight(), o2.getWeight());
+//            }
+//        });
+//
+//        for (Pokemon i : _ar.getPokemons()) {
+//            pq.add(_graph.getNode(i.get_edge().getSrc()));
+//        }
+//        int div = pq.size() / num_of_agents;
+//        for (int i = 0; i < num_of_agents; i++) {
+//            game.addAgent(pq.peek().getKey());
+//            for (int j = 0; j < div; j++) {
+//                pq.poll();
+//            }
+//        }
+//    }
+
+
+//        by value :
+        PriorityQueue<Pokemon> pq = new PriorityQueue<>(new Comparator<Pokemon>() {
             @Override
-            public int compare(node_data o1, node_data o2) {
-                return Double.compare(o1.getWeight(), o2.getWeight());
+            public int compare(Pokemon o1, Pokemon o2) {
+                return Double.compare( o2.get_value(),o1.get_value());
             }
         });
 
-        for (Pokemon i : _ar.getPokemons()) {
-            pq.add(_graph.getNode(i.get_edge().getSrc()));
-        }
-        int div = pq.size() / num_of_agents;
+        pq.addAll(_ar.getPokemons());
         for (int i = 0; i < num_of_agents; i++) {
-            game.addAgent(pq.peek().getKey());
-            for (int j = 0; j < div; j++) {
-                pq.poll();
-            }
+            game.addAgent(pq.poll().get_edge().getSrc());
         }
     }
 

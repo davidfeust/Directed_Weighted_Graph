@@ -27,7 +27,7 @@ public class Ex2 {
             play(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         } catch (Exception e) {
 //            play(1, 314699059);
-            play(0, 205474026);
+            play(23, 205474026);
         }
     }
 
@@ -59,12 +59,12 @@ public class Ex2 {
                 }
 
             }
-            if (iteration == 3000) {
+            if (iteration == 600) {
                 iteration = 0;
                 _game.move();
                 _win.repaint();
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(2);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -111,7 +111,10 @@ public class GameGUI extends JFrame {//implements ActionListener
 //        g.setColor(Color.blue);
         g.setColor(new Color(0x000099));
         g.drawLine((int) s0.x(), (int) s0.y(), (int) d0.x(), (int) d0.y());
-//        	g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
+        g.setColor(Color.black);
+        g.setFont(new Font("Courier", Font.PLAIN,13));
+        String t = String.format("%.2f", e.getWeight());
+//        g.drawString(t, (int) (s0.x()-100), (int) s0.y());
     }
 
     private void drawPokemons(Graphics g) {

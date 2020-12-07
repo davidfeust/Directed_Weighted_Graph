@@ -1,4 +1,4 @@
-Game Info: {"GameServer":{"pokemons":1,"is_logged_in":true,"moves":0,"grade":0,"game_level":0,"max_user_level":-1,"id":205474026,"graph":"data/A0","agents":1}}
+"game_level":0
 Data uploaded for user:205474026
 Grade: 164	Moves: 9808
 Game Info: {"GameServer":{"pokemons":2,"is_logged_in":true,"moves":0,"grade":0,"game_level":1,"max_user_level":-1,"id":205474026,"graph":"data/A0","agents":1}}
