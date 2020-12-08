@@ -100,6 +100,10 @@ public class Agent {
         this._path = _path;
     }
 
+    public double get_speed() {
+        return _speed;
+    }
+
     @Override
     public String toString() {
         return "Agent{" +
@@ -111,4 +115,5 @@ public class Agent {
                 ", _edge=" + _edge +
                 '}';
     }
+
 }
