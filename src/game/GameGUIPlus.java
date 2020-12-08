@@ -22,8 +22,8 @@ public class GameGUIPlus extends GameGUI {
     private BufferedImage[] _image_agents;
     private BufferedImage[] _image_fruits;
 
-    public GameGUIPlus(int scenario_num, game_service game) {
-        super(scenario_num, game);
+    public GameGUIPlus(int scenario_num, Controller ctrl) {
+        super(scenario_num, ctrl);
         loadImg();
         setIconImage(_image_pok);
 

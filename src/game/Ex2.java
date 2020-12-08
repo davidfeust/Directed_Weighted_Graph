@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Ex2 extends WindowAdapter implements ActionListener {
+public class Ex2 {
 
     public static Runner _run;
     //    public static RunnerTreads _run;
@@ -25,29 +25,12 @@ public class Ex2 extends WindowAdapter implements ActionListener {
         _run = new Runner(_level, _id);
 //        _run = new RunnerTreads(_level, _id);
         _thread = new Thread(_run);
+        Controller ctrl = new Controller(_run, _thread);
+        GameGUIPlus win = new GameGUIPlus(_level, ctrl);
+        _run.set_win(win);
+        ctrl.set_win(win);
         _thread.start();
     }
 
-    @Override
-    public void windowClosing(WindowEvent e) {
-        System.out.println("done");
-        System.exit(0);
-    }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String str = e.getActionCommand();
-        String[] strA = str.split("\\D+");
-
-        game_service game = _run.get_game();
-        game.stopGame();
-        int moves = JsonParser.parseString(game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
-        System.out.println("Grade: " + _run.get_ar().getGrade() + "\tMoves: " + moves);
-        _thread.stop();
-
-        _run = new Runner(Integer.parseInt(strA[1]), _id);
-//        _run = new RunnerTreads(Integer.parseInt(strA[1]), _id);
-        _thread = new Thread(_run);
-        _thread.start();
-    }
 }
