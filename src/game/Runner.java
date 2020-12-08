@@ -3,7 +3,15 @@ package game;
 import Server.Game_Server_Ex2;
 import api.directed_weighted_graph;
 import api.game_service;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import javax.management.timer.Timer;
+import javax.swing.*;
+import java.awt.image.renderable.ParameterBlock;
+import java.sql.Time;
+import java.util.regex.Pattern;
 
 import static game.Algo.*;
 
@@ -37,7 +45,6 @@ public class Runner implements Runnable {
         _ar.set_timeStart(_game.timeToEnd());
 
         int iteration = 0;
-
         while (_game.isRunning()) {
             iteration++;
             for (Agent a : _ar.getAgents()) {

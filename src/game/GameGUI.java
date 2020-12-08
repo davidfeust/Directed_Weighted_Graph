@@ -120,7 +120,7 @@ public class GameGUI extends JFrame {//implements ActionListener
 //        g.drawString(t, x, y);
     }
 
-    public void drawPokemons(Graphics g, Arena ar,Range2Range _w2f) {
+    protected void drawPokemons(Graphics g, Arena ar,Range2Range _w2f) {
         List<Pokemon> fs = new ArrayList<>(_ar.getPokemons());
         if (fs.isEmpty())
             return;
@@ -157,7 +157,7 @@ public class GameGUI extends JFrame {//implements ActionListener
         }
     }
 
-    public void agentIcon(Graphics g, int r, geo_location fp, int id) {
+    protected void agentIcon(Graphics g, int r, geo_location fp, int id) {
         g.setColor(new Color(150, 60, 90));
         g.fillOval((int) fp.x() - r, (int) fp.y() - r, 2 * r, 2 * r);
     }
@@ -205,13 +205,13 @@ public class GameGUI extends JFrame {//implements ActionListener
         g.drawString("Score: " + _ar.getGrade(), tx + 10, ty + 120);
     }
 
-    public void nodeIcon(Graphics g, int radius, geo_location fp) {
+    protected void nodeIcon(Graphics g, int radius, geo_location fp) {
 //        g.setColor(Color.BLUE);
         g.setColor(new Color(0x000099));
         g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
     }
 
-    public void pokIcon(Graphics g, int radius, geo_location fp,int flag) {
+    protected void pokIcon(Graphics g, int radius, geo_location fp,int flag) {
         g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
 
     }

@@ -18,7 +18,7 @@ public class GameGUIPlus extends GameGUI {
 
     private BufferedImage _name;
     private BufferedImage _image_node;
-    private BufferedImage _image_pok;
+//    private BufferedImage _image_pok;
     private BufferedImage[] _image_agents;
     private BufferedImage[] _image_fruits;
 
@@ -60,17 +60,17 @@ public class GameGUIPlus extends GameGUI {
 //    }
 
     @Override
-    public void pokIcon(Graphics g, int radius, geo_location fp,int flag) {
+    protected void pokIcon(Graphics g, int radius, geo_location fp,int flag) {
         g.drawImage(_image_fruits[flag], (int) fp.x() - radius, (int) fp.y() - radius, 3 * radius, 3 * radius, null);
     }
 
     @Override
-    public void agentIcon(Graphics g, int r, geo_location fp, int id) {
+    protected void agentIcon(Graphics g, int r, geo_location fp, int id) {
         g.drawImage(_image_agents[(id % 4)], (int) fp.x() - r, (int) fp.y() - r - 1, 4 * r, 4 * r, null);
     }
 
     @Override
-    public void drawPokemons(Graphics g, Arena ar, Range2Range _w2f) {
+    protected void drawPokemons(Graphics g, Arena ar, Range2Range _w2f) {
         List<Pokemon> fs = new ArrayList<>(ar.getPokemons());
         int flag = 0;
         if (fs.isEmpty()) {
