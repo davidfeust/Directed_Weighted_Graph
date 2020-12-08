@@ -25,7 +25,7 @@ public class Ex2 {
         }
     }
 
-    private static void play(int scenario_num, int loginId) {
+    public static void play(int scenario_num, int loginId) {
         if (_game != null) {
             _game.stopGame();
             _win.setVisible(false);
@@ -67,7 +67,7 @@ public class Ex2 {
         }
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
         System.out.println("Grade: " + _ar.getGrade() + "\tMoves: " + moves);
-        System.exit(0);
+//        System.exit(0);
     }
 
     private static void initAlgo() {

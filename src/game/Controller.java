@@ -32,7 +32,8 @@ public class Controller extends WindowAdapter implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String str = e.getActionCommand();
         String[] strA = str.split("\\D+");
-//        _game.stopGame();
-        Ex2.main(new String[]{strA[1], "205474026"});
+        _game.stopGame();
+//        Ex2.main(new String[]{strA[1], "205474026"});
+        Ex2.play(Integer.parseInt(strA[1]), 205474026);
     }
 }

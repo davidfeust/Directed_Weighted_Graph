@@ -124,7 +124,7 @@ public class GameGUI extends JFrame {//implements ActionListener
         int x = (int) ((s0.x() + d0.x()) / 2);
         int y = (int) ((s0.y() + d0.y()) / 2) - 3;
         if (e.getSrc() < e.getDest()) y += 15;
-        g.drawString(t, x, y);
+//        g.drawString(t, x, y);
     }
 
     private void drawPokemons(Graphics g) {
