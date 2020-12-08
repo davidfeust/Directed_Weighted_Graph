@@ -68,7 +68,7 @@ public class GameGUI extends JFrame {//implements ActionListener
     @Override
     public void paintComponents(Graphics g) {
         drawGraph(g);
-        drawPokemons(g);
+        drawPokemons(g,_ar,_w2f);
         drawAgants(g);
         infoBox(g);
         drawTime(g);
@@ -120,7 +120,7 @@ public class GameGUI extends JFrame {//implements ActionListener
 //        g.drawString(t, x, y);
     }
 
-    private void drawPokemons(Graphics g) {
+    public void drawPokemons(Graphics g, Arena ar,Range2Range _w2f) {
         List<Pokemon> fs = new ArrayList<>(_ar.getPokemons());
         if (fs.isEmpty())
             return;
@@ -134,7 +134,7 @@ public class GameGUI extends JFrame {//implements ActionListener
             }
             if (c != null) {
                 geo_location fp = _w2f.world2frame(c);
-                pokIcon(g, radius, fp);
+                pokIcon(g, radius, fp,0);
                 g.setColor(Color.BLACK);
                 g.setFont(new Font(null, Font.BOLD, 12));
                 g.drawString("" + (int) f.get_value(), (int) fp.x(), (int) fp.y() + 2);
@@ -211,7 +211,7 @@ public class GameGUI extends JFrame {//implements ActionListener
         g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
     }
 
-    public void pokIcon(Graphics g, int radius, geo_location fp) {
+    public void pokIcon(Graphics g, int radius, geo_location fp,int flag) {
         g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
 
     }

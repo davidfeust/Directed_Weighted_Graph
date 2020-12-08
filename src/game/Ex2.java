@@ -13,7 +13,7 @@ public class Ex2 extends WindowAdapter implements ActionListener {
 
     public static Runner _run;
     private static Thread _thread;
-    private static int _id, _level = 0;
+    private static int _id, _level = 23;
 
     public static void main(String[] args) {
         try {
