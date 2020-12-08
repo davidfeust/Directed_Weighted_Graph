@@ -26,7 +26,7 @@ public class GameGUI extends JFrame {//implements ActionListener
         setSize(1000, 600);
 
         MenuBar menuBar = new MenuBar();
-        Menu menu = new Menu("Menu");
+        Menu menu = new Menu("Level");
         menuBar.add(menu);
         this.setMenuBar(menuBar);
         ArrayList<MenuItem> menuItems = new ArrayList<>();
