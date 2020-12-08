@@ -7,7 +7,7 @@ class RunnerTest {
     @Test
     void runAllGames() {
         for (int i = 0; i < 24; i++) {
-            Runner run = new Runner(i, 0);
+            Runner run = new Runner(i, 205474026);
             Thread thread = new Thread(run);
             Controller ctrl = new Controller(run, thread);
             GameGUIPlus win = new GameGUIPlus(i, ctrl);

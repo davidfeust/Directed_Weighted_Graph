@@ -3,15 +3,7 @@ package game;
 import Server.Game_Server_Ex2;
 import api.directed_weighted_graph;
 import api.game_service;
-import com.google.gson.*;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import javax.management.timer.Timer;
-import javax.swing.*;
-import java.awt.image.renderable.ParameterBlock;
-import java.sql.Time;
-import java.util.regex.Pattern;
+import com.google.gson.JsonParser;
 
 import static game.Algo.*;
 
@@ -37,7 +29,7 @@ public class Runner implements Runnable {
             _win.setVisible(false);
         }
         _game = Game_Server_Ex2.getServer(_scenario_num); // you have [0,23] games
-//        _game.login(_id);
+        _game.login(_id);
 //        System.out.println("Game Info: " + _game);
 
         initArena(_game);
