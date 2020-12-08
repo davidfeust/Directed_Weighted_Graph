@@ -20,13 +20,13 @@ public class GameGUIPlus extends GameGUI {
     public GameGUIPlus(int scenario_num, game_service game) {
         super(scenario_num, game);
         loadImg();
-//        setBackground(Color.BLACK);
+//        setBackground(Color.gray);
     }
 
     @Override
     public void paintComponents(Graphics g) {
         super.paintComponents(g);
-        g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 7, null);
+        g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
     }
 
     private void loadImg() {
@@ -56,6 +56,6 @@ public class GameGUIPlus extends GameGUI {
 
     @Override
     public void agentIcon(Graphics g, int r, geo_location fp, int id) {
-        g.drawImage(_image_agents[(id % 4)], (int) fp.x() - r, (int) fp.y() - r, 4 * r, 4 * r, null);
+        g.drawImage(_image_agents[(id % 4)], (int) fp.x() - r, (int) fp.y() - r -1, 4 * r, 4 * r, null);
     }
 }

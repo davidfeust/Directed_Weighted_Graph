@@ -41,7 +41,7 @@ public class Algo {
         PriorityQueue<Pokemon> pq = new PriorityQueue<>(new Comparator<Pokemon>() {
             @Override
             public int compare(Pokemon o1, Pokemon o2) {
-                return Double.compare( o2.get_value(),o1.get_value());
+                return Double.compare(o2.get_value(), o1.get_value());
             }
         });
 
@@ -112,6 +112,14 @@ public class Algo {
         return ans;
     }
 
+    public static boolean isClose2Pok(Agent ag) {
+        for (Pokemon i : _ar.getPokemons()) {
+            if (Math.abs(ag.getPos().distance(i.get_pos())) < 0.001) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static void set_ar(Arena _ar) {
         Algo._ar = _ar;

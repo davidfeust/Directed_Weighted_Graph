@@ -8,6 +8,7 @@ import game.util.Range2Range;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,19 +43,18 @@ public class GameGUI extends JFrame {//implements ActionListener
         }
     }
 
-
     public void set_ar(Arena _ar) {
-        this._ar = _ar;
+        GameGUI._ar = _ar;
         updateFrame();
     }
 
     public void set_scenario_num(int _scenario_num) {
-        this._scenario_num = _scenario_num;
+        GameGUI._scenario_num = _scenario_num;
     }
 
     private void updateFrame() {
         Range rx = new Range(40, this.getWidth() - 40);
-        Range ry = new Range(this.getHeight() - 40, 200);
+        Range ry = new Range(this.getHeight() - 40, 180);
         Range2D frame = new Range2D(rx, ry);
         directed_weighted_graph g = _ar.get_graph();
         _w2f = Arena.w2f(g, frame);
@@ -74,11 +74,11 @@ public class GameGUI extends JFrame {//implements ActionListener
 
     @Override
     public void paintComponents(Graphics g) {
-        drawPokemons(g);
         drawGraph(g);
+        drawPokemons(g);
         drawAgants(g);
-        drawTime(g);
         infoBox(g);
+        drawTime(g);
         updateFrame();
 
     }
@@ -94,27 +94,37 @@ public class GameGUI extends JFrame {//implements ActionListener
     }
 
     private void drawNode(node_data n, Graphics g) {
-        int radius = 5;
+        int radius = 6;
         geo_location pos = n.getLocation();
-        geo_location fp = this._w2f.world2frame(pos);
+        geo_location fp = _w2f.world2frame(pos);
         nodeIcon(g, radius, fp);
         g.setColor(Color.BLACK);
         g.drawString("" + n.getKey(), (int) fp.x(), (int) fp.y() - 2 * radius);
     }
 
     private void drawEdge(edge_data e, Graphics g) {
+        // get location info
         directed_weighted_graph gg = _ar.get_graph();
         geo_location s = gg.getNode(e.getSrc()).getLocation();
         geo_location d = gg.getNode(e.getDest()).getLocation();
-        geo_location s0 = this._w2f.world2frame(s);
-        geo_location d0 = this._w2f.world2frame(d);
-//        g.setColor(Color.blue);
+        geo_location s0 = _w2f.world2frame(s);
+        geo_location d0 = _w2f.world2frame(d);
+
+        // draw line edge
         g.setColor(new Color(0x000099));
-        g.drawLine((int) s0.x(), (int) s0.y(), (int) d0.x(), (int) d0.y());
+//        g.drawLine((int) s0.x(), (int) s0.y(), (int) d0.x(), (int) d0.y());
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(2));
+        g2.draw(new Line2D.Float((int) s0.x(), (int) s0.y(), (int) d0.x(), (int) d0.y()));
+
+        // print weight
         g.setColor(Color.black);
-        g.setFont(new Font("Courier", Font.PLAIN,13));
+        g.setFont(new Font("Courier", Font.PLAIN, 13));
         String t = String.format("%.2f", e.getWeight());
-//        g.drawString(t, (int) (s0.x()-100), (int) s0.y());
+        int x = (int) ((s0.x() + d0.x()) / 2);
+        int y = (int) ((s0.y() + d0.y()) / 2) - 3;
+        if (e.getSrc() < e.getDest()) y += 15;
+        g.drawString(t, x, y);
     }
 
     private void drawPokemons(Graphics g) {
@@ -130,7 +140,7 @@ public class GameGUI extends JFrame {//implements ActionListener
                 g.setColor(Color.orange);
             }
             if (c != null) {
-                geo_location fp = this._w2f.world2frame(c);
+                geo_location fp = _w2f.world2frame(c);
                 pokIcon(g, radius, fp);
                 g.setColor(Color.BLACK);
                 g.setFont(new Font(null, Font.BOLD, 12));
@@ -144,7 +154,7 @@ public class GameGUI extends JFrame {//implements ActionListener
         for (Agent a : rs) {
             geo_location loc = a.getPos();
             int r = 8;
-            geo_location fp = this._w2f.world2frame(loc);
+            geo_location fp = _w2f.world2frame(loc);
 //            g.setColor(Color.red);
             agentIcon(g, r, fp, a.getId());
             String v = (int) a.getValue() + "";
@@ -169,21 +179,37 @@ public class GameGUI extends JFrame {//implements ActionListener
         g.fillRoundRect(10, 50, (int) (w * dt), 10, 10, 10);
     }
 
+//    private void infoBox(Graphics g) {
+//        g.setColor(Color.black);
+//        double w = getWidth();
+//        double h = getHeight();
+//        int tx = (int) (w * 0.02);
+//        int ty = (int) (h * 0.02);
+//        int th = (int) (h * 0.16);
+//        int tw = (int) (w * 0.13);
+//        int currTime = (int) _ar.getTime() / 1000;
+//        g.fillRoundRect(tx, ty + 60, tw, th, 10, 10);
+//        g.setColor(Color.white);
+//        g.setFont(new Font(null, Font.PLAIN, 13));
+//        g.drawString("Time to end: " + currTime, tx + 10, ty + 80);
+//        g.drawString("Game level: " + this._scenario_num, tx + 10, ty + 100);
+//        g.drawString("Score: " + _ar.getGrade(), tx + 10, ty + 120);
+//    }
+
     private void infoBox(Graphics g) {
         g.setColor(Color.black);
-        double w = getWidth();
-        double h = getHeight();
+        int w = getWidth();
+        int h = getHeight();
         int tx = (int) (w * 0.02);
         int ty = (int) (h * 0.02);
-        int th = (int) (h * 0.16);
-        int tw = (int) (w * 0.13);
+        int th = (int) (h * 0.255);
         int currTime = (int) _ar.getTime() / 1000;
-        g.fillRoundRect(tx, ty + 60, tw, th, 10, 10);
+        g.fillRoundRect(0, 0, w, 50 + h / 6, 10, 10);
         g.setColor(Color.white);
         g.setFont(new Font(null, Font.PLAIN, 13));
-        g.drawString("time to end: " + currTime, tx + 10, ty + 80);
-        g.drawString("game level: " + this._scenario_num, tx + 10, ty + 100);
-        g.drawString("score: " + _ar.getGrade(), tx + 10, ty + 120);
+        g.drawString("Time to end: " + currTime, tx + 10, ty + 80);
+        g.drawString("Game level: " + _scenario_num, tx + 10, ty + 100);
+        g.drawString("Score: " + _ar.getGrade(), tx + 10, ty + 120);
     }
 
     public void nodeIcon(Graphics g, int radius, geo_location fp) {

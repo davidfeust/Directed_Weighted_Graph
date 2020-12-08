@@ -17,17 +17,11 @@ public class Ex2 {
     private static game_service _game;
 
     public static void main(String[] args) {
-//        if (args.length >= 2) {
-//            play(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-//        } else {
-////            play(1, 314699059);
-//            play(1, 205474026);
-//        }
         try {
             play(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         } catch (Exception e) {
 //            play(1, 314699059);
-            play(23, 205474026);
+            play(21, 205474026);
         }
     }
 
@@ -54,22 +48,22 @@ public class Ex2 {
                 if (a.get_path().isEmpty()) {
                     createPath(_game, a);
                 }
+                _ar.update(_game);
                 if (!a.isMoving()) {
                     nextMove(_game, a);
                 }
-
+                toMove(a);
             }
-            if (iteration == 600) {
-                iteration = 0;
-                _game.move();
-                _win.repaint();
-                try {
-                    Thread.sleep(2);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                _ar.update(_game);
-            }
+//            if (iteration == 100) {
+//                iteration = 0;
+//                _game.move();
+//                _win.repaint();
+//                try {
+//                    Thread.sleep(2);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
         System.out.println("Grade: " + _ar.getGrade() + "\tMoves: " + moves);
@@ -92,10 +86,31 @@ public class Ex2 {
     }
 
     private static void initGUI(int scenario_num, game_service game) {
-        _win = new GameGUI(scenario_num, game);
-//        _win = new GameGUIPlus(scenario_num, game);
+//        _win = new GameGUI(scenario_num, game);
+        _win = new GameGUIPlus(scenario_num, game);
         _win.set_ar(_ar);
         _win.setVisible(true);
         _win.repaint();
+    }
+
+    public static void toMove(Agent a) {
+        if (isClose2Pok(a)) {
+            _game.move();
+            _win.repaint();
+            try {
+                Thread.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            _game.move();
+            _win.repaint();
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

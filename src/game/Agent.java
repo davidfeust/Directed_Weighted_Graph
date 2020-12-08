@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Agent {
-    private int _id;
+    private int _id, _is_moving;
     private double _value, _speed;
     private geo_location _pos;
     private node_data _node;
@@ -32,6 +32,7 @@ public class Agent {
         _pos = new Point3D(agent.get("pos").getAsString());
         setNode(agent.get("src").getAsInt());
         setNextNode(agent.get("dest").getAsInt());
+        _is_moving = agent.get("dest").getAsInt();
     }
 
     public boolean setNextNode(int dest) {
@@ -55,7 +56,8 @@ public class Agent {
     }
 
     public boolean isMoving() {
-        return this._edge != null;
+//        return this._edge != null;
+        return _is_moving != -1;
     }
 
     public static void set_graph(directed_weighted_graph _graph) {
@@ -66,17 +68,12 @@ public class Agent {
         this._node = _graph.getNode(src);
     }
 
-
     public int getId() {
         return _id;
     }
 
     public double getValue() {
         return _value;
-    }
-
-    public double getSpeed() {
-        return _speed;
     }
 
     public geo_location getPos() {
