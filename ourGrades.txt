@@ -1,3 +1,54 @@
+Data uploaded for user:205474026
+Level: 0		Grade: 164	Moves: 1075868
+Data uploaded for user:205474026
+Level: 1		Grade: 755	Moves: 1670902
+Data uploaded for user:205474026
+Level: 2		Grade: 269	Moves: 616675
+Data uploaded for user:205474026
+Level: 3		Grade: 1195	Moves: 1285105
+Data uploaded for user:205474026
+Level: 4		Grade: 356	Moves: 585527
+Data uploaded for user:205474026
+Level: 5		Grade: 978	Moves: 1075530
+Data uploaded for user:205474026
+Level: 6		Grade: 85	Moves: 946828
+Data uploaded for user:205474026
+Level: 7		Grade: 504	Moves: 1582061
+Data uploaded for user:205474026
+Level: 8		Grade: 178	Moves: 735408
+Data uploaded for user:205474026
+Level: 9		Grade: 649	Moves: 1020796
+Data uploaded for user:205474026
+Level: 10		Grade: 234	Moves: 524126
+Data uploaded for user:205474026
+Level: 11		Grade: 2694	Moves: 287163
+Data uploaded for user:205474026
+Level: 12		Grade: 79	Moves: 983813
+Data uploaded for user:205474026
+Level: 13		Grade: 415	Moves: 686001
+Data uploaded for user:205474026
+Level: 14		Grade: 179	Moves: 188282
+Data uploaded for user:205474026
+Level: 15		Grade: 441	Moves: 1052487
+Data uploaded for user:205474026
+Level: 16		Grade: 269	Moves: 209611
+Data uploaded for user:205474026
+Level: 17		Grade: 1165	Moves: 276410
+Data uploaded for user:205474026
+Level: 18		Grade: 52	Moves: 983906
+Data uploaded for user:205474026
+Level: 19		Grade: 387	Moves: 764074
+Data uploaded for user:205474026
+Level: 20		Grade: 226	Moves: 175077
+Data uploaded for user:205474026
+Level: 21		Grade: 381	Moves: 1100685
+Data uploaded for user:205474026
+Level: 22		Grade: 161	Moves: 186272
+Data uploaded for user:205474026
+Level: 23		Grade: 1376	Moves: 187540
+
+
+
 "game_level":0
 Data uploaded for user:205474026
 Grade: 164	Moves: 9808
