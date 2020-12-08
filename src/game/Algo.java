@@ -78,11 +78,11 @@ public class Algo {
 
 
     synchronized static void createPath(game_service game, Agent a) {
-        if (a.get_speed() > 3) {
+//        if (a.get_speed() > 3) {
             createPathByDistance(game, a);
-        } else {
-            createPathByValDist(game, a);
-        }
+//        } else {
+//            createPathByValDist(game, a);
+//        }
     }
     //by value diveded by distance
 

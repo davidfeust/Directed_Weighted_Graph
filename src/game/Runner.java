@@ -29,7 +29,7 @@ public class Runner implements Runnable {
             _win.setVisible(false);
         }
         _game = Game_Server_Ex2.getServer(_scenario_num); // you have [0,23] games
-        _game.login(_id);
+//        _game.login(_id);
 //        System.out.println("Game Info: " + _game);
 
         initArena(_game);

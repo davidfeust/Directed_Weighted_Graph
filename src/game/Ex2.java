@@ -6,7 +6,7 @@ public class Ex2 {
     public static Runner _run;
     //    public static RunnerTreads _run;
     private static Thread _thread;
-    private static int _id = 205474026, _level = 23;
+    private static int _id = 205474026, _level = 19;
 
     public static void main(String[] args) {
         try {

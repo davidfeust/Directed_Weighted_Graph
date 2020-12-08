@@ -18,12 +18,15 @@ public class GameGUI extends JFrame {//implements ActionListener
     private static int _scenario_num;
     private static Range2Range _w2f;
     private static Controller _ctrl;
-    public GameGUI(){}
+
+    public GameGUI() {
+    }
+
     public GameGUI(int scenario_num, Controller ctrl) {
         super("Pockemons Game " + scenario_num);
 
 
-        _ctrl=ctrl;
+        _ctrl = ctrl;
         _scenario_num = scenario_num;
 //        Controller ctrl = new Controller();
         addWindowListener(ctrl);
@@ -42,6 +45,22 @@ public class GameGUI extends JFrame {//implements ActionListener
             i.addActionListener(ctrl);
             menu.add(i);
         }
+
+JButton getIdSnum = new JButton("Submit");
+        getIdSnum.addActionListener(_ctrl);
+
+        JTextField ID = new JTextField("Enter your ID");
+        ID.setPreferredSize(new Dimension(250,40));
+
+        this.add(getIdSnum);
+        this.add(ID);
+
+
+
+
+
+
+
     }
 
     public void set_ar(Arena _ar) {
@@ -59,6 +78,7 @@ public class GameGUI extends JFrame {//implements ActionListener
 
     @Override
     public void paint(Graphics g) {
+
         int w = this.getWidth();
         int h = this.getHeight();
         Image buffer_image;
@@ -72,10 +92,12 @@ public class GameGUI extends JFrame {//implements ActionListener
     @Override
     public void paintComponents(Graphics g) {
         drawGraph(g);
-        drawPokemons(g,_ar,_w2f);
+        drawPokemons(g, _ar, _w2f);
         drawAgants(g);
         infoBox(g);
         drawTime(g);
+
+        insertBox(g);
         updateFrame();
 
     }
@@ -125,7 +147,7 @@ public class GameGUI extends JFrame {//implements ActionListener
 
     }
 
-    protected void drawPokemons(Graphics g, Arena ar,Range2Range _w2f) {
+    protected void drawPokemons(Graphics g, Arena ar, Range2Range _w2f) {
         List<Pokemon> fs = new ArrayList<>(_ar.getPokemons());
         if (fs.isEmpty())
             return;
@@ -139,7 +161,7 @@ public class GameGUI extends JFrame {//implements ActionListener
             }
             if (c != null) {
                 geo_location fp = _w2f.world2frame(c);
-                pokIcon(g, radius, fp,0);
+                pokIcon(g, radius, fp, 0);
                 g.setColor(Color.BLACK);
                 g.setFont(new Font(null, Font.BOLD, 12));
                 g.drawString("" + (int) f.get_value(), (int) fp.x(), (int) fp.y() + 2);
@@ -187,7 +209,6 @@ public class GameGUI extends JFrame {//implements ActionListener
 //        int tw = (int) (w * 0.13);
 //        int currTime = (int) _ar.getTime() / 1000;
 //        g.fillRoundRect(tx, ty + 60, tw, th, 10, 10);
-//        g.setColor(Color.white);
 //        g.setFont(new Font(null, Font.PLAIN, 13));
 //        g.drawString("Time to end: " + currTime, tx + 10, ty + 80);
 //        g.drawString("Game level: " + this._scenario_num, tx + 10, ty + 100);
@@ -202,12 +223,41 @@ public class GameGUI extends JFrame {//implements ActionListener
         int ty = (int) (h * 0.02);
         int th = (int) (h * 0.255);
         int currTime = (int) _ar.getTime() / 1000;
-        g.fillRoundRect(0, 0, w, 50 + h / 6, 10, 10);
+//        g.fillRoundRect(0, 0, w, 50 + h / 6, 10, 10);
         g.setColor(Color.white);
         g.setFont(new Font(null, Font.PLAIN, 13));
         g.drawString("Time to end: " + currTime, tx + 10, ty + 80);
         g.drawString("Game level: " + _scenario_num, tx + 10, ty + 100);
         g.drawString("Score: " + _ar.getGrade(), tx + 10, ty + 120);
+    }
+
+    private void insertBox(Graphics g) {
+        int h = getHeight();
+        int w = getWidth();
+
+        JTextField tf;
+        JLabel l;
+        JButton b;
+//        g.fillOval(100,100,100,100);
+        tf = new JTextField("Enter scenario number");
+        tf.setCaretColor(new Color(152, 124, 80));
+        tf.setBounds(50 + w, 50 + h, 200, 200);
+        l = new JLabel("Enter ID");
+        l.setBounds(50, 100, 250, 20);
+        b = new JButton("Login");
+        b.setBounds(50, 150, 95, 30);
+        b.addActionListener(_ctrl);
+
+        add(b);
+        add(tf);
+        add(l);
+
+        l.setVisible(true);
+        tf.setVisible(true);
+        b.setVisible(true);
+
+
+//        setLayout(null);
     }
 
     protected void nodeIcon(Graphics g, int radius, geo_location fp) {
@@ -216,7 +266,7 @@ public class GameGUI extends JFrame {//implements ActionListener
         g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
     }
 
-    protected void pokIcon(Graphics g, int radius, geo_location fp,int flag) {
+    protected void pokIcon(Graphics g, int radius, geo_location fp, int flag) {
         g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
 
     }
