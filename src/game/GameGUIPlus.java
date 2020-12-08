@@ -25,6 +25,8 @@ public class GameGUIPlus extends GameGUI {
     public GameGUIPlus(int scenario_num, game_service game) {
         super(scenario_num, game);
         loadImg();
+        setIconImage(_image_pok);
+
 //        setBackground(Color.gray);
     }
 
@@ -47,7 +49,7 @@ public class GameGUIPlus extends GameGUI {
             }
 
             _image_node = ImageIO.read(new File("src/ex2/img/node.jpg"));
-//            _image_pok = ImageIO.read(new File("src/ex2/img/pokeball.png"));
+            _image_pok = ImageIO.read(new File("src/ex2/img/pokeball.png"));
             _name = ImageIO.read(new File("src/ex2/img/name.gif"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,7 +74,7 @@ public class GameGUIPlus extends GameGUI {
     @Override
     public void drawPokemons(Graphics g, Arena ar, Range2Range _w2f) {
         List<Pokemon> fs = new ArrayList<>(ar.getPokemons());
-        int flag = 0;
+        int flag = 2;
         if (fs.isEmpty()) {
             return;
         }
@@ -86,7 +88,7 @@ public class GameGUIPlus extends GameGUI {
 //                g.setColor(Color.orange);
             }
             if (f.get_value() > 10) {
-                    flag = 2;
+                    flag = 0;
             }
             if (c != null) {
                 geo_location fp = _w2f.world2frame(c);

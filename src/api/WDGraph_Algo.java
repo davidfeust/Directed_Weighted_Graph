@@ -161,8 +161,8 @@ public class WDGraph_Algo implements dw_graph_algorithms {
         if (Src != null && Dest != null) {
 
             // if the dest is the src itself
-            if (Src == Dest)
-                return 0;
+            // if (Src == Dest)
+            // return 0;
 
             this.initNodeWeight();
 
@@ -186,21 +186,21 @@ public class WDGraph_Algo implements dw_graph_algorithms {
         while (!q.isEmpty()) {
             node_data temp = q.poll();
 
-            boolean flag = true;
-
-            if (dest.getWeight() > 0) {
-                {
-                    while (flag) {
-                        flag = false;
-                        if (temp != null && temp.getWeight() > dest.getWeight()) {
-                            temp = q.poll();
-                            flag = true;
-                        }
-                    }
-                }
-            }
-
-            if (temp != null) {
+//            boolean flag = true;
+//
+//            if (dest.getWeight() > 0) {
+//                {
+//                    while (flag) {
+//                        flag = false;
+//                        if (temp != null && temp.getWeight() > dest.getWeight()) {
+//                            temp = q.poll();
+//                            flag = true;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            if (temp != null) {
                 for (edge_data i : _g.getE(temp.getKey())) {
                     double SEdge = i.getWeight() + temp.getWeight();
                     if (_g.getNode(i.getDest()).getWeight() == -1 || (_g.getNode(i.getDest()).getWeight() > SEdge )){//&& _g.getNode(i.getDest()).getWeight() != 0)
@@ -208,7 +208,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
                         _g.getNode(i.getDest()).setWeight(SEdge);
                     }
                 }
-            }
+//            }
         }
     }
 
