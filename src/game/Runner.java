@@ -17,10 +17,12 @@ import static game.Algo.*;
 
 public class Runner implements Runnable {
 
-    private static GameGUI _win;
-    private static Arena _ar;
-    private static directed_weighted_graph _graph;
-    private static game_service _game;
+
+
+    private GameGUI _win;// = new GameGUI();
+    private Arena _ar;
+    private directed_weighted_graph _graph;
+    private game_service _game;
     private int _scenario_num, _id;
 
     public Runner(int scenario_num, int id) {
@@ -39,14 +41,14 @@ public class Runner implements Runnable {
 //        System.out.println("Game Info: " + _game);
 
         initArena(_game);
-        initGUI(_scenario_num, _game);
+        initGUI();
 
         _game.startGame();
         _ar.set_timeStart(_game.timeToEnd());
 
         int iteration = 0;
         while (_game.isRunning()) {
-            iteration++;
+//            iteration++;
             for (Agent a : _ar.getAgents()) {
                 if (a.get_path().isEmpty()) {
                     createPath(_game, a);
@@ -55,12 +57,12 @@ public class Runner implements Runnable {
                 if (!a.isMoving()) {
                     nextMove(_game, a);
                 }
-                toMove(a);
+//                toMove(a);
             }
-//            if (iteration == 100) {
+//            if (iteration == 0) {
 //                iteration = 0;
-//                _game.move();
-//                _win.repaint();
+                _game.move();
+                _win.repaint();
 //                try {
 //                    Thread.sleep(2);
 //                } catch (InterruptedException e) {
@@ -88,32 +90,31 @@ public class Runner implements Runnable {
         _ar.updateAgents(game.getAgents());
     }
 
-    private void initGUI(int scenario_num, game_service game) {
+    private void initGUI() {
 //        _win = new GameGUI(scenario_num, game);
-        _win = new GameGUIPlus(scenario_num, game);
+//        _win = new GameGUIPlus(scenario_num, game);
         _win.set_ar(_ar);
         _win.setVisible(true);
-        _win.repaint();
     }
 
     public void toMove(Agent a) {
-        if (isClose2Pok(a)) {
-            _game.move();
-            _win.repaint();
-            try {
-                Thread.sleep(2);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } else {
-            _game.move();
-            _win.repaint();
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (isClose2Pok(a)) {
+//            _game.move();
+//            _win.repaint();
+//            try {
+//                Thread.sleep(2);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            _game.move();
+//            _win.repaint();
+//            try {
+//                Thread.sleep(50);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     public game_service get_game() {
@@ -122,5 +123,8 @@ public class Runner implements Runnable {
 
     public Arena get_ar() {
         return _ar;
+    }
+    public void set_win(GameGUI win) {
+        _win = win;
     }
 }

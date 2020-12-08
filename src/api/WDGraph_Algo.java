@@ -160,10 +160,6 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
         if (Src != null && Dest != null) {
 
-            // if the dest is the src itself
-            if (Src == Dest)
-                return 0;
-
             this.initNodeWeight();
 
             this.initNodeTag();
@@ -186,21 +182,6 @@ public class WDGraph_Algo implements dw_graph_algorithms {
         while (!q.isEmpty()) {
             node_data temp = q.poll();
 
-            boolean flag = true;
-
-            if (dest.getWeight() > 0) {
-                {
-                    while (flag) {
-                        flag = false;
-                        if (temp != null && temp.getWeight() > dest.getWeight()) {
-                            temp = q.poll();
-                            flag = true;
-                        }
-                    }
-                }
-            }
-
-            if (temp != null) {
                 for (edge_data i : _g.getE(temp.getKey())) {
                     double SEdge = i.getWeight() + temp.getWeight();
                     if (_g.getNode(i.getDest()).getWeight() == -1 || (_g.getNode(i.getDest()).getWeight() > SEdge )){//&& _g.getNode(i.getDest()).getWeight() != 0)
@@ -208,7 +189,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
                         _g.getNode(i.getDest()).setWeight(SEdge);
                     }
                 }
-            }
+//            }
         }
     }
 
@@ -223,7 +204,6 @@ public class WDGraph_Algo implements dw_graph_algorithms {
     private List<node_data> ShortPath(node_data dest, node_data src, List<node_data> ll, double distance) {
         // check if the nodes are even connected return an empty path if they dosnt
         // connected
-//        double index = distance;
         Stack<node_data> stack = new Stack<>();
 
         stack.add(dest);
@@ -231,7 +211,6 @@ public class WDGraph_Algo implements dw_graph_algorithms {
         temp.setTag(-2);
 
         while (temp != src) {
-//            for (edge_data i : _g.getE(temp.getKey())) {
             NodeData n_d = (NodeData) temp;
                 for(node_data i : n_d.getConnectedNode().values()){
                     if (n_d.getWeight() ==  i.getWeight()+_g.getEdge(i.getKey(),temp.getKey()).getWeight() && i.getTag() != -2  ) {//
@@ -241,8 +220,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
                         break;
 
                     }
-//                double edge = g.getEdge(i.getKey(), temp.getKey());
-//                    index = index - i.getWeight();
+
                 }
             }
 

@@ -17,11 +17,15 @@ public class GameGUI extends JFrame {//implements ActionListener
     private static Arena _ar;
     private static int _scenario_num;
     private static Range2Range _w2f;
-
-    public GameGUI(int scenario_num, game_service game) {
+    private static Controller _ctrl;
+    public GameGUI(){}
+    public GameGUI(int scenario_num, Controller ctrl) {
         super("Pockemons Game " + scenario_num);
+
+
+        _ctrl=ctrl;
         _scenario_num = scenario_num;
-        Ex2 ctrl = new Ex2();
+//        Controller ctrl = new Controller();
         addWindowListener(ctrl);
         setSize(1000, 600);
 
@@ -118,6 +122,7 @@ public class GameGUI extends JFrame {//implements ActionListener
         int y = (int) ((s0.y() + d0.y()) / 2) - 3;
         if (e.getSrc() < e.getDest()) y += 15;
 //        g.drawString(t, x, y);
+
     }
 
     protected void drawPokemons(Graphics g, Arena ar,Range2Range _w2f) {
