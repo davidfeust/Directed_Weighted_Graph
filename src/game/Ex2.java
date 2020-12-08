@@ -12,17 +12,15 @@ import java.awt.event.WindowEvent;
 public class Ex2 extends WindowAdapter implements ActionListener {
 
     public static Runner _run;
-//    public static RunnerTreads _run;
+    //    public static RunnerTreads _run;
     private static Thread _thread;
-    private static int _id, _level = 23;
+    private static int _id = 205474026, _level = 23;
 
     public static void main(String[] args) {
         try {
             _level = Integer.parseInt(args[0]);
             _id = Integer.parseInt(args[1]);
-        } catch (Exception e) {
-//            _level = 23;
-            _id = 205474026;
+        } catch (Exception ignored) {
         }
         _run = new Runner(_level, _id);
 //        _run = new RunnerTreads(_level, _id);

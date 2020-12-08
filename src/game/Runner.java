@@ -39,7 +39,7 @@ public class Runner implements Runnable {
         int iteration = 0;
 
         while (_game.isRunning()) {
-            iteration++;
+//            iteration++;
             for (Agent a : _ar.getAgents()) {
                 if (a.get_path().isEmpty()) {
                     createPath(_game, a);
@@ -48,11 +48,11 @@ public class Runner implements Runnable {
                 if (!a.isMoving()) {
                     nextMove(_game, a);
                 }
-                toMove(a);
+//                toMove(a);
             }
-//            if (iteration == 100) {
+//            if (iteration == 0) {
 //                iteration = 0;
-//                _game.move();
+                _game.move();
 //                _win.repaint();
 //                try {
 //                    Thread.sleep(2);
@@ -90,23 +90,23 @@ public class Runner implements Runnable {
     }
 
     public void toMove(Agent a) {
-        if (isClose2Pok(a)) {
-            _game.move();
-            _win.repaint();
-            try {
-                Thread.sleep(2);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } else {
-            _game.move();
-            _win.repaint();
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (isClose2Pok(a)) {
+//            _game.move();
+//            _win.repaint();
+//            try {
+//                Thread.sleep(2);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            _game.move();
+//            _win.repaint();
+//            try {
+//                Thread.sleep(50);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     public game_service get_game() {
