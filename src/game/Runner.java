@@ -62,7 +62,7 @@ public class Runner implements Runnable {
 //            }
         }
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
-        System.out.println("Grade: " + _ar.getGrade() + "\tMoves: " + moves);
+        System.out.println("Level: " + _scenario_num + "\t\tGrade: " + _ar.getGrade() + "\tMoves: " + moves);
 //        System.exit(0);
     }
 
