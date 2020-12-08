@@ -2,7 +2,7 @@ package game;
 
 import org.junit.jupiter.api.Test;
 
-class Ex2Test {
+class RunnerTest {
 
     @Test
     void runAllGames() {
@@ -10,7 +10,7 @@ class Ex2Test {
         args[1] = "205474026";
         for (int i = 0; i < 24; i++) {
             args[0] = i + "";
-            Ex2.main(args);
+//            Ex2.main(args);
         }
     }
 }

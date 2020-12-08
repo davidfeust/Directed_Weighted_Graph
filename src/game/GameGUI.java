@@ -17,16 +17,13 @@ public class GameGUI extends JFrame {//implements ActionListener
     private static Arena _ar;
     private static int _scenario_num;
     private static Range2Range _w2f;
-    private static game_service _game;
-    private static Controller _ctrl;
 
     public GameGUI(int scenario_num, game_service game) {
         super("Pockemons Game " + scenario_num);
-        _game = game;
         _scenario_num = scenario_num;
-        _ctrl = new Controller(_game);
+        Ex2 ctrl = new Ex2();
+        addWindowListener(ctrl);
         setSize(1000, 600);
-        addWindowListener(_ctrl);
 
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Menu");
@@ -38,7 +35,7 @@ public class GameGUI extends JFrame {//implements ActionListener
             menuItems.add(new MenuItem(s + i));
         }
         for (MenuItem i : menuItems) {
-            i.addActionListener(_ctrl);
+            i.addActionListener(ctrl);
             menu.add(i);
         }
     }
@@ -46,10 +43,6 @@ public class GameGUI extends JFrame {//implements ActionListener
     public void set_ar(Arena _ar) {
         GameGUI._ar = _ar;
         updateFrame();
-    }
-
-    public void set_scenario_num(int _scenario_num) {
-        GameGUI._scenario_num = _scenario_num;
     }
 
     private void updateFrame() {
