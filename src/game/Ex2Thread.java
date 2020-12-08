@@ -83,7 +83,6 @@ public class Ex2Thread {
                 }
 
                 _game.move();
-                _ar.update(_game);
                 synchronized (this) {
                     _win.repaint();
                 }
