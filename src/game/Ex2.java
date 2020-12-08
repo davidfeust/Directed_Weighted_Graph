@@ -10,8 +10,10 @@ public class Ex2 {
 
     public static void main(String[] args) {
         try {
-            _level = Integer.parseInt(args[0]);
-            _id = Integer.parseInt(args[1]);
+
+            _id = Integer.parseInt(args[0]);
+            _level = Integer.parseInt(args[1]);
+
         } catch (Exception ignored) {
         }
         _run = new Runner(_level, _id);

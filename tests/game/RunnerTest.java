@@ -7,14 +7,37 @@ class RunnerTest {
     @Test
     void runAllGames() {
         for (int i = 0; i < 24; i++) {
-            Thread t = new Thread(new Runner(i, 205474026));
-            t.start();
+            Runner run = new Runner(i, 0);
+            Thread thread = new Thread(run);
+            Controller ctrl = new Controller(run, thread);
+            GameGUIPlus win = new GameGUIPlus(i, ctrl);
+            run.set_win(win);
+            ctrl.set_win(win);
+            thread.start();
             try {
-                t.join();
+                thread.join();
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }
-            t.stop();
+            thread.stop();
+        }
+    }
+
+    @Test
+    void runAll() {
+        for (int i = 0; i < 24; i++) {
+            Runner run = new Runner(i, 0);
+            Thread thread = new Thread(run);
+            Controller ctrl = new Controller(run, thread);
+            GameGUIPlus win = new GameGUIPlus(i, ctrl);
+            run.set_win(win);
+            ctrl.set_win(win);
+            thread.start();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

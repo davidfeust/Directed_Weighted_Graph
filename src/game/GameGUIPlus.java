@@ -40,17 +40,21 @@ public class GameGUIPlus extends GameGUI {
         try {
             _image_agents = new BufferedImage[4];
             for (int i = 0; i < 4; i++) {
-                _image_agents[i] = ImageIO.read(new File("src/ex2/img/agent" + (i + 1) + ".png"));
+//                _image_agents[i] = ImageIO.read(new File("src/ex2/img/agent" + (i + 1) + ".png"));
+                _image_agents[i] = ImageIO.read(new File("img/agent" + (i + 1) + ".png"));
             }
 
             _image_fruits = new BufferedImage[3];
             for (int i = 0; i < 3; i++) {
-                _image_fruits[i] = ImageIO.read(new File("src/ex2/img/fruit" + (i + 1) + ".png"));
+//                _image_fruits[i] = ImageIO.read(new File("src/ex2/img/fruit" + (i + 1) + ".png"));
+                _image_fruits[i] = ImageIO.read(new File("img/fruit" + (i + 1) + ".png"));
             }
-
-            _image_node = ImageIO.read(new File("src/ex2/img/node.jpg"));
-            _image_pok = ImageIO.read(new File("src/ex2/img/pokeball.png"));
-            _name = ImageIO.read(new File("src/ex2/img/name.gif"));
+//            _image_node = ImageIO.read(new File("src/ex2/img/node.jpg"));
+//            _image_pok = ImageIO.read(new File("src/ex2/img/pokeball.png"));
+//            _name = ImageIO.read(new File("src/ex2/img/name.gif"));
+            _image_node = ImageIO.read(new File("img/node.jpg"));
+            _image_pok = ImageIO.read(new File("img/pokeball.png"));
+            _name = ImageIO.read(new File("img/name.gif"));
         } catch (IOException e) {
             e.printStackTrace();
         }
