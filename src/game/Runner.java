@@ -88,7 +88,6 @@ public class Runner implements Runnable {
 //        _win = new GameGUIPlus(scenario_num, game);
         _win.set_ar(_ar);
         _win.setVisible(true);
-        _win.repaint();
     }
 
     public void toMove(Agent a) {
