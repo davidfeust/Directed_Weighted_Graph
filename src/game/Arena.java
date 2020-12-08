@@ -1,11 +1,17 @@
 package game;
 
 import api.*;
-import com.google.gson.*;
-import game.util.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import game.util.Range;
+import game.util.Range2D;
+import game.util.Range2Range;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Arena {
 
@@ -58,10 +64,8 @@ public class Arena {
                 new_list.set(index, i);
             }
         }
-
         _pokemons.clear();
         _pokemons = new_list;
-
     }
 
     public void updateAgents(String json) {
