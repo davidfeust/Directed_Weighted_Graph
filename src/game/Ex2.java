@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 public class Ex2 extends WindowAdapter implements ActionListener {
 
     public static Runner _run;
+//    public static RunnerTreads _run;
     private static Thread _thread;
     private static int _id, _level = 23;
 
@@ -24,6 +25,7 @@ public class Ex2 extends WindowAdapter implements ActionListener {
             _id = 205474026;
         }
         _run = new Runner(_level, _id);
+//        _run = new RunnerTreads(_level, _id);
         _thread = new Thread(_run);
         _thread.start();
     }
@@ -45,8 +47,9 @@ public class Ex2 extends WindowAdapter implements ActionListener {
         System.out.println("Grade: " + _run.get_ar().getGrade() + "\tMoves: " + moves);
         _thread.stop();
 
-        Runner run = new Runner(Integer.parseInt(strA[1]), _id);
-        _thread = new Thread(run);
+        _run = new Runner(Integer.parseInt(strA[1]), _id);
+//        _run = new RunnerTreads(Integer.parseInt(strA[1]), _id);
+        _thread = new Thread(_run);
         _thread.start();
     }
 }
