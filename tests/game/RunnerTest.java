@@ -6,11 +6,15 @@ class RunnerTest {
 
     @Test
     void runAllGames() {
-        String[] args = new String[2];
-        args[1] = "205474026";
         for (int i = 0; i < 24; i++) {
-            args[0] = i + "";
-//            Ex2.main(args);
+            Thread t = new Thread(new Runner(i, 205474026));
+            t.start();
+            try {
+                t.join();
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+            t.stop();
         }
     }
 }
