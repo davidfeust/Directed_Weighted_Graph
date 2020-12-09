@@ -3,7 +3,7 @@ package game;
 
 public class Ex2 {
 
-    private static int _id = 205474026, _level = 19;
+    private static int _id = 205474026, _level = 9;
 
     public static void main(String[] args) {
         try {

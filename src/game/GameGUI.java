@@ -213,7 +213,7 @@ public class GameGUI extends JFrame {//implements ActionListener
         int ty = (int) (h * 0.02);
         int th = (int) (h * 0.255);
         int currTime = (int) _ar.getTime() / 1000;
-//        g.fillRoundRect(0, 0, w, 50 + h / 6, 10, 10);
+       g.fillRoundRect(0, 0, w, 50 + h / 6, 10, 10);
         g.setColor(Color.white);
         g.setFont(new Font(null, Font.PLAIN, 13));
         g.drawString("Time to end: " + currTime, tx + 10, ty + 80);

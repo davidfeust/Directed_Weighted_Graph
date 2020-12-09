@@ -78,6 +78,7 @@ public class Algo {
 
     synchronized static void createPath(game_service game, Agent a) {
 //        if (a.get_speed() > 3) {
+
         createPathByDistance(game, a);
 //        } else {
 //            createPathByValDist(game, a);

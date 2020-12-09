@@ -20,12 +20,13 @@ public class GameGUIPlus extends GameGUI {
     private BufferedImage _image_pok;
     private BufferedImage[] _image_agents;
     private BufferedImage[] _image_fruits;
+    private BufferedImage[] _image_sound;
 
     public GameGUIPlus(int scenario_num, Controller ctrl) {
         super(scenario_num, ctrl);
         loadImg();
         setIconImage(_image_pok);
-//        sound();
+        sound();
 
 //        setBackground(Color.gray);
     }
@@ -33,8 +34,10 @@ public class GameGUIPlus extends GameGUI {
     @Override
     public void paintComponents(Graphics g) {
         super.paintComponents(g);
-        g.drawImage(_name,
-                (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
+        g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
+        g.drawImage(_image_sound[0], getWidth()/40, (int) (getHeight()-getHeight()/15), getWidth() / 30, getHeight() / 30, null);
+        g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
+
     }
 
     private void loadImg() {
@@ -48,7 +51,10 @@ public class GameGUIPlus extends GameGUI {
             for (int i = 0; i < 3; i++) {
                 _image_fruits[i] = ImageIO.read(new File("img/fruit" + (i + 1) + ".png"));
             }
-//            _image_node = ImageIO.read(new File("img/node.jpg"));
+            _image_sound = new BufferedImage[2];
+            _image_sound[0] = ImageIO.read(new File("img/mute.png"));
+            _image_sound[1] = ImageIO.read(new File("img/unmute.png"));
+
             _image_pok = ImageIO.read(new File("img/pokeball.png"));
             _name = ImageIO.read(new File("img/name.gif"));
         } catch (IOException e) {
