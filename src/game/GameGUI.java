@@ -6,9 +6,12 @@ import game.util.Range;
 import game.util.Range2D;
 import game.util.Range2Range;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,7 @@ public class GameGUI extends JFrame {//implements ActionListener
 
     public GameGUI(int scenario_num, Controller ctrl) {
 //        super("Pockemons Game " + scenario_num);
+
         _ctrl = ctrl;
         _scenario_num = scenario_num;
 //        Controller ctrl = new Controller();
@@ -49,6 +53,11 @@ public class GameGUI extends JFrame {//implements ActionListener
 
         this.add(getIdSnum);
         this.add(ID);
+
+
+
+
+
 
 
     }
@@ -258,6 +267,7 @@ public class GameGUI extends JFrame {//implements ActionListener
 
     protected void pokIcon(Graphics g, int radius, geo_location fp, int flag) {
         g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
+
     }
 
     public void set_scenario_num(int _scenario_num) {

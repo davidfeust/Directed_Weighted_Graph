@@ -5,6 +5,7 @@ import game.util.Point3D;
 import game.util.Range2Range;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,6 +26,7 @@ public class GameGUIPlus extends GameGUI {
         super(scenario_num, ctrl);
         loadImg();
         setIconImage(_image_pok);
+        sound();
 
 //        setBackground(Color.gray);
     }
@@ -98,6 +100,18 @@ public class GameGUIPlus extends GameGUI {
                 g.setFont(new Font(null, Font.BOLD, 12));
                 g.drawString("" + (int) f.get_value(), (int) fp.x(), (int) fp.y() + 2);
             }
+        }
+    }
+
+    public void sound() {
+        try {
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream ais = AudioSystem.getAudioInputStream(new File("songs/pokemonSong.wav"));
+            clip.open(ais);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException ex) {
+            ex.printStackTrace();
         }
     }
 
