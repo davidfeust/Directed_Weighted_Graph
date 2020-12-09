@@ -262,6 +262,19 @@ public class GameGUI extends JFrame {//implements ActionListener
         g.drawString("Time to end: " + currTime, tx + 10, ty + 80);
         g.drawString("Game level: " + _scenario_num, tx + 10, ty + 100);
         g.drawString("Score: " + _ar.getGrade(), tx + 10, ty + 120);
+
+//        JButton getIdSnum = new JButton("Submit");
+//        getIdSnum.addActionListener(_ctrl);
+//
+//        JTextField ID = new JTextField("Enter your ID");
+//        JTextField SN = new JTextField("Enter scenario number");
+//        ID.setPreferredSize(new Dimension(10, 40));
+//        SN.setPreferredSize(new Dimension(10, 10));
+//
+//        this.add(getIdSnum);
+//        this.add(ID);
+//        this.add(SN);
+
     }
 
     private void insertBox(Graphics g) {
@@ -272,22 +285,24 @@ public class GameGUI extends JFrame {//implements ActionListener
         JLabel l;
         JButton b;
 //        g.fillOval(100,100,100,100);
-        tf = new JTextField("Enter scenario number");
-        tf.setCaretColor(new Color(152, 124, 80));
-        tf.setBounds(50 + w, 50 + h, 200, 200);
-        l = new JLabel("Enter ID");
-        l.setBounds(50, 100, 250, 20);
+        JTextField ID = new JTextField("Enter your ID");
+        JTextField SN = new JTextField("Enter scenario number");
+        ID.setPreferredSize(new Dimension(10, 40));
+        SN.setPreferredSize(new Dimension(10, 10));
+        ID.setCaretColor(new Color(152, 124, 80));
+        ID.setBounds(50 + w, 200, 200, 200);
+        SN.setBounds(50, 200, 250, 20);
         b = new JButton("Login");
-        b.setBounds(50, 150, 95, 30);
+        b.setBounds(200, 100, 95, 30);
         b.addActionListener(_ctrl);
-
-        add(b);
-        add(tf);
-        add(l);
-
-        l.setVisible(true);
-        tf.setVisible(true);
+        ID.setVisible(true);
+        SN.setVisible(true);
         b.setVisible(true);
+        add(b);
+        add(SN);
+        add(ID);
+
+
 
 
 //        setLayout(null);
