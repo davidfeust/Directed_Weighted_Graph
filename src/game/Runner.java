@@ -37,6 +37,22 @@ public class Runner implements Runnable {
         _game.startGame();
         _ar.set_timeStart(_game.timeToEnd());
 
+        Thread painter = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        Thread.sleep((long) 1000 / 60);
+                        _ar.update(_game);
+                        _win.repaint();
+                    }
+                } catch (InterruptedException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+        painter.start();
+
         int iteration = 0;
         while (_game.isRunning()) {
 //            iteration++;
@@ -53,7 +69,7 @@ public class Runner implements Runnable {
 //            if (iteration == 0) {
 //                iteration = 0;
             _game.move();
-            _win.repaint();
+//            _win.repaint();
 //                try {
 //                    Thread.sleep(2);
 //                } catch (InterruptedException e) {
