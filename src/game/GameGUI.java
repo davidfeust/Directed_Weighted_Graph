@@ -17,16 +17,13 @@ import java.util.List;
 
 public class GameGUI extends JFrame {//implements ActionListener
 
-    private static Arena _ar;
-    private static int _scenario_num;
-    private static Range2Range _w2f;
-    private static Controller _ctrl;
-
-    public GameGUI() {
-    }
+    private Arena _ar;
+    private int _scenario_num;
+    private Range2Range _w2f;
+    private final Controller _ctrl;
 
     public GameGUI(int scenario_num, Controller ctrl) {
-        super("Pockemons Game " + scenario_num);
+//        super("Pockemons Game " + scenario_num);
 
         _ctrl = ctrl;
         _scenario_num = scenario_num;
@@ -48,11 +45,11 @@ public class GameGUI extends JFrame {//implements ActionListener
             menu.add(i);
         }
 
-JButton getIdSnum = new JButton("Submit");
+        JButton getIdSnum = new JButton("Submit");
         getIdSnum.addActionListener(_ctrl);
 
         JTextField ID = new JTextField("Enter your ID");
-        ID.setPreferredSize(new Dimension(250,40));
+        ID.setPreferredSize(new Dimension(250, 40));
 
         this.add(getIdSnum);
         this.add(ID);
@@ -65,8 +62,8 @@ JButton getIdSnum = new JButton("Submit");
 
     }
 
-    public void set_ar(Arena _ar) {
-        GameGUI._ar = _ar;
+    public void set_ar(Arena ar) {
+        _ar = ar;
         updateFrame();
     }
 
@@ -273,9 +270,7 @@ JButton getIdSnum = new JButton("Submit");
 
     }
 
-
+    public void set_scenario_num(int _scenario_num) {
+        this._scenario_num = _scenario_num;
+    }
 }
-
-
-
-

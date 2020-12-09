@@ -53,7 +53,6 @@ public class Algo {
         for (int i = 0; i < num_of_agents; i++) {
             game.addAgent(pq.poll().get_edge().getSrc());
         }
-
     }
 
     static void nextMove(game_service game, Agent a) {
@@ -79,7 +78,7 @@ public class Algo {
 
     synchronized static void createPath(game_service game, Agent a) {
 //        if (a.get_speed() > 3) {
-            createPathByDistance(game, a);
+        createPathByDistance(game, a);
 //        } else {
 //            createPathByValDist(game, a);
 //        }

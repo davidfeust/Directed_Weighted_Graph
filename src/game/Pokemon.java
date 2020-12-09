@@ -1,12 +1,11 @@
 package game;
 
-import api.*;
-import game.util.*;
+import api.directed_weighted_graph;
+import api.edge_data;
+import api.geo_location;
+import api.node_data;
 import com.google.gson.JsonObject;
-
-import java.util.Objects;
-
-import static gameClient.Arena.isOnEdge;
+import game.util.Point3D;
 
 public class Pokemon {
 
@@ -29,24 +28,6 @@ public class Pokemon {
     }
 
     public edge_data findEdge() {
-//        for (node_data n : _graph.getV()) {
-//            geo_location n_pos = n.getLocation();
-//            for (edge_data e : _graph.getE(n.getKey())) {
-//                geo_location dest_pos = _graph.getNode(e.getDest()).getLocation();
-//                if (_type == 1 && e.getSrc() > e.getDest()) {
-//                    if (Math.abs(n_pos.distance(dest_pos) - (n_pos.distance(_pos) + _pos.distance(dest_pos))) <= EPS) {
-//                        return e;
-//                    }
-//                }
-//                if (_type == -1 && e.getSrc() < e.getDest()) {
-//                    if (Math.abs(n_pos.distance(dest_pos) - (n_pos.distance(_pos) + _pos.distance(dest_pos))) <= EPS) {
-//                        return e;
-//                    }
-//                }
-//            }
-//        }
-//        return null;
-
         for (node_data v : _graph.getV()) {
             for (edge_data e : _graph.getE(v.getKey())) {
                 if (isOnEdge(e)) {

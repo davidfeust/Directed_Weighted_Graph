@@ -10,12 +10,11 @@ import static game.Algo.*;
 public class Runner implements Runnable {
 
 
-
-    private GameGUI _win;// = new GameGUI();
+    private GameGUI _win;
     private Arena _ar;
     private directed_weighted_graph _graph;
     private game_service _game;
-    private int _scenario_num, _id;
+    private final int _scenario_num, _id;
 
     public Runner(int scenario_num, int id) {
         _scenario_num = scenario_num;
@@ -53,8 +52,8 @@ public class Runner implements Runnable {
             }
 //            if (iteration == 0) {
 //                iteration = 0;
-                _game.move();
-                _win.repaint();
+            _game.move();
+            _win.repaint();
 //                try {
 //                    Thread.sleep(2);
 //                } catch (InterruptedException e) {
@@ -83,9 +82,9 @@ public class Runner implements Runnable {
     }
 
     private void initGUI() {
-//        _win = new GameGUI(scenario_num, game);
-//        _win = new GameGUIPlus(scenario_num, game);
         _win.set_ar(_ar);
+        _win.setTitle("Pockemons Game " + _scenario_num);
+        _win.set_scenario_num(_scenario_num);
         _win.setVisible(true);
     }
 
@@ -116,6 +115,7 @@ public class Runner implements Runnable {
     public Arena get_ar() {
         return _ar;
     }
+
     public void set_win(GameGUI win) {
         _win = win;
     }
