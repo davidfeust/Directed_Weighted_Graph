@@ -6,9 +6,12 @@ import game.util.Range;
 import game.util.Range2D;
 import game.util.Range2Range;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +27,6 @@ public class GameGUI extends JFrame {//implements ActionListener
 
     public GameGUI(int scenario_num, Controller ctrl) {
         super("Pockemons Game " + scenario_num);
-
 
         _ctrl = ctrl;
         _scenario_num = scenario_num;
@@ -271,4 +273,9 @@ JButton getIdSnum = new JButton("Submit");
 
     }
 
+
 }
+
+
+
+
