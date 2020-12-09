@@ -32,9 +32,9 @@ public class Controller extends WindowAdapter implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         game_service game = _run.get_game();
         game.stopGame();
-        _thread.stop();
-        int moves = JsonParser.parseString(game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
-        System.out.println("Level: " + _level + "\t\tGrade: " + _run.get_ar().getGrade() + "\tMoves: " + moves);
+//        _thread.stop();
+//        int moves = JsonParser.parseString(game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
+//        System.out.println("Level: " + _level + "\t\tGrade: " + _run.get_ar().getGrade() + "\tMoves: " + moves);
 
         String str = e.getActionCommand();
         String[] strA = str.split("\\D+");

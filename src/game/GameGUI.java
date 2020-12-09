@@ -12,6 +12,7 @@ import game.util.Range2Range;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,13 +22,15 @@ public class GameGUI extends JFrame {//implements ActionListener
     private int _scenario_num;
     private Range2Range _w2f;
     private final Controller _ctrl;
+    private boolean _first;
 
     public GameGUI(int scenario_num, Controller ctrl) {
-//        super("Pockemons Game " + scenario_num);
-
         _ctrl = ctrl;
+        init(scenario_num);
+    }
+
+    public void init(int scenario_num) {
         _scenario_num = scenario_num;
-//        Controller ctrl = new Controller();
         addWindowListener(_ctrl);
         setSize(1000, 600);
 
@@ -44,16 +47,32 @@ public class GameGUI extends JFrame {//implements ActionListener
             i.addActionListener(_ctrl);
             menu.add(i);
         }
-//        JButton getIdSnum = new JButton("Submit");
-//        getIdSnum.addActionListener(_ctrl);
+        _first = true;
 //
-//        JTextField ID = new JTextField("Enter your ID");
-//        ID.setPreferredSize(new Dimension(250, 40));
-//
-//        this.add(getIdSnum);
-//        this.add(ID);
+        // create a label to display text
+        JLabel l = new JLabel("panel label");
 
+        // create a new buttons
+        JButton b = new JButton("button1");
+        JButton b1 = new JButton("button2");
+        JButton b2 = new JButton("button3");
 
+        // create a panel to add buttons
+        JPanel p = new JPanel();
+        p.setBounds(0, 0, getWidth(), 60);
+        p.setBackground(Color.black);
+//        p.setVisible(true);
+
+        // add buttons and textfield to panel
+        p.add(b);
+        p.add(b1);
+        p.add(b2);
+        p.add(l);
+//        p.setVisible(false);
+        // setbackground of panel
+
+        // add panel to frame
+        add(p);
     }
 
     public void set_ar(Arena ar) {
@@ -69,15 +88,40 @@ public class GameGUI extends JFrame {//implements ActionListener
         _w2f = Arena.w2f(g, frame);
     }
 
+
     @Override
     public void paint(Graphics g) {
-//        super.paint(g);
         int w = this.getWidth();
         int h = this.getHeight();
+
         Image buffer_image = createImage(w, h);
         Graphics buffer_graphics = buffer_image.getGraphics();
         paintComponents(buffer_graphics);
-        g.drawImage(buffer_image, 0, 0, this);
+        g.drawImage(buffer_image, 0, 100, this);
+//        super.paint(g);
+//        g.dispose();
+    }
+
+    private void drawBasicFrame() {
+
+        JLabel panel = new JLabel();
+        panel.setBackground(Color.BLACK);
+//        panel.setBounds(0,0, getWidth(), (int) (getHeight() * 0.1));
+        panel.setBounds(0,0,100, 200);
+        panel.setVisible(true);
+        add(panel);
+        JTextField tf = new JTextField();
+        tf.setBounds(50, 50, 150, 20);
+        JLabel l = new JLabel();
+        l.setBounds(100, 50, 250, 20);
+        JButton b = new JButton("Find IP");
+        b.setBounds(200, 50, 95, 30);
+        b.addActionListener(_ctrl);
+        add(b);
+        add(tf);
+        add(l);
+        setLayout(null);
+
     }
 
     @Override
@@ -87,7 +131,7 @@ public class GameGUI extends JFrame {//implements ActionListener
         drawAgants(g);
         infoBox(g);
         drawTime(g);
-        insertBox(g);
+//        insertBox(g);
         updateFrame();
 
     }
@@ -213,7 +257,7 @@ public class GameGUI extends JFrame {//implements ActionListener
         int ty = (int) (h * 0.02);
         int th = (int) (h * 0.255);
         int currTime = (int) _ar.getTime() / 1000;
-       g.fillRoundRect(0, 0, w, 50 + h / 6, 10, 10);
+        g.fillRoundRect(0, 0, w, 50 + h / 6, 10, 10);
         g.setColor(Color.white);
         g.setFont(new Font(null, Font.PLAIN, 13));
         g.drawString("Time to end: " + currTime, tx + 10, ty + 80);

@@ -50,6 +50,23 @@ public class Runner implements Runnable {
                 }
             }
         });
+
+       /* Thread mover = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (_game.isRunning()) {
+                        Thread.sleep((long) 1000 / 10);
+                        _ar.update(_game);
+                        _game.move();
+                    }
+                } catch (InterruptedException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+//
+        mover.start();*/
         painter.start();
 
         int iteration = 0;
@@ -59,7 +76,7 @@ public class Runner implements Runnable {
                 if (a.get_path().isEmpty()) {
                     createPath(_game, a);
                 }
-                _ar.update(_game);
+//                _ar.update(_game);
                 if (!a.isMoving()) {
                     nextMove(_game, a);
                 }
@@ -79,6 +96,8 @@ public class Runner implements Runnable {
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
         System.out.println("Level: " + _scenario_num + "\t\tGrade: " + _ar.getGrade() + "\tMoves: " + moves);
 //        System.exit(0);
+//        mover.stop();
+        painter.stop();
     }
 
     private void initAlgo() {
@@ -97,6 +116,7 @@ public class Runner implements Runnable {
     }
 
     private void initGUI() {
+        _win.init(_scenario_num);
         _win.set_ar(_ar);
         _win.setTitle("Pockemons Game " + _scenario_num);
         _win.set_scenario_num(_scenario_num);

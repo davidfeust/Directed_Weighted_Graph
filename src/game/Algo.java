@@ -47,7 +47,6 @@ public class Algo {
                 return Double.compare(o2.get_value(), o1.get_value());
             }
         });
-
         pq.addAll(_ar.getPokemons());
 
         for (int i = 0; i < num_of_agents; i++) {
@@ -77,15 +76,16 @@ public class Algo {
 
 
     synchronized static void createPath(game_service game, Agent a) {
-//        if (a.get_speed() > 3) {
-
-        createPathByDistance(game, a);
-//        } else {
-//            createPathByValDist(game, a);
-//        }
+        if (_ar.getAgents().size() == _ar.getPokemons().size()) {
+            createPathByDistance(game, a);
+        } else {
+            if (a.get_speed() > 3) {
+                createPathByDistance(game, a);
+            } else {
+                createPathByValDist(game, a);
+            }
+        }
     }
-    //by value diveded by distance
-
 
     synchronized static void createPathByValDist(game_service game, Agent a) {
 
@@ -121,32 +121,30 @@ public class Algo {
         _ar.get_pokemonsWithOwner().add(min_pokemon);
     }
 
+    synchronized static void createPathByVal(game_service game, Agent a) {
+        dw_graph_algorithms ga = new WDGraph_Algo();
+        ga.init(_graph);
 
-    //by value - seem like it dose not give the best result
-//    {
-//        dw_graph_algorithms ga = new WDGraph_Algo();
-//        ga.init(_graph);
-//
-//        Pokemon min_pokemon = _ar.getPokemons().get(0);
-//
-//        for (Pokemon p : _ar.getPokemons()) {
-//            if (indexOfPok(_ar.get_pokemonsWithOwner(), p) == -1) {
-//
-//                if (min_pokemon.get_value() < p.get_value()) {
-//                    min_pokemon = p;
-//                }
-//            }
-//        }
-//        List<node_data> path = ga.shortestPath(a.getSrcNode(), min_pokemon.get_edge().getSrc());
-//        path.add(_graph.getNode(min_pokemon.get_edge().getDest()));
-//        path.remove(0);
-//        a.set_path(path);
-//
-//        a.set_curr_fruit(min_pokemon);
-//        _ar.get_pokemonsWithOwner().add(min_pokemon);
-//    }
-//
-//    }
+        Pokemon min_pokemon = _ar.getPokemons().get(0);
+
+        for (Pokemon p : _ar.getPokemons()) {
+            if (indexOfPok(_ar.get_pokemonsWithOwner(), p) == -1) {
+
+                if (min_pokemon.get_value() < p.get_value()) {
+                    min_pokemon = p;
+                }
+            }
+        }
+        List<node_data> path = ga.shortestPath(a.getSrcNode(), min_pokemon.get_edge().getSrc());
+        path.add(_graph.getNode(min_pokemon.get_edge().getDest()));
+        path.remove(0);
+        a.set_path(path);
+
+        a.set_curr_fruit(min_pokemon);
+        _ar.get_pokemonsWithOwner().add(min_pokemon);
+    }
+
+
     synchronized static void createPathByDistance(game_service game, Agent a) {
 
         dw_graph_algorithms ga = new WDGraph_Algo();
