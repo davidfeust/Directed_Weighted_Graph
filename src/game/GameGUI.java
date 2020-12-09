@@ -12,7 +12,6 @@ import game.util.Range2Range;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,7 +106,7 @@ public class GameGUI extends JFrame {//implements ActionListener
         JLabel panel = new JLabel();
         panel.setBackground(Color.BLACK);
 //        panel.setBounds(0,0, getWidth(), (int) (getHeight() * 0.1));
-        panel.setBounds(0,0,100, 200);
+        panel.setBounds(0, 0, 100, 200);
         panel.setVisible(true);
         add(panel);
         JTextField tf = new JTextField();

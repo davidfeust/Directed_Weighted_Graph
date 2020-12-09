@@ -35,7 +35,7 @@ public class GameGUIPlus extends GameGUI {
     public void paintComponents(Graphics g) {
         super.paintComponents(g);
         g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
-        g.drawImage(_image_sound[0], getWidth()/40, (int) (getHeight()-getHeight()/15), getWidth() / 30, getHeight() / 30, null);
+        g.drawImage(_image_sound[0], getWidth() / 40, (int) (getHeight() - getHeight() / 15), getWidth() / 30, getHeight() / 30, null);
         g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
 
     }

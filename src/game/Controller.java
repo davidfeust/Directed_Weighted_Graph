@@ -1,7 +1,6 @@
 package game;
 
 import api.game_service;
-import com.google.gson.JsonParser;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
