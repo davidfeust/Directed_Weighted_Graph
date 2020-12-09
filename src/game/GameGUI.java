@@ -21,7 +21,6 @@ public class GameGUI extends JFrame {//implements ActionListener
     private int _scenario_num;
     private Range2Range _w2f;
     private final Controller _ctrl;
-    private boolean _first;
 
     public GameGUI(int scenario_num, Controller ctrl) {
         _ctrl = ctrl;
@@ -46,32 +45,32 @@ public class GameGUI extends JFrame {//implements ActionListener
             i.addActionListener(_ctrl);
             menu.add(i);
         }
-        _first = true;
+        insertBox();
 //
-        // create a label to display text
-        JLabel l = new JLabel("panel label");
-
-        // create a new buttons
-        JButton b = new JButton("button1");
-        JButton b1 = new JButton("button2");
-        JButton b2 = new JButton("button3");
-
-        // create a panel to add buttons
-        JPanel p = new JPanel();
-        p.setBounds(0, 0, getWidth(), 60);
-        p.setBackground(Color.black);
-//        p.setVisible(true);
-
-        // add buttons and textfield to panel
-        p.add(b);
-        p.add(b1);
-        p.add(b2);
-        p.add(l);
-//        p.setVisible(false);
-        // setbackground of panel
-
-        // add panel to frame
-        add(p);
+//        // create a label to display text
+//        JLabel l = new JLabel("panel label");
+//
+//        // create a new buttons
+//        JButton b = new JButton("button1");
+//        JButton b1 = new JButton("button2");
+//        JButton b2 = new JButton("button3");
+//
+//        // create a panel to add buttons
+//        JPanel p = new JPanel();
+//        p.setBounds(0, 0, getWidth(), 60);
+//        p.setBackground(Color.black);
+////        p.setVisible(true);
+//
+//        // add buttons and textfield to panel
+//        p.add(b);
+//        p.add(b1);
+//        p.add(b2);
+//        p.add(l);
+////        p.setVisible(false);
+//        // setbackground of panel
+//
+//        // add panel to frame
+//        add(p);
     }
 
     public void set_ar(Arena ar) {
@@ -96,7 +95,8 @@ public class GameGUI extends JFrame {//implements ActionListener
         Image buffer_image = createImage(w, h);
         Graphics buffer_graphics = buffer_image.getGraphics();
         paintComponents(buffer_graphics);
-        g.drawImage(buffer_image, 0, 100, this);
+        g.drawImage(buffer_image, 0, 0, this);
+
 //        super.paint(g);
 //        g.dispose();
     }
@@ -277,7 +277,7 @@ public class GameGUI extends JFrame {//implements ActionListener
 
     }
 
-    private void insertBox(Graphics g) {
+    private void insertBox() {
         int h = getHeight();
         int w = getWidth();
 
@@ -290,10 +290,10 @@ public class GameGUI extends JFrame {//implements ActionListener
         ID.setPreferredSize(new Dimension(10, 40));
         SN.setPreferredSize(new Dimension(10, 10));
         ID.setCaretColor(new Color(152, 124, 80));
-        ID.setBounds(50 + w, 200, 200, 200);
-        SN.setBounds(50, 200, 250, 20);
+        ID.setBounds(200 + w, 100, 200, 200);
+        SN.setBounds(200, 100, 250, 20);
         b = new JButton("Login");
-        b.setBounds(200, 100, 95, 30);
+        b.setBounds(200, 150, 95, 30);
         b.addActionListener(_ctrl);
         ID.setVisible(true);
         SN.setVisible(true);

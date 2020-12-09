@@ -76,7 +76,7 @@ public class Runner implements Runnable {
                 if (a.get_path().isEmpty()) {
                     createPath(_game, a);
                 }
-//                _ar.update(_game);
+                _ar.update(_game);
                 if (!a.isMoving()) {
                     nextMove(_game, a);
                 }

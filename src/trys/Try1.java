@@ -1,24 +1,42 @@
 package trys;
 
-import java.awt.event.*;
+import game.Controller;
+import game.util.Point3D;
+import game.util.Range2Range;
+
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
+import java.util.StringJoiner;
 
-class Try1 extends JFrame {
+public class Try1 extends JFrame {
 
+    Range2Range _w2f;
+//    static String level = "";
+//    static String id = "";
+    static JTextField id_field;
+    static JTextField s_n;
 
-    // JButton
+    public static String getLevel() {
+        return s_n.getText();
+    }
+
+    public static String getId() {
+        return id_field.getText();
+    }
+// JButton
 //    static JButton b, b1, b2;
 
     // label to display text
 //    static JLabel l;
 
-    Try1() {
 
-        setSize(1000, 600);
 
+    public Try1() {
+//
+//        setSize(1000, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Level");
         menuBar.add(menu);
@@ -31,28 +49,29 @@ class Try1 extends JFrame {
         for (MenuItem i : menuItems) {
             menu.add(i);
         }
-        JLabel l1 = new JLabel();
-        l1.setOpaque(true);
-        l1.setBackground(Color.red);
-        l1.setBounds(50,100,200,200);
 
-        JLabel l2 = new JLabel();
-        l2.setOpaque(true);
-        l2.setBackground(Color.green);
-        l2.setBounds(50,50,200,200);
 
-        JLayeredPane jlp = new JLayeredPane();
-        jlp.setBounds(150, 0, 300, 100);
+        setSize(1200, 600);
+        Point3D f = Point3D.ORIGIN;
 
-        jlp.add(l1);
-        jlp.add(l2);
+        id_field = new JTextField();//"Enter your ID");
+        id_field.setBounds((int) (getWidth()-(getWidth() / 6)), (int) (getHeight() * 0.01), 150, 20);
+        s_n = new JTextField();//"Enter scenario number");
+        s_n.setBounds((int) (getWidth() - getWidth() / 6), (int) (getHeight() * 0.05), 150, 20);
+        JButton b = new JButton("Submit");
+        b.setBounds((getWidth() - getWidth() / 7) , (int) (getHeight() * 0.10), 95, 30);
+        b.addActionListener(new Controller());
 
-//        jlp.setBackground(Color.black);
-        add(jlp);
+        add(b);
+        add(id_field);
+        add(s_n);
+//        setSize(1000, 600);
+        repaint();
         setLayout(null);
         setVisible(true);
 
     }
+
 
 //    @Override
 //    public void paint(Graphics g) {
@@ -61,7 +80,9 @@ class Try1 extends JFrame {
 //    }
 
     // main class
+
     public static void main(String[] args) {
         new Try1();
     }
+
 }

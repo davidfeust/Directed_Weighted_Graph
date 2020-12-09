@@ -24,7 +24,7 @@ public class GUI_104 extends Frame implements ActionListener{
         try{
             String host=tf.getText();
             String ip=java.net.InetAddress.getByName(host).getHostAddress();
-            l.setText("IP of "+host+" is: "+ip);
+            l.setText("IP of "+host+" is: ");
         }catch(Exception ex){System.out.println(ex);}
     }
     public static void main(String[] args) {

@@ -1,7 +1,9 @@
 package game;
 
 import api.game_service;
+import trys.Try1;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -20,6 +22,7 @@ public class Controller extends WindowAdapter implements ActionListener {
         _id = id;
         _level = level;
     }
+    public Controller(){        }
 
     @Override
     public void windowClosing(WindowEvent e) {
@@ -29,16 +32,20 @@ public class Controller extends WindowAdapter implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String str = e.getActionCommand();
+        if (str.equals("Submit")) {
+             _level = Integer.parseInt(Try1.getLevel());
+            _id = Integer.parseInt(Try1.getId());
+
+        } else {
+            String[] strA = str.split("\\D+");
+            _level = Integer.parseInt(strA[1]);
+        }
+        System.out.println(_level + "*****" + _id);
+
         game_service game = _run.get_game();
         game.stopGame();
-//        _thread.stop();
-//        int moves = JsonParser.parseString(game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
-//        System.out.println("Level: " + _level + "\t\tGrade: " + _run.get_ar().getGrade() + "\tMoves: " + moves);
-
-        String str = e.getActionCommand();
-        String[] strA = str.split("\\D+");
-        _level = Integer.parseInt(strA[1]);
-
+        _thread.stop();
         _run = new Runner(_level, _id);
         _run.set_win(_win);
         _thread = new Thread(_run);

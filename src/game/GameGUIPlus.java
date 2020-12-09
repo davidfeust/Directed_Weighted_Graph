@@ -26,7 +26,7 @@ public class GameGUIPlus extends GameGUI {
         super(scenario_num, ctrl);
         loadImg();
         setIconImage(_image_pok);
-        sound();
+//        sound();
 
 //        setBackground(Color.gray);
     }
