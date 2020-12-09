@@ -51,47 +51,56 @@ public class Runner implements Runnable {
             }
         });
 
-       /* Thread mover = new Thread(new Runnable() {
+        Thread mover = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     while (_game.isRunning()) {
-                        Thread.sleep((long) 1000 / 10);
                         _ar.update(_game);
-                        _game.move();
+                        synchronized (this) {
+                            _game.move();
+                        }
+                        boolean boost = false;
+                        for (Agent a : _ar.getAgents()) {
+                            if (isClose2Pok(a)) {
+                                boost = true;
+                            }
+                        }
+//                        System.out.println(boost);
+                        if (boost) {
+//                            Thread.sleep(50L);
+                        } else {
+                            Thread.sleep((long) 1000 / 10);
+                        }
                     }
                 } catch (InterruptedException exception) {
                     exception.printStackTrace();
                 }
             }
         });
-//
-        mover.start();*/
+
+        mover.start();
         painter.start();
 
         int iteration = 0;
         while (_game.isRunning()) {
 //            iteration++;
             for (Agent a : _ar.getAgents()) {
-                if (a.get_path().isEmpty()) {
-                    createPath(_game, a);
-                }
-                _ar.update(_game);
-                if (!a.isMoving()) {
-                    nextMove(_game, a);
-                }
+                synchronized (_ar) {
+                    _ar.update(_game);
+                    if (a.get_path().isEmpty()) {
+                        createPath(_game, a);
+                    }
+                    _ar.update(_game);
+                    if (!a.isMoving()) {
+                        nextMove(_game, a);
+                    }
 //                toMove(a);
+                }
             }
-//            if (iteration == 0) {
-//                iteration = 0;
-            _game.move();
+//            _game.move();
 //            _win.repaint();
-//                try {
-//                    Thread.sleep(2);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+
         }
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
         System.out.println("Level: " + _scenario_num + "\t\tGrade: " + _ar.getGrade() + "\tMoves: " + moves);

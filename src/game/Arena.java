@@ -49,7 +49,7 @@ public class Arena {
         _grade = json_obj.getAsJsonObject("GameServer").get("grade").getAsInt();
     }
 
-    public void updatePokemons(String json) {
+    public synchronized void updatePokemons(String json) {
         JsonObject json_obj = JsonParser.parseString(json).getAsJsonObject();
         JsonArray pokemons_arr = json_obj.getAsJsonArray("Pokemons");
         List<Pokemon> new_list = new ArrayList<>();

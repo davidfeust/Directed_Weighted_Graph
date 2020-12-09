@@ -2,6 +2,7 @@ package game;
 
 import api.*;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -187,8 +188,10 @@ public class Algo {
         return ans;
     }
 
-    public static boolean isClose2Pok(Agent ag) {
-        for (Pokemon i : _ar.getPokemons()) {
+    public synchronized static boolean isClose2Pok(Agent ag) {
+        ArrayList<Pokemon> poks = new ArrayList<>(_ar.getPokemons());
+        for (Pokemon i : poks) {
+            if (i == null) continue;
             if (Math.abs(ag.getPos().distance(i.get_pos())) < 0.001) {
                 return true;
             }

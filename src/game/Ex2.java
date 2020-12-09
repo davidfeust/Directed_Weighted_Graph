@@ -14,8 +14,8 @@ public class Ex2 {
         Runner run = new Runner(_level, _id);
         Thread thread = new Thread(run);
         Controller ctrl = new Controller(run, thread, _id, _level);
-//        GameGUIPlus win = new GameGUIPlus(_level, ctrl);
-        GameGUI win = new GameGUI(_level, ctrl);
+        GameGUIPlus win = new GameGUIPlus(_level, ctrl);
+//        GameGUI win = new GameGUI(_level, ctrl);
         run.set_win(win);
         ctrl.set_win(win);
         thread.start();
