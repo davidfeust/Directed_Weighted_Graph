@@ -21,6 +21,9 @@ public class GameGUI extends JFrame {//implements ActionListener
     private int _scenario_num;
     private Range2Range _w2f;
     private final Controller _ctrl;
+    private JTextField id_field;
+    private JTextField s_n;
+
 
     public GameGUI(int scenario_num, Controller ctrl) {
         _ctrl = ctrl;
@@ -30,7 +33,7 @@ public class GameGUI extends JFrame {//implements ActionListener
     public void init(int scenario_num) {
         _scenario_num = scenario_num;
         addWindowListener(_ctrl);
-        setSize(1000, 600);
+        setSize(1200, 600);
 
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Level");
@@ -45,7 +48,8 @@ public class GameGUI extends JFrame {//implements ActionListener
             i.addActionListener(_ctrl);
             menu.add(i);
         }
-        insertBox();
+//        insertBox();
+//        repaint();
 //
 //        // create a label to display text
 //        JLabel l = new JLabel("panel label");
@@ -94,33 +98,12 @@ public class GameGUI extends JFrame {//implements ActionListener
 
         Image buffer_image = createImage(w, h);
         Graphics buffer_graphics = buffer_image.getGraphics();
-        paintComponents(buffer_graphics);
-        g.drawImage(buffer_image, 0, 0, this);
-
+        if (_ar != null) {
+            paintComponents(buffer_graphics);
+            g.drawImage(buffer_image, 0, 0, null);
+        }
 //        super.paint(g);
 //        g.dispose();
-    }
-
-    private void drawBasicFrame() {
-
-        JLabel panel = new JLabel();
-        panel.setBackground(Color.BLACK);
-//        panel.setBounds(0,0, getWidth(), (int) (getHeight() * 0.1));
-        panel.setBounds(0, 0, 100, 200);
-        panel.setVisible(true);
-        add(panel);
-        JTextField tf = new JTextField();
-        tf.setBounds(50, 50, 150, 20);
-        JLabel l = new JLabel();
-        l.setBounds(100, 50, 250, 20);
-        JButton b = new JButton("Find IP");
-        b.setBounds(200, 50, 95, 30);
-        b.addActionListener(_ctrl);
-        add(b);
-        add(tf);
-        add(l);
-        setLayout(null);
-
     }
 
     @Override
@@ -278,34 +261,21 @@ public class GameGUI extends JFrame {//implements ActionListener
     }
 
     private void insertBox() {
-        int h = getHeight();
-        int w = getWidth();
+        id_field = new JTextField();//"Enter your ID");
+        id_field.setBounds((int) (getWidth() - (getWidth() / 6)), (int) (getHeight() * 0.01), 150, 20);
+        s_n = new JTextField();//"Enter scenario number");
+        s_n.setBounds((int) (getWidth() - getWidth() / 6), (int) (getHeight() * 0.05), 150, 20);
+        JButton b = new JButton("Submit");
+        b.setBounds((getWidth() - getWidth() / 7), (int) (getHeight() * 0.10), 95, 30);
+        b.addActionListener(new Controller());
 
-        JTextField tf;
-        JLabel l;
-        JButton b;
-//        g.fillOval(100,100,100,100);
-        JTextField ID = new JTextField("Enter your ID");
-        JTextField SN = new JTextField("Enter scenario number");
-        ID.setPreferredSize(new Dimension(10, 40));
-        SN.setPreferredSize(new Dimension(10, 10));
-        ID.setCaretColor(new Color(152, 124, 80));
-        ID.setBounds(200 + w, 100, 200, 200);
-        SN.setBounds(200, 100, 250, 20);
-        b = new JButton("Login");
-        b.setBounds(200, 150, 95, 30);
-        b.addActionListener(_ctrl);
-        ID.setVisible(true);
-        SN.setVisible(true);
-        b.setVisible(true);
         add(b);
-        add(SN);
-        add(ID);
-
-
-
-
-//        setLayout(null);
+        add(id_field);
+        add(s_n);
+//        setSize(1000, 600);
+        repaint();
+        setLayout(null);
+        setVisible(true);
     }
 
     protected void nodeIcon(Graphics g, int radius, geo_location fp) {
@@ -321,5 +291,13 @@ public class GameGUI extends JFrame {//implements ActionListener
 
     public void set_scenario_num(int _scenario_num) {
         this._scenario_num = _scenario_num;
+    }
+
+    public String getLevel() {
+        return s_n.getText();
+    }
+
+    public String getId() {
+        return id_field.getText();
     }
 }
