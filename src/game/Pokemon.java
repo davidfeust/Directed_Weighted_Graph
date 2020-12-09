@@ -51,10 +51,7 @@ public class Pokemon {
         geo_location dest_loc = _graph.getNode(dest).getLocation();
         double dist = src_loc.distance(dest_loc);
         double d1 = src_loc.distance(get_pos()) + get_pos().distance(dest_loc);
-        if (dist > d1 - EPS) {
-            return true;
-        }
-        return false;
+        return dist > d1 - EPS;
     }
 
     public static void set_graph(directed_weighted_graph _graph) {

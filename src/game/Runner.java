@@ -41,9 +41,8 @@ public class Runner implements Runnable {
             @Override
             public void run() {
                 try {
-                    while (true) {
+                    while (_game.isRunning()) {
                         Thread.sleep((long) 1000 / 60);
-                        _ar.update(_game);
                         _win.repaint();
                     }
                 } catch (InterruptedException exception) {

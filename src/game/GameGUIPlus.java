@@ -17,7 +17,6 @@ import java.util.List;
 public class GameGUIPlus extends GameGUI {
 
     private BufferedImage _name;
-    //    private BufferedImage _image_node;
     private BufferedImage _image_pok;
     private BufferedImage[] _image_agents;
     private BufferedImage[] _image_fruits;
@@ -26,7 +25,7 @@ public class GameGUIPlus extends GameGUI {
         super(scenario_num, ctrl);
         loadImg();
         setIconImage(_image_pok);
-        sound();
+//        sound();
 
 //        setBackground(Color.gray);
     }

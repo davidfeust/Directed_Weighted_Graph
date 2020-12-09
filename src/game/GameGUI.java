@@ -1,17 +1,17 @@
 package game;
 
-import api.*;
+import api.directed_weighted_graph;
+import api.edge_data;
+import api.geo_location;
+import api.node_data;
 import game.util.Point3D;
 import game.util.Range;
 import game.util.Range2D;
 import game.util.Range2Range;
 
-import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class GameGUI extends JFrame {//implements ActionListener
         _ctrl = ctrl;
         _scenario_num = scenario_num;
 //        Controller ctrl = new Controller();
-        addWindowListener(ctrl);
+        addWindowListener(_ctrl);
         setSize(1000, 600);
 
         MenuBar menuBar = new MenuBar();
@@ -41,23 +41,17 @@ public class GameGUI extends JFrame {//implements ActionListener
             menuItems.add(new MenuItem(s + i));
         }
         for (MenuItem i : menuItems) {
-            i.addActionListener(ctrl);
+            i.addActionListener(_ctrl);
             menu.add(i);
         }
-
-        JButton getIdSnum = new JButton("Submit");
-        getIdSnum.addActionListener(_ctrl);
-
-        JTextField ID = new JTextField("Enter your ID");
-        ID.setPreferredSize(new Dimension(250, 40));
-
-        this.add(getIdSnum);
-        this.add(ID);
-
-
-
-
-
+//        JButton getIdSnum = new JButton("Submit");
+//        getIdSnum.addActionListener(_ctrl);
+//
+//        JTextField ID = new JTextField("Enter your ID");
+//        ID.setPreferredSize(new Dimension(250, 40));
+//
+//        this.add(getIdSnum);
+//        this.add(ID);
 
 
     }
@@ -77,13 +71,11 @@ public class GameGUI extends JFrame {//implements ActionListener
 
     @Override
     public void paint(Graphics g) {
-
+//        super.paint(g);
         int w = this.getWidth();
         int h = this.getHeight();
-        Image buffer_image;
-        Graphics buffer_graphics;
-        buffer_image = createImage(w, h);
-        buffer_graphics = buffer_image.getGraphics();
+        Image buffer_image = createImage(w, h);
+        Graphics buffer_graphics = buffer_image.getGraphics();
         paintComponents(buffer_graphics);
         g.drawImage(buffer_image, 0, 0, this);
     }
@@ -95,7 +87,6 @@ public class GameGUI extends JFrame {//implements ActionListener
         drawAgants(g);
         infoBox(g);
         drawTime(g);
-
         insertBox(g);
         updateFrame();
 
