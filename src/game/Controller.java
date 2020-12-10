@@ -36,14 +36,20 @@ public class Controller extends WindowAdapter implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String str = e.getActionCommand();
         if (str.equals("Submit")) {
-            _level = Integer.parseInt(Try1.getLevel());
-            _id = Integer.parseInt(Try1.getId());
+            try {
+                _level = Integer.parseInt(Panel.getLevel());
+            } catch (NumberFormatException ignored) {
+                return;
+            }
+            try {
+                _id = Integer.parseInt(Panel.getId());
+            } catch (NumberFormatException ignored) {
+            }
 
         } else {
             String[] strA = str.split("\\D+");
             _level = Integer.parseInt(strA[1]);
         }
-        System.out.println(_level + "*****" + _id);
 
         game_service game = _run.get_game();
         game.stopGame();

@@ -3,7 +3,7 @@ package api;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class NodeData implements node_data, Comparable<node_data> {
+public class NodeData implements node_data , Comparable<node_data> {
 
     private static int _masterKey = 0;
     private final int _key;
@@ -20,7 +20,7 @@ public class NodeData implements node_data, Comparable<node_data> {
         this._neighborsDis = new HashMap<>();
         this._remark = "";
         this.setTag(-1);
-        _GLocation = new Geo_locationImpl(0, 0, 0);
+        _GLocation = new Geo_locationImpl(0,0,0);
         _weight = 0;
     }
 
@@ -30,7 +30,7 @@ public class NodeData implements node_data, Comparable<node_data> {
         this._neighborsDis = new HashMap<>();
         this._remark = "";
         this.setTag(-1);
-        _GLocation = new Geo_locationImpl(0, 0, 0);
+        _GLocation = new Geo_locationImpl(0,0,0);
         _weight = 0;
     }
 
@@ -56,9 +56,7 @@ public class NodeData implements node_data, Comparable<node_data> {
         return _neighborsDis;
     }
 
-    public HashMap<Integer, node_data> getConnectedNode() {
-        return _connectedNode;
-    }
+    public HashMap<Integer, node_data> getConnectedNode() { return _connectedNode; }
 
     /**
      * Returns the key (id) associated with this node.

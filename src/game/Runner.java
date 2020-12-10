@@ -129,7 +129,7 @@ public class Runner implements Runnable {
         _win.set_ar(_ar);
         _win.init(_scenario_num);
         _win.setTitle("Pockemons Game " + _scenario_num);
-        _win.set_scenario_num(_scenario_num);
+//        _win.set_scenario_num(_scenario_num);
         _win.setVisible(true);
     }
 

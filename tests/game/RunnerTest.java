@@ -12,7 +12,8 @@ class RunnerTest {
             Runner run = new Runner(i, _id);
             Thread thread = new Thread(run);
             Controller ctrl = new Controller(run, thread, _id, i);
-            GameGUIPlus win = new GameGUIPlus(i, ctrl);
+            GameGUI win = new GameGUI(i, ctrl);
+//            GameGUIPlus win = new GameGUIPlus(i, ctrl);
             run.set_win(win);
             ctrl.set_win(win);
             thread.start();
