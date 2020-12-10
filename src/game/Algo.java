@@ -11,6 +11,7 @@ public class Algo {
 
     private static Arena _ar;
     private static directed_weighted_graph _graph;
+    private static final double EPS = 0.000001;
 
     static void placeAgents(int num_of_agents, game_service game) {
 //        dw_graph_algorithms ga = new WDGraph_Algo(_graph);
@@ -75,18 +76,17 @@ public class Algo {
 
     synchronized static void createPath(game_service game, Agent a) {
         if (_ar.getAgents().size() == _ar.getPokemons().size()) {
-            createPathByDistance(game, a);
+            createPathByDistance(a);
         } else {
             if (a.get_speed() > 3) {
-                createPathByDistance(game, a);
+                createPathByDistance(a);
             } else {
-                createPathByValDist(game, a);
+                createPathByValDist(a);
             }
         }
     }
 
-    synchronized static void createPathByValDist(game_service game, Agent a) {
-
+    synchronized static void createPathByValDist(Agent a) {
         dw_graph_algorithms ga = new WDGraph_Algo();
         ga.init(_graph);
 
@@ -94,14 +94,14 @@ public class Algo {
         Pokemon min_pokemon = _ar.getPokemons().get(0);
         double shortest_way = _graph.getNode(min_pokemon.get_edge().getSrc()).getWeight();
         if (shortest_way == 0) {
-            shortest_way = 0.000001;
+            shortest_way = EPS;
         }
         double max_ValDivDist = min_pokemon.get_value() / shortest_way;
         for (Pokemon p : _ar.getPokemons()) {
             if (indexOfPok(_ar.get_pokemonsWithOwner(), p) == -1) {
                 double p_src_weight = _graph.getNode(p.get_edge().getSrc()).getWeight();
                 if (p_src_weight == 0) {
-                    p_src_weight = 0.000001;
+                    p_src_weight = EPS;
                 }
                 double temp = p.get_value() / p_src_weight;
                 if (max_ValDivDist < temp) {
@@ -119,6 +119,7 @@ public class Algo {
         _ar.get_pokemonsWithOwner().add(min_pokemon);
     }
 
+/*
     synchronized static void createPathByVal(game_service game, Agent a) {
         dw_graph_algorithms ga = new WDGraph_Algo();
         ga.init(_graph);
@@ -141,10 +142,9 @@ public class Algo {
         a.set_curr_fruit(min_pokemon);
         _ar.get_pokemonsWithOwner().add(min_pokemon);
     }
+*/
 
-
-    synchronized static void createPathByDistance(game_service game, Agent a) {
-
+    synchronized static void createPathByDistance(Agent a) {
         dw_graph_algorithms ga = new WDGraph_Algo();
         ga.init(_graph);
 
@@ -171,7 +171,6 @@ public class Algo {
 
         a.set_curr_fruit(min_pokemon);
         _ar.get_pokemonsWithOwner().add(min_pokemon);
-
     }
 
     public static int indexOfPok(List<Pokemon> arr, Pokemon pok) {

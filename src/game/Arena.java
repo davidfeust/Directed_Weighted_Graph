@@ -33,14 +33,6 @@ public class Arena {
         _pokemonsWithOwner = new ArrayList<>();
     }
 
-    public long get_timeStart() {
-        return _timeStart;
-    }
-
-    public void set_timeStart(long _timeStart) {
-        this._timeStart = _timeStart;
-    }
-
     public synchronized void update(game_service game) {
         updateAgents(game.getAgents());
         updatePokemons(game.getPokemons());
@@ -98,26 +90,6 @@ public class Arena {
         _graph = graph;
     }
 
-    public directed_weighted_graph getGgraph() {
-        return _graph;
-    }
-
-    public List<Agent> getAgents() {
-        return _agents;
-    }
-
-    public List<Pokemon> getPokemons() {
-        return _pokemons;
-    }
-
-    public List<Pokemon> get_pokemonsWithOwner() {
-        return _pokemonsWithOwner;
-    }
-
-    public directed_weighted_graph get_graph() {
-        return _graph;
-    }
-
     private static Range2D GraphRange(directed_weighted_graph g) {
         Iterator<node_data> itr = g.getV().iterator();
         double x0 = 0, x1 = 0, y0 = 0, y1 = 0;
@@ -154,6 +126,30 @@ public class Arena {
         Range2D world = GraphRange(g);
         Range2Range ans = new Range2Range(world, frame);
         return ans;
+    }
+
+    public List<Agent> getAgents() {
+        return _agents;
+    }
+
+    public List<Pokemon> getPokemons() {
+        return _pokemons;
+    }
+
+    public List<Pokemon> get_pokemonsWithOwner() {
+        return _pokemonsWithOwner;
+    }
+
+    public directed_weighted_graph get_graph() {
+        return _graph;
+    }
+
+    public long get_timeStart() {
+        return _timeStart;
+    }
+
+    public void set_timeStart(long _timeStart) {
+        this._timeStart = _timeStart;
     }
 
     public long getTime() {

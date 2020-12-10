@@ -60,7 +60,7 @@ public class Try1 extends JFrame {
         s_n.setBounds((int) (getWidth() - getWidth() / 6), (int) (getHeight() * 0.05), 150, 20);
         JButton b = new JButton("Submit");
         b.setBounds((getWidth() - getWidth() / 7) , (int) (getHeight() * 0.10), 95, 30);
-        b.addActionListener(new Controller());
+//        b.addActionListener(new Controller());
 
         add(b);
         add(id_field);

@@ -1,15 +1,11 @@
 package game;
 
-import game.Arena;
-import game.Controller;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 public class Panel extends JPanel {
 
@@ -106,7 +102,7 @@ public class Panel extends JPanel {
     }
 
     private void updateNameImg() {
-        _name_img.setBounds(_frame.getWidth() / 2 -150, 0, 300, 100);
+        _name_img.setBounds(_frame.getWidth() / 2 - 150, 0, 300, 100);
     }
 
     @Override

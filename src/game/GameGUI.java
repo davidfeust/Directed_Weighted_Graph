@@ -1,8 +1,11 @@
 package game;
 
-
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameGUI extends JFrame {
@@ -10,6 +13,8 @@ public class GameGUI extends JFrame {
     private Panel _panel;
     private GameView _view;
     private Controller _ctrl;
+    private BufferedImage _image_pok;
+
 
     public GameGUI(int level, Controller ctrl) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,6 +28,7 @@ public class GameGUI extends JFrame {
         this.setPreferredSize(new Dimension(1200, 600));
 
         menu();
+        icon();
 
         this.setLayout(new BorderLayout());
         this.add(_panel, BorderLayout.NORTH);
@@ -33,13 +39,22 @@ public class GameGUI extends JFrame {
         setVisible(true);
     }
 
+    private void icon() {
+        try {
+            _image_pok = ImageIO.read(new File("img/pokeball.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setIconImage(_image_pok);
+    }
+
     private void menu() {
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Level");
         menuBar.add(menu);
         this.setMenuBar(menuBar);
         ArrayList<MenuItem> menuItems = new ArrayList<>();
-        String s = "scenario number - ";
+        String s = "Level number - ";
         for (int i = 0; i < 24; i++) {
             menuItems.add(new MenuItem(s + i));
         }
@@ -49,8 +64,8 @@ public class GameGUI extends JFrame {
         }
     }
 
-    public void init(int level){
-
+    public void set_level(int level) {
+        _panel.set_level(level);
     }
 
     public void set_ar(Arena ar) {
@@ -61,13 +76,8 @@ public class GameGUI extends JFrame {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-//        _panel.paint(g);
-//        _view.paint(g);
     }
-
-
 }
-
 
 
 //import api.directed_weighted_graph;

@@ -1,9 +1,7 @@
 package game;
 
 import api.game_service;
-import trys.Try1;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -21,9 +19,6 @@ public class Controller extends WindowAdapter implements ActionListener {
         _thread = thread;
         _id = id;
         _level = level;
-    }
-
-    public Controller() {
     }
 
     @Override
@@ -53,7 +48,7 @@ public class Controller extends WindowAdapter implements ActionListener {
 
         game_service game = _run.get_game();
         game.stopGame();
-        _thread.stop();
+//        _thread.stop();
         _run = new Runner(_level, _id);
         _run.set_win(_win);
         _thread = new Thread(_run);

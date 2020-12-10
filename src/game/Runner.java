@@ -23,10 +23,6 @@ public class Runner implements Runnable {
 
     @Override
     public void run() {
-        if (_game != null) {
-            _game.stopGame();
-            _win.setVisible(false);
-        }
         _game = Game_Server_Ex2.getServer(_scenario_num); // you have [0,23] games
 //        _game.login(_id);
 //        System.out.println("Game Info: " + _game);
@@ -127,9 +123,8 @@ public class Runner implements Runnable {
 
     private void initGUI() {
         _win.set_ar(_ar);
-        _win.init(_scenario_num);
+        _win.set_level(_scenario_num);
         _win.setTitle("Pockemons Game " + _scenario_num);
-//        _win.set_scenario_num(_scenario_num);
         _win.setVisible(true);
     }
 

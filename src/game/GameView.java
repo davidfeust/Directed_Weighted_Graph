@@ -4,10 +4,6 @@ import api.directed_weighted_graph;
 import api.edge_data;
 import api.geo_location;
 import api.node_data;
-import game.Agent;
-import game.Arena;
-import game.Controller;
-import game.Pokemon;
 import game.util.Point3D;
 import game.util.Range;
 import game.util.Range2D;
@@ -45,7 +41,6 @@ public class GameView extends JPanel {
         _w2f = Arena.w2f(g, frame);
     }
 
-
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -67,7 +62,7 @@ public class GameView extends JPanel {
         drawGraph(g);
         drawPokemons(g, _ar, _w2f);
         drawAgants(g);
-        drawTime(g);
+        drawTimeLine(g);
         updateFrame();
     }
 
@@ -169,7 +164,7 @@ public class GameView extends JPanel {
         g.fillOval((int) fp.x() - r, (int) fp.y() - r, 2 * r, 2 * r);
     }
 
-    private void drawTime(Graphics g) {
+    private void drawTimeLine(Graphics g) {
         g.setColor(new Color(0xCD1818));
         double ts = (double) _ar.get_timeStart();
         double curT = (double) _ar.getTime();

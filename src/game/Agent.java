@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Agent {
+
     private int _id, _is_moving;
     private double _value, _speed;
     private geo_location _pos;
@@ -35,16 +36,9 @@ public class Agent {
         _is_moving = agent.get("dest").getAsInt();
     }
 
-    public boolean setNextNode(int dest) {
-        boolean ans = false;
+    public void setNextNode(int dest) {
         int src = this._node.getKey();
         this._edge = _graph.getEdge(src, dest);
-        if (_edge != null) {
-            ans = true;
-        } else {
-            _edge = null;
-        }
-        return ans;
     }
 
     public int getNextNode() {
@@ -56,7 +50,6 @@ public class Agent {
     }
 
     public boolean isMoving() {
-//        return this._edge != null;
         return _is_moving != -1;
     }
 

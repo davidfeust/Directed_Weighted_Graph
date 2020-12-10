@@ -17,8 +17,7 @@ import java.util.List;
 
 public class GameViewPlus extends GameView {
 
-    private BufferedImage _name;
-    private BufferedImage _image_pok;
+    //    private BufferedImage _name;
     private BufferedImage[] _image_agents;
     private BufferedImage[] _image_fruits;
     private BufferedImage[] _image_sound;
@@ -33,10 +32,9 @@ public class GameViewPlus extends GameView {
     @Override
     public void paintComponents(Graphics g) {
         super.paintComponents(g);
-//        g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
         g.drawImage(_image_sound[0], getWidth() / 40, (int) (getHeight() - getHeight() / 15), getWidth() / 30, getHeight() / 30, null);
-        g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
-
+//        g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
+//        g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
     }
 
     private void loadImg() {
@@ -54,18 +52,17 @@ public class GameViewPlus extends GameView {
             _image_sound[0] = ImageIO.read(new File("img/mute.png"));
             _image_sound[1] = ImageIO.read(new File("img/unmute.png"));
 
-            _image_pok = ImageIO.read(new File("img/pokeball.png"));
+//            _image_pok = ImageIO.read(new File("img/pokeball.png"));
 //            _name = ImageIO.read(new File("img/name.gif"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-//    @Override
+    //    @Override
 //    public void nodeIcon(Graphics g, int radius, geo_location fp) {
 //        g.drawImage(_image_node, (int) fp.x() - radius, (int) fp.y() - radius, 5 * radius, 5 * radius, null);
 //    }
-
     @Override
     protected void pokIcon(Graphics g, int radius, geo_location fp, int flag) {
         g.drawImage(_image_fruits[flag],
