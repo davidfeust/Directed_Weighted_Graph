@@ -63,6 +63,7 @@ public class GameView extends JPanel {
 
     @Override
     public void paintComponents(Graphics g) {
+//        g.fillRect(0,0,getWidth(), getHeight());
         drawGraph(g);
         drawPokemons(g, _ar, _w2f);
         drawAgants(g);
