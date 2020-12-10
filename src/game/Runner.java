@@ -56,8 +56,8 @@ public class Runner implements Runnable {
             public void run() {
                 try {
                     while (_game.isRunning()) {
-                        _ar.update(_game);
                         synchronized (this) {
+                            _ar.update(_game);
                             _game.move();
                         }
                         boolean boost = false;
@@ -68,7 +68,7 @@ public class Runner implements Runnable {
                         }
 //                        System.out.println(boost);
                         if (boost) {
-//                            Thread.sleep(50L);
+                            Thread.sleep(50L);
                         } else {
                             Thread.sleep((long) 1000 / 10);
                         }
@@ -79,27 +79,28 @@ public class Runner implements Runnable {
             }
         });
 
-        mover.start();
+//        mover.start();
         painter.start();
 
         int iteration = 0;
         while (_game.isRunning()) {
-//            iteration++;
+            iteration++;
             for (Agent a : _ar.getAgents()) {
-                synchronized (_ar) {
-                    _ar.update(_game);
-                    if (a.get_path().isEmpty()) {
-                        createPath(_game, a);
-                    }
-                    _ar.update(_game);
-                    if (!a.isMoving()) {
-                        nextMove(_game, a);
-                    }
-//                toMove(a);
+                _ar.update(_game);
+                if (a.get_path().isEmpty()) {
+                    createPath(_game, a);
+                }
+                _ar.update(_game);
+                if (!a.isMoving()) {
+                    nextMove(_game, a);
                 }
             }
-//            _game.move();
-//            _win.repaint();
+
+//            if (iteration == 500) {
+            iteration = 0;
+            _game.move();
+//            }
+
 
         }
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();

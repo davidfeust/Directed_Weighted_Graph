@@ -68,13 +68,10 @@ public class Algo {
             _ar.get_pokemonsWithOwner().remove(a.get_curr_fruit());
         }
 
-        long is_choosen = game.chooseNextEdge(id, next_dest);
+        game.chooseNextEdge(id, next_dest);
 //        System.out.println("Agent: " + id + ", val: " + a.getValue() + "   turned to node: " + next_dest);
 //        System.out.println("\t\ton the way to: " + a.get_curr_fruit());
-//        System.out.println("**" + is_choosen);
-//        System.out.println("&& " + game.getPokemons());
     }
-
 
     synchronized static void createPath(game_service game, Agent a) {
         if (_ar.getAgents().size() == _ar.getPokemons().size()) {

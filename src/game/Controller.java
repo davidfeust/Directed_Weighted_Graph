@@ -22,7 +22,9 @@ public class Controller extends WindowAdapter implements ActionListener {
         _id = id;
         _level = level;
     }
-    public Controller(){        }
+
+    public Controller() {
+    }
 
     @Override
     public void windowClosing(WindowEvent e) {
@@ -34,7 +36,7 @@ public class Controller extends WindowAdapter implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String str = e.getActionCommand();
         if (str.equals("Submit")) {
-             _level = Integer.parseInt(Try1.getLevel());
+            _level = Integer.parseInt(Try1.getLevel());
             _id = Integer.parseInt(Try1.getId());
 
         } else {
