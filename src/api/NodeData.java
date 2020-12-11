@@ -3,39 +3,65 @@ package api;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class NodeData implements node_data , Comparable<node_data> {
+public class NodeData implements node_data, Comparable<node_data> {
 
     private static int _masterKey = 0;
     private final int _key;
-    private final HashMap<Integer, node_data> _connectedNode;
-    private final HashMap<Integer, edge_data> _neighborsDis;
     private int _tag;
     private double _weight;
     private String _remark;
     private geo_location _GLocation;
 
+    /**
+     * This {@link HashMap} stores the nodes that connect to this node.
+     * key - Integer number, the id of the node.
+     * value - The node_data corresponding to the key.
+     */
+    private final HashMap<Integer, node_data> _connectedNode;
+
+    /**
+     * This {@link HashMap} stores the neighbors nodes of this node by the edge_data between them.
+     * key - Integer number, the id of the neighbor node.
+     * value - The edge_data between this to the node with the corresponding key.
+     */
+    private final HashMap<Integer, edge_data> _neighborsDis;
+
+    /**
+     * Default constructor.
+     * init the field, and creates the HashMaps.
+     * key field get value from the static field _masterKey.
+     */
     public NodeData() {
         this._key = _masterKey++;
         this._connectedNode = new HashMap<>();
         this._neighborsDis = new HashMap<>();
         this._remark = "";
         this.setTag(-1);
-        _GLocation = new Geo_locationImpl(0,0,0);
+        _GLocation = new Geo_locationImpl(0, 0, 0);
         _weight = 0;
     }
 
+    /**
+     * Constructor.
+     * init the field, and creates the HashMaps.
+     * key field get value from key param.
+     *
+     * @param key id
+     */
     public NodeData(int key) {
         this._key = key;
         this._connectedNode = new HashMap<>();
         this._neighborsDis = new HashMap<>();
         this._remark = "";
         this.setTag(-1);
-        _GLocation = new Geo_locationImpl(0,0,0);
+        _GLocation = new Geo_locationImpl(0, 0, 0);
         _weight = 0;
     }
 
     /**
-     * Copy constructor
+     * Copy constructor.
+     * All fields are copied.
+     * Except from the HashMaps that initialized to new empty HashMaps.
      *
      * @param n node data
      */
@@ -52,16 +78,25 @@ public class NodeData implements node_data , Comparable<node_data> {
             _GLocation = new Geo_locationImpl(n.getLocation());
     }
 
+    /**
+     * Returns the HashMap contains all the edges that coming out of this node.
+     * @return _neighborsDis {@link HashMap}
+     */
     public HashMap<Integer, edge_data> getNeighborsDis() {
         return _neighborsDis;
     }
 
-    public HashMap<Integer, node_data> getConnectedNode() { return _connectedNode; }
+    /**
+     * Returns the HashMap contains all the nodes that connect to this node.
+     * @return _neighborsDis {@link HashMap}
+     */
+    public HashMap<Integer, node_data> getConnectedNode() {
+        return _connectedNode;
+    }
 
     /**
      * Returns the key (id) associated with this node.
-     *
-     * @return
+     * @return key
      */
     @Override
     public int getKey() {
@@ -71,8 +106,7 @@ public class NodeData implements node_data , Comparable<node_data> {
     /**
      * Returns the location of this node, if
      * none return null.
-     *
-     * @return
+     * @return geo_location
      */
     @Override
     public geo_location getLocation() {
@@ -81,8 +115,7 @@ public class NodeData implements node_data , Comparable<node_data> {
 
     /**
      * Allows changing this node's location.
-     *
-     * @param p - new new location  (position) of this node.
+     * @param p new location (position) of this node.
      */
     @Override
     public void setLocation(geo_location p) {
@@ -91,8 +124,7 @@ public class NodeData implements node_data , Comparable<node_data> {
 
     /**
      * Returns the weight associated with this node.
-     *
-     * @return
+     * @return weight
      */
     @Override
     public double getWeight() {
@@ -101,8 +133,7 @@ public class NodeData implements node_data , Comparable<node_data> {
 
     /**
      * Allows changing this node's weight.
-     *
-     * @param w - the new weight
+     * @param w the new weight.
      */
     @Override
     public void setWeight(double w) {
@@ -111,8 +142,7 @@ public class NodeData implements node_data , Comparable<node_data> {
 
     /**
      * Returns the remark (meta data) associated with this node.
-     *
-     * @return
+     * @return remark.
      */
     @Override
     public String getInfo() {
@@ -121,8 +151,7 @@ public class NodeData implements node_data , Comparable<node_data> {
 
     /**
      * Allows changing the remark (meta data) associated with this node.
-     *
-     * @param s
+     * @param s the new remark.
      */
     @Override
     public void setInfo(String s) {
@@ -131,9 +160,8 @@ public class NodeData implements node_data , Comparable<node_data> {
 
     /**
      * Temporal data (aka color: e,g, white, gray, black)
-     * which can be used be algorithms
-     *
-     * @return
+     * which can be used be algorithms.
+     * @return the new tag.
      */
     @Override
     public int getTag() {
@@ -143,14 +171,19 @@ public class NodeData implements node_data , Comparable<node_data> {
     /**
      * Allows setting the "tag" value for temporal marking an node - common
      * practice for marking by algorithms.
-     *
-     * @param t - the new value of the tag
+     * @param t the new value of the tag.
      */
     @Override
     public void setTag(int t) {
         this._tag = t;
     }
 
+    /**
+     * Equal method. return true iff o is {@link NodeData},
+     * and they both has the same key, same neighbors, and same nodes are neighbors of they both.
+     * @param o {@link Objects}
+     * @return true iff o and this are equals.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -161,6 +194,21 @@ public class NodeData implements node_data , Comparable<node_data> {
                 _GLocation.equals(nodeData._GLocation);
     }
 
+    /**
+     * This method is implements because this class implements Comparable.
+     * Allows to compare nodes by their weight.
+     * @param o other node to compare
+     * @return
+     */
+    @Override
+    public int compareTo(node_data o) {
+        if (this._weight > o.getWeight())
+            return 1;
+        if (this._weight < o.getWeight())
+            return -1;
+        return 0;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(_key);
@@ -169,14 +217,5 @@ public class NodeData implements node_data , Comparable<node_data> {
     @Override
     public String toString() {
         return "(" + _key + ")";
-    }
-
-    @Override
-    public int compareTo(node_data o) {
-        if (this._weight > o.getWeight())
-            return 1;
-        if (this._weight < o.getWeight())
-            return -1;
-        return 0;
     }
 }
