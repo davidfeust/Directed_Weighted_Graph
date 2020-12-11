@@ -2,10 +2,7 @@ package game;
 
 import api.*;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Algo {
 
@@ -193,6 +190,35 @@ public class Algo {
             }
         }
         return false;
+    }
+
+    public synchronized static long toMove(Agent a) {
+        if (a.get_edge() == null) {
+            System.out.println("null");
+            return 0;
+        }
+        node_data node = _graph.getNode(a.getSrcNode());
+        if (isClose2Pok(a)){
+            System.out.println("close");
+            return 0;
+        }
+        if (Math.abs(a.getPos().distance(node.getLocation())) < 0.1) {
+            if (a.get_curr_fruit() != null && a.get_edge() != null && !a.get_edge().equals(a.get_curr_fruit().get_edge())) {
+                double way =  a.get_edge().getWeight() / a.get_speed();
+                way *= 1000;
+                System.out.println(way);
+                return (long) way;
+            }
+        } else {
+            return 300;
+        }
+        return 120;
+
+//        geo_location pos = a.getPos();
+//        double speed = a.get_speed();
+//        edge_data edge = a.get_edge();
+
+
     }
 
     public static void set_ar(Arena _ar) {

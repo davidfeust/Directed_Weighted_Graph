@@ -50,39 +50,41 @@ public class Runner implements Runnable {
         Thread mover = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    while (_game.isRunning()) {
-                        synchronized (this) {
-                            _ar.update(_game);
-                        }
-                        boolean boost = false;
-                        for (Agent a : _ar.getAgents()) {
-                            if (isClose2Pok(a)) {
-                                boost = true;
-                            }
-                        }
-                        _game.move();
 
-//                        System.out.println(boost);
-                        if (boost) {
-                            Thread.sleep(1000L);
-                        } else {
-                            Thread.sleep((long) 10000 );
+                while (_game.isRunning()) {
+                    long sleep = Integer.MAX_VALUE;
+                    for (Agent a : _ar.getAgents()) {
+                        long tm = toMove(a);
+                        if (tm == -1) {
+                            System.out.println("!!!!");
+                            createPath(_game,a);
+                            continue;
                         }
+                        sleep = Math.min(tm, sleep);
                     }
-                } catch (InterruptedException exception) {
-                    exception.printStackTrace();
+                    System.out.println(sleep);
+                    try {
+                        Thread.sleep(sleep);
+                    } catch (InterruptedException exception) {
+                        exception.printStackTrace();
+                    }
+                    _ar.update(_game);
+                    _game.move();
+                    _win.repaint();
+
+//                    System.out.println(_game.move());
                 }
             }
         });
 
-//        mover.start();
-        painter.start();
+        mover.start();
+//        painter.start();
 
         int iteration = 0;
         while (_game.isRunning()) {
             iteration++;
             for (Agent a : _ar.getAgents()) {
+//                toMove(a);
                 _ar.update(_game);
                 if (a.get_path().isEmpty()) {
                     createPath(_game, a);
@@ -93,12 +95,13 @@ public class Runner implements Runnable {
                 }
             }
 
-            if (iteration == 300) {
-            iteration = 0;
-            _game.move();
-            }
+//            if (iteration == 300) {
+//            iteration = 0;
+//            _game.move();
+//            }
 
         }
+
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
         System.out.println("Level: " + _scenario_num + "\t\tGrade: " + _ar.getGrade() + "\tMoves: " + moves);
 //        System.exit(0);
@@ -126,26 +129,6 @@ public class Runner implements Runnable {
         _win.set_level(_scenario_num);
         _win.setTitle("Pockemons Game " + _scenario_num);
         _win.setVisible(true);
-    }
-
-    public void toMove(Agent a) {
-//        if (isClose2Pok(a)) {
-//            _game.move();
-//            _win.repaint();
-//            try {
-//                Thread.sleep(2);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            _game.move();
-//            _win.repaint();
-//            try {
-//                Thread.sleep(50);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     public game_service get_game() {
