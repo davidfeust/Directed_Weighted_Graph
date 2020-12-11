@@ -1,7 +1,8 @@
 package game;
 
 import api.game_service;
-
+import game.Panel.*;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -30,6 +31,12 @@ public class Controller extends WindowAdapter implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String str = e.getActionCommand();
+        if (str.equals("mute")) {
+          if(game.Panel.changeMuteIcon()==1){
+              game.GameViewPlus.soundOff();}
+            else { game.GameViewPlus.soundOn(); }
+        }
+        else{
         if (str.equals("Submit")) {
             try {
                 _level = Integer.parseInt(Panel.getLevel());
@@ -53,7 +60,7 @@ public class Controller extends WindowAdapter implements ActionListener {
         _run.set_win(_win);
         _thread = new Thread(_run);
         _thread.start();
-    }
+    }}
 
     public void set_win(GameGUI win) {
         _win = win;

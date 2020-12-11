@@ -54,7 +54,6 @@ public class Runner implements Runnable {
                     while (_game.isRunning()) {
                         synchronized (this) {
                             _ar.update(_game);
-                            _game.move();
                         }
                         boolean boost = false;
                         for (Agent a : _ar.getAgents()) {
@@ -62,11 +61,13 @@ public class Runner implements Runnable {
                                 boost = true;
                             }
                         }
+                        _game.move();
+
 //                        System.out.println(boost);
                         if (boost) {
-                            Thread.sleep(50L);
+                            Thread.sleep(1000L);
                         } else {
-                            Thread.sleep((long) 1000 / 10);
+                            Thread.sleep((long) 10000 );
                         }
                     }
                 } catch (InterruptedException exception) {
@@ -92,11 +93,10 @@ public class Runner implements Runnable {
                 }
             }
 
-//            if (iteration == 500) {
+            if (iteration == 300) {
             iteration = 0;
             _game.move();
-//            }
-
+            }
 
         }
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();

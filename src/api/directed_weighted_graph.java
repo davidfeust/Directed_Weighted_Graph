@@ -8,7 +8,7 @@ import java.util.Collection;
  * (should NOT be based on a n*n matrix).
  *
  */
-public interface directed_weighted_graph {
+public interface directed_weighted_graph  {
 	/**
 	 * returns the node_data by the node_id,
 	 * @param key - the node_id

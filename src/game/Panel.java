@@ -6,6 +6,7 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class Panel extends JPanel {
 
@@ -23,6 +24,9 @@ public class Panel extends JPanel {
     private Arena _ar;
     private int _scenario_num;
     private Controller _ctrl;
+    static ImageIcon[] _image_sound;
+    static JButton un_mute;
+    static boolean muteFlag;
 
     public Panel(JFrame frame, Controller ctrl) {
         _frame = frame;
@@ -30,6 +34,7 @@ public class Panel extends JPanel {
         setBackground(Color.gray);
         setBorder(new BevelBorder(BevelBorder.RAISED));
 
+        sound_button();
         insertBox();
         infoBox();
         nameImg();
@@ -111,6 +116,45 @@ public class Panel extends JPanel {
         updateInsertBox();
         updateInfoBox();
         updateNameImg();
+        update_sound_button();
+    }
+    public void sound_button(){
+
+         _image_sound = new ImageIcon[2];
+
+         _image_sound[0] = (new ImageIcon("img/mute.png"));
+         _image_sound[1] = (new ImageIcon("img/unmute.png"));
+
+        Image image = _image_sound[0].getImage(); // transform it
+        Image newimg = image.getScaledInstance(27, 27,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        _image_sound[0] = new ImageIcon(newimg);
+
+        image = _image_sound[1].getImage(); // transform it
+        newimg = image.getScaledInstance(27, 27,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        _image_sound[1] = new ImageIcon(newimg);
+
+         un_mute = new JButton("mute");
+        un_mute.setFont(new Font("david", Font.PLAIN, 1));
+         un_mute.addActionListener(_ctrl);
+         un_mute.setIcon(_image_sound[0]);
+        muteFlag=true;
+         add(un_mute);
+    }
+    public void update_sound_button(){
+        un_mute.setBounds(_frame.getWidth()  - 250, 27, 40, 40);
+    }
+
+    public static int changeMuteIcon(){
+        if(muteFlag==true){
+        un_mute.setIcon(_image_sound[1]);
+        muteFlag=false;
+        return 1;//indicate for stopping the music
+        }
+        else {
+            un_mute.setIcon(_image_sound[0]);
+            muteFlag=true;
+            return 0;//indicate for starting the music
+        }
     }
 
     public void set_ar(Arena ar) {

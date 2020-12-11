@@ -20,22 +20,22 @@ public class GameViewPlus extends GameView {
     //    private BufferedImage _name;
     private BufferedImage[] _image_agents;
     private BufferedImage[] _image_fruits;
-    private BufferedImage[] _image_sound;
-
+    static Clip clip;
     public GameViewPlus(JFrame frame, int level) {
         super(frame, level);
         loadImg();
 //        setIconImage(_image_pok);
-//        sound();
+        sound();
     }
 
     @Override
     public void paintComponents(Graphics g) {
         super.paintComponents(g);
-        g.drawImage(_image_sound[0], getWidth() / 40, (int) (getHeight() - getHeight() / 15), getWidth() / 30, getHeight() / 30, null);
 //        g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
 //        g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
     }
+
+
 
     private void loadImg() {
         try {
@@ -48,9 +48,9 @@ public class GameViewPlus extends GameView {
             for (int i = 0; i < 3; i++) {
                 _image_fruits[i] = ImageIO.read(new File("img/fruit" + (i + 1) + ".png"));
             }
-            _image_sound = new BufferedImage[2];
-            _image_sound[0] = ImageIO.read(new File("img/mute.png"));
-            _image_sound[1] = ImageIO.read(new File("img/unmute.png"));
+
+
+
 
 //            _image_pok = ImageIO.read(new File("img/pokeball.png"));
 //            _name = ImageIO.read(new File("img/name.gif"));
@@ -106,7 +106,7 @@ public class GameViewPlus extends GameView {
 
     public void sound() {
         try {
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             AudioInputStream ais = AudioSystem.getAudioInputStream(new File("songs/pokemonSong.wav"));
             clip.open(ais);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -115,5 +115,15 @@ public class GameViewPlus extends GameView {
             ex.printStackTrace();
         }
     }
+    public static void soundOff(){
+        clip.stop();
+    }
+    public static void soundOn(){
+        clip.start();
+    }
+
+
+
+
 
 }
