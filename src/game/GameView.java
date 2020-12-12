@@ -23,6 +23,7 @@ public class GameView extends JPanel {
     private Range2Range _w2f;
 
     public GameView(JFrame frame, int level) {
+        super();
         _frame = frame;
         _scenario_num = level;
 //        setSize(1200, 600);

@@ -10,6 +10,11 @@ import game.util.Point3D;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is a representation of agent in the Pokemons Game.
+ * most of the data are coming from the server as Json,
+ * and there data that coming from the client, like _curr_fruit, current path, and the graph.
+ */
 public class Agent {
 
     private int _id, _is_moving;
@@ -19,39 +24,52 @@ public class Agent {
     private edge_data _edge;
     private List<node_data> _path;
     private Pokemon _curr_fruit;
-    static private directed_weighted_graph _graph;
+    private static directed_weighted_graph _graph;
 
+    /**
+     * Constructor, getting {@link JsonObject} of Agent.
+     * uses update method.
+     *
+     * @param json {@link JsonObject} represent Agent.
+     */
     public Agent(JsonObject json) {
         update(json);
         _path = new ArrayList<>();
     }
 
+    /**
+     * Update the filed by the {@link JsonObject} get from the server.
+     *
+     * @param agent json object
+     */
     public void update(JsonObject agent) {
         _id = agent.get("id").getAsInt();
         _value = agent.get("value").getAsDouble();
         _speed = agent.get("speed").getAsDouble();
         _pos = new Point3D(agent.get("pos").getAsString());
-        setNode(agent.get("src").getAsInt());
-        setNextNode(agent.get("dest").getAsInt());
+        setNode(agent.get("src").getAsInt()); // update _node
+        setNextNode(agent.get("dest").getAsInt()); // update _edge
         _is_moving = agent.get("dest").getAsInt();
     }
 
+    /**
+     * set _edge to the current edge this agent on it.
+     *
+     * @param dest node id, come from the server.
+     */
     public void setNextNode(int dest) {
         int src = this._node.getKey();
         this._edge = _graph.getEdge(src, dest);
     }
 
-    public int getNextNode() {
-        if (this._edge == null) {
-            return -1;
-        } else {
-            return this._edge.getDest();
-        }
-    }
-
+    /**
+     * Returns true iff this agent is moving.
+     */
     public boolean isMoving() {
         return _is_moving != -1;
     }
+
+    // Getters & Setters:
 
     public static void set_graph(directed_weighted_graph _graph) {
         Agent._graph = _graph;

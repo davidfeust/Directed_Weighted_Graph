@@ -9,7 +9,6 @@ import static game.Algo.*;
 
 public class Runner implements Runnable {
 
-
     private GameGUI _win;
     private Arena _ar;
     private directed_weighted_graph _graph;
@@ -85,7 +84,7 @@ public class Runner implements Runnable {
             for (Agent a : _ar.getAgents()) {
                 _ar.update(_game);
                 if (a.get_path().isEmpty()) {
-                    createPath(_game, a);
+                    createPath(a);
                 }
                 _ar.update(_game);
                 if (!a.isMoving()) {
@@ -93,10 +92,10 @@ public class Runner implements Runnable {
                 }
             }
 
-            if (iteration == 300) {
-            iteration = 0;
+//            if (iteration == 0) {
+//            iteration = 0;
             _game.move();
-            }
+//            }
 
         }
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();

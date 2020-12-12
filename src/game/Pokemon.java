@@ -7,6 +7,11 @@ import api.node_data;
 import com.google.gson.JsonObject;
 import game.util.Point3D;
 
+/**
+ * This class is a representation of Pokemon in the Pokemons Game.
+ * most of the data are coming from the server as Json,
+ * and there data that coming from the client, like _edge and graph.
+ */
 public class Pokemon {
 
     private static final double EPS = 0.001 * 0.001;
@@ -16,10 +21,18 @@ public class Pokemon {
     private edge_data _edge;
     static private directed_weighted_graph _graph;
 
+    /**
+     * Constructor. uses update method.
+     * @param json json object, coming from the server.
+     */
     public Pokemon(JsonObject json) {
         update(json);
     }
 
+    /**
+     * update the field by the json
+     * @param json json object, coming from the server.
+     */
     public void update(JsonObject json) {
         _value = json.get("value").getAsDouble();
         _type = json.get("type").getAsInt();
@@ -27,6 +40,11 @@ public class Pokemon {
         _edge = findEdge();
     }
 
+    /**
+     * Find the edge that this Pokemon on it. uses inOnEdge method and
+     * check it on all the node in the _graph.
+     * @return
+     */
     public edge_data findEdge() {
         for (node_data v : _graph.getV()) {
             for (edge_data e : _graph.getE(v.getKey())) {
@@ -38,6 +56,13 @@ public class Pokemon {
         return null;
     }
 
+    /**
+     * Returns true iff this Pokemon location is on the giving edge.
+     * the type field says if the pokemon on edge that src < dest -> -1 type,
+     * or src > dest -> 1 type.
+     * @param e edge_data
+     * @return true if this is on e.
+     */
     private boolean isOnEdge(edge_data e) {
         int src = e.getSrc();
         int dest = e.getDest();
@@ -53,6 +78,8 @@ public class Pokemon {
         double d1 = src_loc.distance(get_pos()) + get_pos().distance(dest_loc);
         return dist > d1 - EPS;
     }
+
+    // Getters & Setters:
 
     public static void set_graph(directed_weighted_graph _graph) {
         Pokemon._graph = _graph;
@@ -84,6 +111,11 @@ public class Pokemon {
                 '}';
     }
 
+    /**
+     * Returns true iff o is {@link Pokemon} and all the fields in this and o are equals.
+     * @param o {@link java.util.Objects}
+     * @return true iff o equals to this.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -4,6 +4,11 @@ public class Ex2 {
 
     private static int _id = 205474026, _level = 23;
 
+    /**
+     * Main of the Game Pokemons.
+     * starts new Game with the giving id and level from args
+     * @param args args[0]= id, args[1]= level.
+     */
     public static void main(String[] args) {
         try {
             _id = Integer.parseInt(args[0]);

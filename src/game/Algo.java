@@ -13,6 +13,11 @@ public class Algo {
     private static directed_weighted_graph _graph;
     private static final double EPS = 0.000001;
 
+    /**
+     * Place the agents in the start of the game in near to the pokemons with the highest value.
+     * @param num_of_agents in the current game.
+     * @param game game_service
+     */
     static void placeAgents(int num_of_agents, game_service game) {
 //        dw_graph_algorithms ga = new WDGraph_Algo(_graph);
 //        ga.shortestPathDist(0, 0);
@@ -56,10 +61,17 @@ public class Algo {
         }
     }
 
+    /**
+     * Chooses the next move of the giving agent,
+     * the next move according to the agent's path.
+     * if the destination pokemon of this agent already eaten, then the function call createPath.
+     * @param game game_service
+     * @param a agent to choose his next move
+     */
     static void nextMove(game_service game, Agent a) {
         int id = a.getId();
         if (indexOfPok(_ar.getPokemons(), a.get_curr_fruit()) == -1) {
-            createPath(game, a);
+            createPath(a);
             return;
         }
 
@@ -74,7 +86,12 @@ public class Algo {
 //        System.out.println("\t\ton the way to: " + a.get_curr_fruit());
     }
 
-    synchronized static void createPath(game_service game, Agent a) {
+    /**
+     * Creates the current path of the giving agent, chooses the strategy of creating the path,
+     * and calling the mache function.
+     * @param a an agent
+     */
+    synchronized static void createPath(Agent a) {
         if (_ar.getAgents().size() == _ar.getPokemons().size()) {
             createPathByDistance(a);
         } else {

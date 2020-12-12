@@ -6,29 +6,24 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 public class Panel extends JPanel {
 
     private JFrame _frame;
-    private static JTextField _id_field;
-    private static JTextField _s_n;
-    private JButton _button;
-    private JLabel _id_label;
-    private JLabel _level_label;
-    private JLabel _time;
-    private JLabel _level;
-    private JLabel _score;
-    private BufferedImage _name;
-    private JLabel _name_img;
     private Arena _ar;
-    private int _scenario_num;
     private Controller _ctrl;
-    static ImageIcon[] _image_sound;
-    static JButton un_mute;
+    private int _scenario_num;
     static boolean muteFlag;
 
+    private static JTextField _id_field, _s_n;
+    private JButton _button;
+    private static JButton un_mute;
+    private JLabel _id_label, _level_label, _time, _level, _score, _name_img;
+    private BufferedImage _name;
+    static ImageIcon[] _image_sound;
+
     public Panel(JFrame frame, Controller ctrl) {
+        super();
         _frame = frame;
         _ctrl = ctrl;
         setBackground(Color.gray);
@@ -118,44 +113,47 @@ public class Panel extends JPanel {
         updateNameImg();
         update_sound_button();
     }
-    public void sound_button(){
 
-         _image_sound = new ImageIcon[2];
+    public void sound_button() {
 
-         _image_sound[0] = (new ImageIcon("img/mute.png"));
-         _image_sound[1] = (new ImageIcon("img/unmute.png"));
+        _image_sound = new ImageIcon[2];
+
+        _image_sound[0] = (new ImageIcon("img/mute.png"));
+        _image_sound[1] = (new ImageIcon("img/unmute.png"));
 
         Image image = _image_sound[0].getImage(); // transform it
-        Image newimg = image.getScaledInstance(27, 27,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        Image newimg = image.getScaledInstance(27, 27, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         _image_sound[0] = new ImageIcon(newimg);
 
         image = _image_sound[1].getImage(); // transform it
-        newimg = image.getScaledInstance(27, 27,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        newimg = image.getScaledInstance(27, 27, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         _image_sound[1] = new ImageIcon(newimg);
 
-         un_mute = new JButton("mute");
+        un_mute = new JButton("mute");
         un_mute.setFont(new Font("david", Font.PLAIN, 1));
-         un_mute.addActionListener(_ctrl);
-         un_mute.setIcon(_image_sound[0]);
-        muteFlag=true;
-         add(un_mute);
-    }
-    public void update_sound_button(){
-        un_mute.setBounds(_frame.getWidth()  - 250, 27, 40, 40);
+        un_mute.addActionListener(_ctrl);
+        un_mute.setIcon(_image_sound[0]);
+        muteFlag = true;
+        add(un_mute);
     }
 
-    public static int changeMuteIcon(){
-        if(muteFlag==true){
-        un_mute.setIcon(_image_sound[1]);
-        muteFlag=false;
-        return 1;//indicate for stopping the music
-        }
-        else {
+    public void update_sound_button() {
+        un_mute.setBounds(_frame.getWidth() - 250, 27, 40, 40);
+    }
+
+    public static int changeMuteIcon() {
+        if (muteFlag) {
+            un_mute.setIcon(_image_sound[1]);
+            muteFlag = false;
+            return 1; //indicate for stopping the music
+        } else {
             un_mute.setIcon(_image_sound[0]);
-            muteFlag=true;
-            return 0;//indicate for starting the music
+            muteFlag = true;
+            return 0; //indicate for starting the music
         }
     }
+
+    // Getter & Setters:
 
     public void set_ar(Arena ar) {
         _ar = ar;

@@ -9,14 +9,35 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * This class represents an directed weighted Graph Theory algorithms implements dw_graph_algorithms.
+ * including:
+ * 0. clone(); (copy)
+ * 1. init(graph);
+ * 2. isConnected(); // strongly (all ordered pais connected)
+ * 3. double shortestPathDist(int src, int dest);
+ * 4. List<node_data> shortestPath(int src, int dest);
+ * 5. Save(file); // JSON file
+ * 6. Load(file); // JSON file
+ */
 public class WDGraph_Algo implements dw_graph_algorithms {
 
+    /**
+     * the current graph, that these algorithms executed on.
+     */
     private directed_weighted_graph _g;
 
-    // default constructor
+    /**
+     * Default constructor
+     */
     public WDGraph_Algo() {
     }
 
+    /**
+     * Constructor, getting graph as params and init.
+     *
+     * @param g directed_weighted_graph
+     */
     public WDGraph_Algo(directed_weighted_graph g) {
         init(g);
     }
@@ -24,7 +45,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
     /**
      * Init the graph on which this set of algorithms operates on.
      *
-     * @param g
+     * @param g directed_weighted_graph
      */
     @Override
     public void init(directed_weighted_graph g) {
@@ -34,7 +55,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
     /**
      * Return the underlying graph of which this class works.
      *
-     * @return
+     * @return the current directed_weighted_graph.
      */
     @Override
     public directed_weighted_graph getGraph() {
@@ -43,10 +64,10 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
     /**
      * Compute a deep copy of this weighted graph.
+     * this method uses the copy constructors of {@link WDGraph_DS}.
      *
-     * @return
+     * @return new {@link WDGraph_DS}.
      */
-//    TODO fix that method
     @Override
     public directed_weighted_graph copy() {
         return new WDGraph_DS(_g);
@@ -75,12 +96,10 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             }
 
             for (node_data i : _g.getV()) {
-
-                    this.connectedCheck(i, connectedNode, ++num);
-
-                    if (connectedNode.getTag() == num) {
-                        return false;
-                    }
+                this.connectedCheck(i, connectedNode, ++num);
+                if (connectedNode.getTag() == num) {
+                    return false;
+                }
             }
         }
         return true;
@@ -103,7 +122,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             int temp = q.poll().getKey();
             for (edge_data i : this._g.getE(temp)) {
                 node_data n_d = _g.getNode(i.getDest());
-                if (n_d.getTag() != num +1) {
+                if (n_d.getTag() != num + 1) {
                     sum++;
                     q.add(n_d);
                     n_d.setTag(num + 1);
@@ -128,9 +147,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public List<node_data> shortestPath(int src, int dest) {
-
         List<node_data> ll = new ArrayList<>();
-
         double flag = shortestPathDist(src, dest);
 
         if (flag != -1) {
@@ -139,8 +156,6 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
             return ShortPath(Dest, Src, ll, flag);
         }
-
-
         return null;
     }
 
@@ -154,52 +169,45 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public double shortestPathDist(int src, int dest) {
-
         node_data Src = _g.getNode(src);
         node_data Dest = _g.getNode(dest);
 
         if (Src != null && Dest != null) {
-
             this.initNodeWeight();
-
             this.initNodeTag();
 
-            setDistance(Src, Dest);
+            setDistance(Src);
 
             return Dest.getWeight();
         }
-
         return -1;
     }
 
-    private void setDistance(node_data n, node_data dest) {
-
-        PriorityQueue<node_data> q = new PriorityQueue<>(); // NodeData dose not implements Comparable
-        // maybe we can use PriorityQueue that contains edge_data
+    private void setDistance(node_data n) {
+        PriorityQueue<node_data> q = new PriorityQueue<>();
         n.setWeight(0);
         q.add(n);
 
         while (!q.isEmpty()) {
             node_data temp = q.poll();
 
-                for (edge_data i : _g.getE(temp.getKey())) {
-                    double SEdge = i.getWeight() + temp.getWeight();
-                    if (_g.getNode(i.getDest()).getWeight() == -1 || (_g.getNode(i.getDest()).getWeight() > SEdge )){//&& _g.getNode(i.getDest()).getWeight() != 0)
-                        q.add(_g.getNode(i.getDest()));
-                        _g.getNode(i.getDest()).setWeight(SEdge);
-                    }
+            for (edge_data i : _g.getE(temp.getKey())) {
+                double SEdge = i.getWeight() + temp.getWeight();
+                if (_g.getNode(i.getDest()).getWeight() == -1 || (_g.getNode(i.getDest()).getWeight() > SEdge)) {//&& _g.getNode(i.getDest()).getWeight() != 0)
+                    q.add(_g.getNode(i.getDest()));
+                    _g.getNode(i.getDest()).setWeight(SEdge);
                 }
-//            }
+            }
         }
     }
 
     /**
      * return list with the path from one node to the other
      *
-     * @@param node_info src
-     * @@param node_info dest
-     * @@param ArrayList<node_info> ll
-     * @@param integer distance
+     * @param src
+     * @param dest
+     * @param ll
+     * @param distance
      */
     private List<node_data> ShortPath(node_data dest, node_data src, List<node_data> ll, double distance) {
         // check if the nodes are even connected return an empty path if they dosnt
@@ -212,17 +220,15 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
         while (temp != src) {
             NodeData n_d = (NodeData) temp;
-                for(node_data i : n_d.getConnectedNode().values()){
-                    if (n_d.getWeight() ==  i.getWeight()+_g.getEdge(i.getKey(),temp.getKey()).getWeight() && i.getTag() != -2  ) {//
-                        stack.add(i);
-                        temp = stack.peek();
-                        temp.setTag(-2);
-                        break;
-
-                    }
-
+            for (node_data i : n_d.getConnectedNode().values()) {
+                if (n_d.getWeight() == i.getWeight() + _g.getEdge(i.getKey(), temp.getKey()).getWeight() && i.getTag() != -2) {//
+                    stack.add(i);
+                    temp = stack.peek();
+                    temp.setTag(-2);
+                    break;
                 }
             }
+        }
 
         int t = stack.size();
         for (int i = 0; i < t; i++) {
@@ -231,24 +237,30 @@ public class WDGraph_Algo implements dw_graph_algorithms {
         return ll;
     }
 
-    // initialize the nodes tag
+    /**
+     * Initialize the nodes weight to -1.
+     */
     private void initNodeWeight() {
         for (node_data i : _g.getV()) {
             i.setWeight(-1);
         }
     }
 
-    private void  initNodeTag() {
+    /**
+     * Initialize the nodes tag to -1.
+     */
+    private void initNodeTag() {
         for (node_data i : _g.getV()) {
             i.setTag(-1);
         }
     }
+
     /**
      * Saves this weighted (directed) graph to the given
      * file name - in JSON format
      *
-     * @param file - the file name (may include a relative path).
-     * @return true - iff the file was successfully saved
+     * @param file the file name (may include a relative path).
+     * @return true iff the file was successfully savedץ
      */
     @Override
     public boolean save(String file) {
@@ -299,8 +311,8 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      * of this class will be changed (to the loaded one), in case the
      * graph was not loaded the original graph should remain "as is".
      *
-     * @param file - file name of JSON file
-     * @return true - iff the graph was successfully loaded.
+     * @param file file name of JSON file
+     * @return true iff the graph was successfully loaded.
      */
     @Override
     public boolean load(String file) {

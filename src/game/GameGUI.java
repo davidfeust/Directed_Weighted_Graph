@@ -17,6 +17,7 @@ public class GameGUI extends JFrame {
 
 
     public GameGUI(int level, Controller ctrl) {
+        super();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         _ctrl = ctrl;

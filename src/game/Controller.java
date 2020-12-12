@@ -1,8 +1,7 @@
 package game;
 
 import api.game_service;
-import game.Panel.*;
-import javax.swing.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -32,35 +31,37 @@ public class Controller extends WindowAdapter implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String str = e.getActionCommand();
         if (str.equals("mute")) {
-          if(game.Panel.changeMuteIcon()==1){
-              game.GameViewPlus.soundOff();}
-            else { game.GameViewPlus.soundOn(); }
-        }
-        else{
-        if (str.equals("Submit")) {
-            try {
-                _level = Integer.parseInt(Panel.getLevel());
-            } catch (NumberFormatException ignored) {
-                return;
+            if (game.Panel.changeMuteIcon() == 1) {
+                game.GameViewPlus.soundOff();
+            } else {
+                game.GameViewPlus.soundOn();
             }
-            try {
-                _id = Integer.parseInt(Panel.getId());
-            } catch (NumberFormatException ignored) {
-            }
-
         } else {
-            String[] strA = str.split("\\D+");
-            _level = Integer.parseInt(strA[1]);
-        }
+            if (str.equals("Submit")) {
+                try {
+                    _level = Integer.parseInt(Panel.getLevel());
+                } catch (NumberFormatException ignored) {
+                    return;
+                }
+                try {
+                    _id = Integer.parseInt(Panel.getId());
+                } catch (NumberFormatException ignored) {
+                }
 
-        game_service game = _run.get_game();
-        game.stopGame();
+            } else {
+                String[] strA = str.split("\\D+");
+                _level = Integer.parseInt(strA[1]);
+            }
+
+            game_service game = _run.get_game();
+            game.stopGame();
 //        _thread.stop();
-        _run = new Runner(_level, _id);
-        _run.set_win(_win);
-        _thread = new Thread(_run);
-        _thread.start();
-    }}
+            _run = new Runner(_level, _id);
+            _run.set_win(_win);
+            _thread = new Thread(_run);
+            _thread.start();
+        }
+    }
 
     public void set_win(GameGUI win) {
         _win = win;
