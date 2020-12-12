@@ -182,7 +182,7 @@ public class NodeData implements node_data, Comparable<node_data> {
      * Equal method. return true iff o is {@link NodeData},
      * and they both has the same key, same neighbors, and same nodes are neighbors of they both.
      * @param o {@link Objects}
-     * @return true iff o and this are equals.
+     * @return true iff o is NodeData and is equals to this.
      */
     @Override
     public boolean equals(Object o) {

@@ -10,6 +10,9 @@ public class WDGraph_DS implements directed_weighted_graph {
     private int _edge_size;
     private int _mode_count;
 
+    /**
+     * Default constructor
+     */
     public WDGraph_DS() {
         this._graphNodes = new HashMap<>();
         this._edge_size = 0;
@@ -18,8 +21,9 @@ public class WDGraph_DS implements directed_weighted_graph {
 
     /**
      * Copy constructor
+     * get directed_weighted_graph g as param and compute a deep copy of g.
      *
-     * @param g
+     * @param g directed_weighted_graph
      */
     public WDGraph_DS(directed_weighted_graph g) {
         _graphNodes = new HashMap<>();
@@ -34,7 +38,8 @@ public class WDGraph_DS implements directed_weighted_graph {
     }
 
     /**
-     * returns the node_data by the node_id,
+     * Returns the node_data by the node_id.
+     * this method take this vale by the key from _graphNodes field.
      *
      * @param key the node_id
      * @return the node_data by the node_id, null if none.
@@ -45,12 +50,12 @@ public class WDGraph_DS implements directed_weighted_graph {
     }
 
     /**
-     * returns the data of the edge (src,dest), null if none.
-     * Note: this method should run in O(1) time.
+     * Returns the data of the edge (src,dest), null if none.
+     * this method take this vale by the key from _neighborsDis in {@link NodeData}.
      *
-     * @param src
-     * @param dest
-     * @return
+     * @param src  the node id of the source node.
+     * @param dest the node id of the destination node.
+     * @return edge_data
      */
     @Override
     public edge_data getEdge(int src, int dest) {
@@ -61,10 +66,10 @@ public class WDGraph_DS implements directed_weighted_graph {
     }
 
     /**
-     * adds a new node to the graph with the given node_data.
-     * Note: this method should run in O(1) time.
+     * Adds a new node to the graph with the given node_data.
+     * adds to _graphNodes HashMap.
      *
-     * @param n
+     * @param n node_data
      */
     @Override
     public void addNode(node_data n) {
@@ -75,11 +80,11 @@ public class WDGraph_DS implements directed_weighted_graph {
 
     /**
      * Connects an edge with weight w between node src to node dest.
-     * * Note: this method should run in O(1) time.
+     * connects the edge in {@link NodeData} fields, in _connectedNode and _neighborsDis.
      *
-     * @param src  - the source of the edge.
-     * @param dest - the destination of the edge.
-     * @param w    - positive weight representing the cost (aka time, price, etc) between src-->dest.
+     * @param src  the source of the edge.
+     * @param dest the destination of the edge.
+     * @param w    positive weight representing the cost (aka time, price, etc) between src-->dest.
      */
     @Override
     public void connect(int src, int dest, double w) {
@@ -104,7 +109,7 @@ public class WDGraph_DS implements directed_weighted_graph {
     /**
      * This method returns a pointer (shallow copy) for the
      * collection representing all the nodes in the graph.
-     * Note: this method should run in O(1) time.
+     * this method runs in O(1) time.
      *
      * @return Collection<node_data>
      */
@@ -117,9 +122,9 @@ public class WDGraph_DS implements directed_weighted_graph {
      * This method returns a pointer (shallow copy) for the
      * collection representing all the edges getting out of
      * the given node (all the edges starting (source) at the given node).
-     * Note: this method should run in O(k) time, k being the collection size.
+     * this method runs in O(1) time.
      *
-     * @param node_id
+     * @param node_id key
      * @return Collection<edge_data>
      */
     @Override
@@ -133,9 +138,9 @@ public class WDGraph_DS implements directed_weighted_graph {
     /**
      * Deletes the node (with the given ID) from the graph -
      * and removes all edges which starts or ends at this node.
-     * This method should run in O(k), V.degree=k, as all the edges should be removed.
+     * This method runs in O(k), k = degree(key).
      *
-     * @param key
+     * @param key node_id
      * @return the data of the removed node (null if none).
      */
     @Override
@@ -161,10 +166,10 @@ public class WDGraph_DS implements directed_weighted_graph {
 
     /**
      * Deletes the edge from the graph,
-     * Note: this method should run in O(1) time.
+     * this method run in O(1) time.
      *
-     * @param src
-     * @param dest
+     * @param src the source of the edge.
+     * @param dest the destination of the edge.
      * @return the data of the removed edge (null if none).
      */
     @Override
@@ -182,9 +187,9 @@ public class WDGraph_DS implements directed_weighted_graph {
 
     /**
      * Returns the number of vertices (nodes) in the graph.
-     * Note: this method should run in O(1) time.
+     * This method run in O(1) time.
      *
-     * @return
+     * @return number of nodes.
      */
     @Override
     public int nodeSize() {
@@ -193,9 +198,9 @@ public class WDGraph_DS implements directed_weighted_graph {
 
     /**
      * Returns the number of edges (assume directional graph).
-     * Note: this method should run in O(1) time.
+     * This method run in O(1) time.
      *
-     * @return
+     * @return number of edges.
      */
     @Override
     public int edgeSize() {
@@ -204,8 +209,7 @@ public class WDGraph_DS implements directed_weighted_graph {
 
     /**
      * Returns the Mode Count - for testing changes in the graph.
-     *
-     * @return
+     * @return mode_count
      */
     @Override
     public int getMC() {
@@ -228,6 +232,12 @@ public class WDGraph_DS implements directed_weighted_graph {
                 '}';
     }
 
+    /**
+     * Equal method. return true iff o is {@link WDGraph_DS},
+     * and they both has the same nodes and edges. uses equal method of {@link NodeData}
+     * @param o {@link Objects}
+     * @return true iff o is WDGraph_DS and is equals to this.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -242,6 +252,10 @@ public class WDGraph_DS implements directed_weighted_graph {
         return Objects.hash(_graphNodes, _edge_size);
     }
 
+    /**
+     * This inner class represent a directional edge between 2 nodes in the graph.
+     * In addition every edge has weight, tag and info fields.
+     */
     private class EdgeData implements edge_data {
 
         private final int _src, _dest;
@@ -249,7 +263,12 @@ public class WDGraph_DS implements directed_weighted_graph {
         private int _tag;
         private String _info;
 
-
+        /**
+         * Constructor.
+         * @param src id of source node
+         * @param dest id of destination node
+         * @param weight weight of this edge
+         */
         public EdgeData(int src, int dest, double weight) {
             _src = src;
             _dest = dest;
@@ -259,9 +278,8 @@ public class WDGraph_DS implements directed_weighted_graph {
         }
 
         /**
-         * The id of the source node of this edge.
-         *
-         * @return
+         * Returns the id of the source node of this edge.
+         * @return src id
          */
         @Override
         public int getSrc() {
@@ -269,9 +287,8 @@ public class WDGraph_DS implements directed_weighted_graph {
         }
 
         /**
-         * The id of the destination node of this edge
-         *
-         * @return
+         * Returns the id of the destination node of this edge.
+         * @return dest id
          */
         @Override
         public int getDest() {
@@ -279,7 +296,8 @@ public class WDGraph_DS implements directed_weighted_graph {
         }
 
         /**
-         * @return the weight of this edge (positive value).
+         * Returns the weight of this edge (positive value).
+         * @return weight
          */
         @Override
         public double getWeight() {
@@ -288,8 +306,7 @@ public class WDGraph_DS implements directed_weighted_graph {
 
         /**
          * Returns the remark (meta data) associated with this edge.
-         *
-         * @return
+         * @return info
          */
         @Override
         public String getInfo() {
@@ -298,8 +315,7 @@ public class WDGraph_DS implements directed_weighted_graph {
 
         /**
          * Allows changing the remark (meta data) associated with this edge.
-         *
-         * @param s
+         * @param s string replace the current remark.
          */
         @Override
         public void setInfo(String s) {
@@ -309,8 +325,7 @@ public class WDGraph_DS implements directed_weighted_graph {
         /**
          * Temporal data (aka color: e,g, white, gray, black)
          * which can be used be algorithms
-         *
-         * @return
+         * @return tag
          */
         @Override
         public int getTag() {
@@ -320,8 +335,7 @@ public class WDGraph_DS implements directed_weighted_graph {
         /**
          * This method allows setting the "tag" value for temporal marking an edge - common
          * practice for marking by algorithms.
-         *
-         * @param t - the new value of the tag
+         * @param t the new value of the tag.
          */
         @Override
         public void setTag(int t) {
@@ -333,6 +347,12 @@ public class WDGraph_DS implements directed_weighted_graph {
             return "(" + _src + " -> " + _dest + "): weight=" + _weight + '}';
         }
 
+        /**
+         * Equal method. returns true iff o is {@link EdgeData} and they both
+         * has the same src, dest and weight.
+         * @param o {@link Objects}
+         * @return true iff o and this are equal.
+         */
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
