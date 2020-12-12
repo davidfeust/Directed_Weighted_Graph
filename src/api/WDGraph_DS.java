@@ -4,6 +4,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * This class represent a weighted and directional graph, implements directed_weighted_graph interface.
+ * WDGraph_DS contains inner private class {@link EdgeData} that represent the edge of the graph.
+ * every {@link WDGraph_DS} has a {@link HashMap} calls _graphNodes contains all the vertices in the graph
+ * the keys in this hashmap are the keys of the {@link NodeData} keys, that has a unique key to each node.
+ */
 public class WDGraph_DS implements directed_weighted_graph {
 
     private final HashMap<Integer, node_data> _graphNodes;

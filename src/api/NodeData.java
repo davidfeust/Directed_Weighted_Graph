@@ -3,6 +3,12 @@ package api;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * This class represents a node in directional and wighted graph.
+ * every node has a unique id key, tag, weight, remark and location.
+ * In addition, every node store the edge_data that coming out from this node,
+ * and also the node that connect to this node.
+ */
 public class NodeData implements node_data, Comparable<node_data> {
 
     private static int _masterKey = 0;
