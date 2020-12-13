@@ -18,7 +18,6 @@ public class GameGUI extends JFrame {
 
     public GameGUI(int level, Controller ctrl) {
         super();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         _ctrl = ctrl;
         _panel = new Panel(this, _ctrl);
@@ -26,7 +25,11 @@ public class GameGUI extends JFrame {
         _view = new GameViewPlus(this, level);
         _panel.set_level(level);
 
-        this.setPreferredSize(new Dimension(1200, 600));
+        addWindowListener(_ctrl);
+        Dimension user_dim = Toolkit.getDefaultToolkit().getScreenSize();
+        getRootPane().setDefaultButton(_panel.get_submit());
+
+        this.setPreferredSize(new Dimension((int) (user_dim.getWidth()*0.75) , (int) (user_dim.getHeight()*0.75)));
 
         menu();
         icon();
@@ -65,6 +68,11 @@ public class GameGUI extends JFrame {
         }
     }
 
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+    }
+
     public void set_level(int level) {
         _panel.set_level(level);
     }
@@ -72,11 +80,6 @@ public class GameGUI extends JFrame {
     public void set_ar(Arena ar) {
         _view.set_ar(ar);
         _panel.set_ar(ar);
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
     }
 }
 

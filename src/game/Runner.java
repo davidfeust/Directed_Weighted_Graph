@@ -7,6 +7,11 @@ import com.google.gson.JsonParser;
 
 import static game.Algo.*;
 
+/**
+ * This Runnable class is responsible for running the Pokemon game.
+ * Runner class can run only one scenario game. when another scenario game chosen,
+ * the thread runs this Runner will stop, and new thread with new Runner will start.
+ */
 public class Runner implements Runnable {
 
     private GameGUI _win;
@@ -15,11 +20,24 @@ public class Runner implements Runnable {
     private game_service _game;
     private final int _scenario_num, _id;
 
+    /**
+     * Constructor.
+     * @param scenario_num level to get the proper scenario from the server
+     * @param id user's id to login
+     */
     public Runner(int scenario_num, int id) {
         _scenario_num = scenario_num;
         _id = id;
     }
 
+    /**
+     * Run current game.
+     * init the Arena data base, from the data taken from the server.
+     * also init GUI to show the game.
+     * in the main loop the game runs, and in every iteration all the Agents without path to Pokemon
+     * will get path, and all the standing Agent will move to theirs destination.
+     * when the time's up, the grade and the numbers of move will print.
+     */
     @Override
     public void run() {
         _game = Game_Server_Ex2.getServer(_scenario_num); // you have [0,23] games
@@ -48,6 +66,7 @@ public class Runner implements Runnable {
 //                }
             }
         });
+
         Thread mover = new Thread(new Runnable() {
 
             @Override
@@ -104,7 +123,7 @@ public class Runner implements Runnable {
 //                    _ar.update(_game);
                 _game.move();
                 _win.repaint();
-                System.out.println(num_of_moves++);
+//                System.out.println(num_of_moves++);
             }
 //            try {
 //                if (minMoveTime > 10)
@@ -125,11 +144,10 @@ public class Runner implements Runnable {
 //        painter.stop();
     }
 
-    private void initAlgo() {
-        set_graph(_graph);
-        set_ar(_ar);
-    }
-
+    /**
+     * init the arena data base before starting game.
+     * @param game game service
+     */
     private void initArena(game_service game) {
         _ar = new Arena(game);
         _graph = _ar.get_graph();
@@ -140,12 +158,22 @@ public class Runner implements Runnable {
         _ar.updateAgents(game.getAgents());
     }
 
+    /**
+     * init GUI before starting game with the Arena and the level number.
+     */
     private void initGUI() {
         _win.set_ar(_ar);
         _win.set_level(_scenario_num);
         _win.setTitle("Pockemons Game " + _scenario_num);
-        _win.setVisible(true);
+//        _win.setVisible(true);
     }
+
+    private void initAlgo() {
+        set_graph(_graph);
+        set_ar(_ar);
+    }
+
+    // Getters & Setters:
 
     public game_service get_game() {
         return _game;

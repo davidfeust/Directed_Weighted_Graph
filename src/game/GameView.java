@@ -26,7 +26,6 @@ public class GameView extends JPanel {
         super();
         _frame = frame;
         _scenario_num = level;
-//        setSize(1200, 600);
     }
 
     public void set_ar(Arena ar) {
@@ -47,7 +46,6 @@ public class GameView extends JPanel {
         super.paint(g);
         int w = getWidth();
         int h = getHeight();
-//        setPreferredSize(new Dimension(w, (int) (h * 0.8)));
 
         Image buffer_image = createImage(w, h);
         Graphics buffer_graphics = buffer_image.getGraphics();
@@ -59,7 +57,6 @@ public class GameView extends JPanel {
 
     @Override
     public void paintComponents(Graphics g) {
-//        g.fillRect(0,0,getWidth(), getHeight());
         drawGraph(g);
         drawPokemons(g, _ar, _w2f);
         drawAgants(g);
