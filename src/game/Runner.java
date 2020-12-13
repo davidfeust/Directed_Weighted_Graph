@@ -43,6 +43,8 @@ public class Runner implements Runnable {
                     }
                 } catch (InterruptedException exception) {
                     exception.printStackTrace();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -54,10 +56,10 @@ public class Runner implements Runnable {
                 while (_game.isRunning()) {
                     long sleep = Integer.MAX_VALUE;
                     for (Agent a : _ar.getAgents()) {
-                        long tm = toMove(a);
+                        long tm = toMove(a, 0);
                         if (tm == -1) {
                             System.out.println("!!!!");
-                            createPath(_game,a);
+                            createPath(_game, a);
                             continue;
                         }
                         sleep = Math.min(tm, sleep);
@@ -69,7 +71,7 @@ public class Runner implements Runnable {
                         exception.printStackTrace();
                     }
                     _ar.update(_game);
-                    _game.move();
+//                    _game.move();
                     _win.repaint();
 
 //                    System.out.println(_game.move());
@@ -77,23 +79,49 @@ public class Runner implements Runnable {
             }
         });
 
-        mover.start();
-//        painter.start();
+//        mover.start();
+        painter.start();
 
         int iteration = 0;
         while (_game.isRunning()) {
             iteration++;
+            long minMoveTime = 100000;
+//            long minMoveTime = 0;
             for (Agent a : _ar.getAgents()) {
-//                toMove(a);
                 _ar.update(_game);
                 if (a.get_path().isEmpty()) {
                     createPath(_game, a);
                 }
                 _ar.update(_game);
+                int next_dest = a.getNextNode();
                 if (!a.isMoving()) {
-                    nextMove(_game, a);
+                    next_dest = nextMove(_game, a);
+                }
+                long timeToMove = toMove(a, next_dest);
+                System.out.println("Agent " + a + " timeToMove is " + timeToMove);
+                if (timeToMove < minMoveTime) {
+                    minMoveTime = timeToMove;
                 }
             }
+            System.out.println("minTimeToMove=" + minMoveTime);
+
+            try {
+                Thread.sleep(minMoveTime);
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+            _game.move();
+
+        /*    synchronized (this) {
+                Timer timer = new Timer("Move");
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        _game.move();
+                    }
+                }, minMoveTime);
+            }*/
+//            String move = _game.move();
 
 //            if (iteration == 300) {
 //            iteration = 0;
@@ -106,7 +134,7 @@ public class Runner implements Runnable {
         System.out.println("Level: " + _scenario_num + "\t\tGrade: " + _ar.getGrade() + "\tMoves: " + moves);
 //        System.exit(0);
 //        mover.stop();
-        painter.stop();
+//        painter.stop();
     }
 
     private void initAlgo() {
