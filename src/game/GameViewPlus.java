@@ -25,7 +25,7 @@ public class GameViewPlus extends GameView {
         super(frame, level);
         loadImg();
 //        setIconImage(_image_pok);
-        sound();
+//        sound();
     }
 
     @Override

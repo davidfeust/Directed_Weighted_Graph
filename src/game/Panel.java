@@ -6,7 +6,6 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 public class Panel extends JPanel {
 
@@ -145,7 +144,7 @@ public class Panel extends JPanel {
     }
 
     public static int changeMuteIcon(){
-        if(muteFlag==true){
+        if(muteFlag){
         un_mute.setIcon(_image_sound[1]);
         muteFlag=false;
         return 1;//indicate for stopping the music

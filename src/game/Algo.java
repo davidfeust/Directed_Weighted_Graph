@@ -2,7 +2,10 @@ package game;
 
 import api.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.PriorityQueue;
 
 public class Algo {
 
@@ -48,16 +51,16 @@ public class Algo {
         });
         pq.addAll(_ar.getPokemons());
 
-        for (int i = 0; i < num_of_agents; i++) {
+        for (int i = 0; i < num_of_agents && !pq.isEmpty(); i++) {
             game.addAgent(pq.poll().get_edge().getSrc());
         }
     }
 
-    static void nextMove(game_service game, Agent a) {
+    static int nextMove(game_service game, Agent a) {
         int id = a.getId();
         if (indexOfPok(_ar.getPokemons(), a.get_curr_fruit()) == -1) {
             createPath(game, a);
-            return;
+            return -1;
         }
 
         int next_dest = a.get_path().get(0).getKey();
@@ -66,7 +69,12 @@ public class Algo {
             _ar.get_pokemonsWithOwner().remove(a.get_curr_fruit());
         }
 
-        game.chooseNextEdge(id, next_dest);
+        System.out.println(String.format("Locating agent %s in %s", id, next_dest));
+        long nextEdge = game.chooseNextEdge(id, next_dest);
+        if (nextEdge == -1) {
+            System.out.println("Houstone, we have a problem");
+        }
+        return next_dest;
 //        System.out.println("Agent: " + id + ", val: " + a.getValue() + "   turned to node: " + next_dest);
 //        System.out.println("\t\ton the way to: " + a.get_curr_fruit());
     }
@@ -192,17 +200,39 @@ public class Algo {
         return false;
     }
 
-    public synchronized static long toMove(Agent a) {
-        if (a.get_edge() == null) {
-            System.out.println("null");
-            return 0;
-        }
+    public synchronized static long toMove(Agent a, int next_dest) {
+//        if (next_dest == -1) {
+//            System.out.println("null");
+//            return 0;
+//        }
+
+
         node_data node = _graph.getNode(a.getSrcNode());
+        edge_data edge = _graph.getEdge(a.getSrcNode(), next_dest);
+
+        if (a.get_curr_fruit() != null && edge != null && !edge.equals(a.get_curr_fruit().get_edge())) {
+            double way = edge.getWeight() / a.get_speed();
+            way *= 1000;
+            System.out.println(way);
+            return (long) way;
+        } else if (edge != null) {
+            double way = a.getPos().distance(a.get_curr_fruit().get_pos());
+            way /= edge.getWeight();
+            way /= a.get_speed();
+            way *= 1000;
+            System.out.println("*********" + way);
+//            return (long) way;
+            return 100;
+        }
+        System.out.println(node +" -> " + next_dest);
+        return 120;
+/*
         if (isClose2Pok(a)){
             System.out.println("close");
             return 0;
         }
-        if (Math.abs(a.getPos().distance(node.getLocation())) < 0.1) {
+*/
+        /*if (Math.abs(a.getPos().distance(node.getLocation())) < 0.1) {
             if (a.get_curr_fruit() != null && a.get_edge() != null && !a.get_edge().equals(a.get_curr_fruit().get_edge())) {
                 double way =  a.get_edge().getWeight() / a.get_speed();
                 way *= 1000;
@@ -210,9 +240,8 @@ public class Algo {
                 return (long) way;
             }
         } else {
-            return 300;
-        }
-        return 120;
+            return 100;
+        }*/
 
 //        geo_location pos = a.getPos();
 //        double speed = a.get_speed();
