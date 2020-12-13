@@ -56,15 +56,13 @@ public class Runner implements Runnable {
                 while (_game.isRunning()) {
                     long sleep = Integer.MAX_VALUE;
                     for (Agent a : _ar.getAgents()) {
-                        long tm = toMove(a, 0);
+                        long tm = toSleep(a, 0);
                         if (tm == -1) {
-                            System.out.println("!!!!");
                             createPath(_game, a);
                             continue;
                         }
                         sleep = Math.min(tm, sleep);
                     }
-                    System.out.println(sleep);
                     try {
                         Thread.sleep(sleep);
                     } catch (InterruptedException exception) {
@@ -97,8 +95,8 @@ public class Runner implements Runnable {
                 if (!a.isMoving()) {
                     next_dest = nextMove(_game, a);
                 }
-                long timeToMove = toMove(a, next_dest);
-                System.out.println("Agent " + a + " timeToMove is " + timeToMove);
+//                _ar.updateAgents(_game.getAgents());
+                long timeToMove = toSleep(a, next_dest);
                 if (timeToMove < minMoveTime) {
                     minMoveTime = timeToMove;
                 }

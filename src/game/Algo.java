@@ -69,11 +69,7 @@ public class Algo {
             _ar.get_pokemonsWithOwner().remove(a.get_curr_fruit());
         }
 
-        System.out.println(String.format("Locating agent %s in %s", id, next_dest));
-        long nextEdge = game.chooseNextEdge(id, next_dest);
-        if (nextEdge == -1) {
-            System.out.println("Houstone, we have a problem");
-        }
+        game.chooseNextEdge(id, next_dest);
         return next_dest;
 //        System.out.println("Agent: " + id + ", val: " + a.getValue() + "   turned to node: " + next_dest);
 //        System.out.println("\t\ton the way to: " + a.get_curr_fruit());
@@ -83,7 +79,7 @@ public class Algo {
         if (_ar.getAgents().size() == _ar.getPokemons().size()) {
             createPathByDistance(a);
         } else {
-            if (a.get_speed() > 3) {
+            if (a.get_speed() > 0) {
                 createPathByDistance(a);
             } else {
                 createPathByValDist(a);
@@ -200,31 +196,31 @@ public class Algo {
         return false;
     }
 
-    public synchronized static long toMove(Agent a, int next_dest) {
-//        if (next_dest == -1) {
-//            System.out.println("null");
-//            return 0;
-//        }
-
-
-        node_data node = _graph.getNode(a.getSrcNode());
+    public synchronized static long toSleep(Agent a, int next_dest) {
+        if (next_dest == -1) {
+            return 0;
+        }
+        System.out.println("src=" + a.getSrcNode()+ " dest= "+ next_dest);
+        node_data node = _graph.getNode(next_dest);
         edge_data edge = _graph.getEdge(a.getSrcNode(), next_dest);
 
+        // treat a scenario which the curr fruit cannot be found on the edge
         if (a.get_curr_fruit() != null && edge != null && !edge.equals(a.get_curr_fruit().get_edge())) {
             double way = edge.getWeight() / a.get_speed();
             way *= 1000;
-            System.out.println(way);
             return (long) way;
-        } else if (edge != null) {
+
+       // treat a scenario which the curr fruit on the current edge
+        } else if (edge.equals(a.get_curr_fruit().get_edge())) {
             double way = a.getPos().distance(a.get_curr_fruit().get_pos());
-            way /= edge.getWeight();
+            double way_to_node = a.getPos().distance(node.getLocation());
+            way = way / way_to_node;
+            way *= edge.getWeight();
             way /= a.get_speed();
             way *= 1000;
-            System.out.println("*********" + way);
-//            return (long) way;
-            return 100;
+            return (long) way;
+//            return 100;
         }
-        System.out.println(node +" -> " + next_dest);
         return 120;
 /*
         if (isClose2Pok(a)){
