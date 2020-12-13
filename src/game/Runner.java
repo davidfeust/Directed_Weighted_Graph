@@ -57,7 +57,7 @@ public class Runner implements Runnable {
                     for (Agent a : _ar.getAgents()) {
                         long tm = toSleep(a, 0);
                         if (tm == -1) {
-                            createPath(_game, a);
+                            createPath(a);
                             continue;
                         }
                         sleep = Math.min(tm, sleep);
@@ -90,7 +90,7 @@ public class Runner implements Runnable {
                     createPath(a);
                 }
                 _ar.update(_game);
-                int next_dest = a.getNextNode();
+                int next_dest = a.getSrcNode();
                 if (!a.isMoving()) {
                     next_dest = nextMove(_game, a);
                 }

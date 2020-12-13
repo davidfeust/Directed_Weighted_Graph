@@ -68,13 +68,10 @@ public class Algo {
      * @param game game_service
      * @param a agent to choose his next move
      */
-    static void nextMove(game_service game, Agent a) {
     static int nextMove(game_service game, Agent a) {
         int id = a.getId();
         if (indexOfPok(_ar.getPokemons(), a.get_curr_fruit()) == -1) {
             createPath(a);
-            return;
-            createPath(game, a);
             return -1;
         }
 
