@@ -30,44 +30,36 @@ public class Runner implements Runnable {
         initGUI();
 
         _game.startGame();
-        _ar.set_timeStart(_game.timeToEnd());
+        long sum_time = _game.timeToEnd();
+        _ar.set_timeStart(sum_time);
 
         Thread painter = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    while (_game.isRunning()) {
-                        Thread.sleep((long) 1000 / 60);
-                        _win.repaint();
-                    }
-                } catch (InterruptedException exception) {
-                    exception.printStackTrace();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+//                try {
+//                    while (_game.isRunning()) {
+//                        Thread.sleep((long) 1000 / 60);
+//                        _win.repaint();
+//                    }
+//                } catch (InterruptedException exception) {
+//                    exception.printStackTrace();
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
             }
         });
-
         Thread mover = new Thread(new Runnable() {
+
             @Override
             public void run() {
 
                 while (_game.isRunning()) {
-                    long sleep = Integer.MAX_VALUE;
-                    for (Agent a : _ar.getAgents()) {
-                        long tm = toSleep(a, 0);
-                        if (tm == -1) {
-                            createPath(a);
-                            continue;
-                        }
-                        sleep = Math.min(tm, sleep);
-                    }
                     try {
-                        Thread.sleep(sleep);
+                        Thread.sleep(100);
                     } catch (InterruptedException exception) {
                         exception.printStackTrace();
                     }
-                    _ar.update(_game);
+//                    _ar.update(_game);
 //                    _game.move();
                     _win.repaint();
 
@@ -77,58 +69,57 @@ public class Runner implements Runnable {
         });
 
 //        mover.start();
-        painter.start();
+//        painter.start();
+        int num_of_moves = 0;
 
         int iteration = 0;
         while (_game.isRunning()) {
+//            _game.move();
+
             iteration++;
             long minMoveTime = 100000;
 //            long minMoveTime = 0;
-            for (Agent a : _ar.getAgents()) {
-                _ar.update(_game);
-                if (a.get_path().isEmpty()) {
-                    createPath(a);
-                }
-                _ar.update(_game);
-                int next_dest = a.getSrcNode();
-                if (!a.isMoving()) {
-                    next_dest = nextMove(_game, a);
-                }
-//                _ar.updateAgents(_game.getAgents());
-                long timeToMove = toSleep(a, next_dest);
-                if (timeToMove < minMoveTime) {
-                    minMoveTime = timeToMove;
-                }
-            }
-            System.out.println("minTimeToMove=" + minMoveTime);
-
-            try {
-                Thread.sleep(minMoveTime);
-            } catch (InterruptedException exception) {
-                exception.printStackTrace();
-            }
-            _game.move();
-
-        /*    synchronized (this) {
-                Timer timer = new Timer("Move");
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        _game.move();
+            synchronized (_ar) {
+                for (Agent a : _ar.getAgents()) {
+                    _ar.update(_game);
+                    if (a.get_path().isEmpty()) {
+                        createPath(a);
                     }
-                }, minMoveTime);
-            }*/
-//            String move = _game.move();
-
-//            if (iteration == 300) {
-//            iteration = 0;
-//            _game.move();
+                    _ar.update(_game);
+                    int next_dest = a.getSrcNode();
+                    if (!a.isMoving()) {
+                        next_dest = nextMove(_game, a);
+                    }
+                    long timeToMove = toSleep(a, next_dest);
+                    if (timeToMove < minMoveTime) {
+                        minMoveTime = timeToMove;
+                    }
+                }
+//                System.out.println("minTimeToMove=" + minMoveTime);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException exception) {
+                    exception.printStackTrace();
+                }
+//                    _ar.update(_game);
+                _game.move();
+                _win.repaint();
+                System.out.println(num_of_moves++);
+            }
+//            try {
+//                if (minMoveTime > 10)
+//                    minMoveTime += 0;
+//                Thread.sleep(minMoveTime);
+//            } catch (InterruptedException exception) {
+//                exception.printStackTrace();
 //            }
-
+//            _game.move();
+//            _win.repaint();
         }
 
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
-        System.out.println("Level: " + _scenario_num + "\t\tGrade: " + _ar.getGrade() + "\tMoves: " + moves);
+        double m = sum_time;
+        System.out.println("Level: " + _scenario_num + "\t\tGrade: " + _ar.getGrade() + "\tMoves: " + moves + "\tMoves per sec: " + (m / 1000) / moves);
 //        System.exit(0);
 //        mover.stop();
 //        painter.stop();

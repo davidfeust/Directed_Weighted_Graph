@@ -214,12 +214,12 @@ public class Algo {
     }
 
     public synchronized static long toSleep(Agent a, int next_dest) {
-        if (next_dest == -1) {
+        edge_data edge = _graph.getEdge(a.getSrcNode(), next_dest);
+        if (next_dest == -1 || edge == null) {
             return 0;
         }
-        System.out.println("src=" + a.getSrcNode()+ " dest= "+ next_dest);
+//        System.out.println("src=" + a.getSrcNode()+ " dest= "+ next_dest);
         node_data node = _graph.getNode(next_dest);
-        edge_data edge = _graph.getEdge(a.getSrcNode(), next_dest);
 
         // treat a scenario which the curr fruit cannot be found on the edge
         if (a.get_curr_fruit() != null && edge != null && !edge.equals(a.get_curr_fruit().get_edge())) {

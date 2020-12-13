@@ -47,6 +47,7 @@ public class Arena {
      * @param game game_service
      */
     public synchronized void update(game_service game) {
+
         updateAgents(game.getAgents());
         updatePokemons(game.getPokemons());
         _time = game.timeToEnd();
