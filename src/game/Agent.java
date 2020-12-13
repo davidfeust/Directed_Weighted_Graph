@@ -115,6 +115,10 @@ public class Agent {
         return _speed;
     }
 
+    public edge_data get_edge() {
+        return _edge;
+    }
+
     @Override
     public String toString() {
         return "Agent{" +

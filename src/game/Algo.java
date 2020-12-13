@@ -69,10 +69,13 @@ public class Algo {
      * @param a agent to choose his next move
      */
     static void nextMove(game_service game, Agent a) {
+    static int nextMove(game_service game, Agent a) {
         int id = a.getId();
         if (indexOfPok(_ar.getPokemons(), a.get_curr_fruit()) == -1) {
             createPath(a);
             return;
+            createPath(game, a);
+            return -1;
         }
 
         int next_dest = a.get_path().get(0).getKey();
@@ -82,6 +85,7 @@ public class Algo {
         }
 
         game.chooseNextEdge(id, next_dest);
+        return next_dest;
 //        System.out.println("Agent: " + id + ", val: " + a.getValue() + "   turned to node: " + next_dest);
 //        System.out.println("\t\ton the way to: " + a.get_curr_fruit());
     }
@@ -210,6 +214,56 @@ public class Algo {
             }
         }
         return false;
+    }
+
+    public synchronized static long toSleep(Agent a, int next_dest) {
+        if (next_dest == -1) {
+            return 0;
+        }
+        System.out.println("src=" + a.getSrcNode()+ " dest= "+ next_dest);
+        node_data node = _graph.getNode(next_dest);
+        edge_data edge = _graph.getEdge(a.getSrcNode(), next_dest);
+
+        // treat a scenario which the curr fruit cannot be found on the edge
+        if (a.get_curr_fruit() != null && edge != null && !edge.equals(a.get_curr_fruit().get_edge())) {
+            double way = edge.getWeight() / a.get_speed();
+            way *= 1000;
+            return (long) way;
+
+       // treat a scenario which the curr fruit on the current edge
+        } else if (edge.equals(a.get_curr_fruit().get_edge())) {
+            double way = a.getPos().distance(a.get_curr_fruit().get_pos());
+            double way_to_node = a.getPos().distance(node.getLocation());
+            way = way / way_to_node;
+            way *= edge.getWeight();
+            way /= a.get_speed();
+            way *= 1000;
+            return (long) way;
+//            return 100;
+        }
+        return 120;
+/*
+        if (isClose2Pok(a)){
+            System.out.println("close");
+            return 0;
+        }
+*/
+        /*if (Math.abs(a.getPos().distance(node.getLocation())) < 0.1) {
+            if (a.get_curr_fruit() != null && a.get_edge() != null && !a.get_edge().equals(a.get_curr_fruit().get_edge())) {
+                double way =  a.get_edge().getWeight() / a.get_speed();
+                way *= 1000;
+                System.out.println(way);
+                return (long) way;
+            }
+        } else {
+            return 100;
+        }*/
+
+//        geo_location pos = a.getPos();
+//        double speed = a.get_speed();
+//        edge_data edge = a.get_edge();
+
+
     }
 
     public static void set_ar(Arena _ar) {
