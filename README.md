@@ -3,8 +3,8 @@
 ## hello! we glad to see you here!
 ### This project base on directed weighted graph and including algorithems for finding shortest path from node to node (based on Dijkstra’s Shortest Path Algorithm)
 ### In the project we use the graph and the graph algoritems classes to build an auotomated game like the game packman
-### we have 24 games in which the server will let the game know how much pokemons(agent like packman) you have and will randomly creat furit for them to eat
 
+### we have 24 games in which the server will let the game know how much pokemons(agent like packman) you have and will randomly creat furit for them to eat
 ![New Project](https://user-images.githubusercontent.com/73063199/102136732-783e5480-3e62-11eb-9618-09ec38a2f4d0.gif)
 
 
@@ -29,3 +29,6 @@ In package gameClient you'll find the calss Ex2. This class has a simple main fu
 
 ### Running the tests
 In the package tests that will help you to avoid harmfull changes in code, and also help you to understand each part of the code if you want to.
+
+### now you can feed pikachu in your pc
+![ScreenRecorderProject7_1](https://user-images.githubusercontent.com/73063199/102141382-6ad89880-3e69-11eb-8918-672545425473.gif)
