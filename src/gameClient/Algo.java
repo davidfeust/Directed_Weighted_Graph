@@ -257,30 +257,55 @@ public class Algo {
      */
     public synchronized static long toSleep(Agent a, int next_dest) {
         edge_data edge = _graph.getEdge(a.getSrcNode(), next_dest);
-        if (next_dest == -1 || edge == null) {
-            return 80;
-        }
+        int flag = 1;
+        switch (flag) {
+            case 0: {
+                if (next_dest == -1 || edge == null) {
+//                    System.out.println(a.getSrcNode() + " -> " + next_dest);
+                    return 90;
+                }
 //        System.out.println("src=" + a.getSrcNode()+ " dest= "+ next_dest);
-        node_data node = _graph.getNode(next_dest);
+                node_data node = _graph.getNode(next_dest);
 
-        if (a.get_curr_fruit() != null && !edge.equals(a.get_curr_fruit().get_edge())) {
-            // treat a scenario which the curr fruit cannot be found on the edge
+                if (a.get_curr_fruit() != null && !edge.equals(a.get_curr_fruit().get_edge())) {
+                    // treat a scenario which the curr fruit cannot be found on the edge
 
-            double way = edge.getWeight() / a.get_speed();
-            way *= 1000;
-            return (long) way;
+                    double way = edge.getWeight() / a.get_speed();
+                    way *= 1000;
+                    return (long) way;
 
-        } else if (edge.equals(a.get_curr_fruit().get_edge())) {
-            // treat a scenario which the curr fruit on the current edge
+                } else if (edge.equals(a.get_curr_fruit().get_edge())) {
+                    // treat a scenario which the curr fruit on the current edge
 
-            double way = a.getPos().distance(a.get_curr_fruit().get_pos());
-            double way_to_node = a.getPos().distance(node.getLocation());
-            way = way / way_to_node;
-            way *= edge.getWeight();
-            way /= a.get_speed();
-            way *= 1000;
-            return (long) way;
+                    double way = a.getPos().distance(a.get_curr_fruit().get_pos());
+                    double way_to_node = a.getPos().distance(node.getLocation());
+                    way = way / way_to_node;
+                    way *= edge.getWeight();
+                    way /= a.get_speed();
+                    way *= 1000;
+                    return (long) way;
+                }
+                return -120;
+            }
+
+            case 1: {
+                int itertion = 0;
+                while (itertion == 10000000) {
+                    itertion++;
+                }
+                return 0;
+            }
+
+            case 2: {
+                return 100;
+            }
+
+            case 3: {
+                if(isClose2Pok(a)){return 30; }
+                else { return 150;}
+            }
         }
+
         return -120;
     }
 

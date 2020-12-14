@@ -99,14 +99,14 @@ public class Runner implements Runnable {
             iteration++;
             long minMoveTime = 100000;
 //            long minMoveTime = 0;
-            synchronized (_ar) {
+            synchronized (this) {
+                int next_dest = -1;//a.getSrcNode();
                 for (Agent a : _ar.getAgents()) {
                     _ar.update(_game);
                     if (a.get_path().isEmpty()) {
                         createPath(a);
                     }
                     _ar.update(_game);
-                    int next_dest = a.getSrcNode();
                     if (!a.isMoving()) {
                         next_dest = nextMove(_game, a);
                     }
@@ -138,7 +138,7 @@ public class Runner implements Runnable {
 //            _win.repaint();
         }
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
-        System.out.printf("Level: %d\t\tGrade: %d,\tMoves: %d,\tAvg moves per sec: %.3s%n", _scenario_num, _ar.getGrade(), moves, moves / ((double) sum_time / 1000));
+        System.out.printf("Level: %d\t\tGrade: %d,\tMoves: %d,\tAvg moves per sec: %.3f%n", _scenario_num, _ar.getGrade(), moves, moves / ((double) sum_time / 1000));
     }
 
     /**

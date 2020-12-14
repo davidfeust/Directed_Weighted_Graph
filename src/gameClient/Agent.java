@@ -58,6 +58,7 @@ public class Agent {
      * @param dest node id, come from the server.
      */
     public void setNextNode(int dest) {
+
         int src = this._node.getKey();
         this._edge = _graph.getEdge(src, dest);
     }
