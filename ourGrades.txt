@@ -1,3 +1,29 @@
+Level: 0		Grade: 147	Moves: 105	Avg moves per sec: 3.5
+Level: 1		Grade: 490	Moves: 332	Avg moves per sec: 5.533333333333333
+Level: 2		Grade: 208	Moves: 120	Avg moves per sec: 4.0
+Level: 3		Grade: 760	Moves: 369	Avg moves per sec: 6.15
+Level: 4		Grade: 314	Moves: 157	Avg moves per sec: 5.233333333333333
+Level: 5		Grade: 696	Moves: 351	Avg moves per sec: 5.85
+Level: 6		Grade: 79	Moves: 76	Avg moves per sec: 2.533333333333333
+Level: 7		Grade: 349	Moves: 288	Avg moves per sec: 4.8
+Level: 8		Grade: 86	Moves: 97	Avg moves per sec: 3.2333333333333334
+Level: 9		Grade: 360	Moves: 286	Avg moves per sec: 4.766666666666667
+Level: 10		Grade: 89	Moves: 107	Avg moves per sec: 3.566666666666667
+Level: 11		Grade: 1654	Moves: 641	Avg moves per sec: 10.683333333333334
+Level: 12		Grade: 66	Moves: 80	Avg moves per sec: 2.6666666666666665
+Level: 13		Grade: 239	Moves: 573	Avg moves per sec: 9.55
+Level: 14		Grade: 177	Moves: 315	Avg moves per sec: 10.5
+Level: 15		Grade: 293	Moves: 254	Avg moves per sec: 4.233333333333333
+Level: 16		Grade: 233	Moves: 311	Avg moves per sec: 10.366666666666667
+Level: 17		Grade: 959	Moves: 631	Avg moves per sec: 10.516666666666667
+Level: 18		Grade: 40	Moves: 78	Avg moves per sec: 2.6
+Level: 19		Grade: 310	Moves: 609	Avg moves per sec: 10.15
+Level: 20		Grade: 110	Moves: 318	Avg moves per sec: 10.6
+Level: 21		Grade: 248	Moves: 235	Avg moves per sec: 3.9166666666666665
+Level: 22		Grade: 135	Moves: 301	Avg moves per sec: 10.033333333333333
+Level: 23		Grade: 939	Moves: 629	Avg moves per sec: 10.483333333333333
+
+
 Data uploaded for user:205474026
 Level: 0		Grade: 164	Moves: 1075868
 Data uploaded for user:205474026

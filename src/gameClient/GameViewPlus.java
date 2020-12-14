@@ -1,12 +1,11 @@
-package game;
+package gameClient;
 
 import api.geo_location;
-import game.util.Point3D;
-import game.util.Range2Range;
+import gameClient.util.Point3D;
+import gameClient.util.Range2Range;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,29 +13,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Extends of {@link GameView} class.
+ * Provides an enhanced display with images and sound.
+ */
 public class GameViewPlus extends GameView {
 
-    //    private BufferedImage _name;
     private BufferedImage[] _image_agents;
     private BufferedImage[] _image_fruits;
     static Clip clip;
-    public GameViewPlus(JFrame frame, int level) {
-        super(frame, level);
+
+    public GameViewPlus() {
+        super();
         loadImg();
-//        setIconImage(_image_pok);
 //        sound();
     }
 
-    @Override
-    public void paintComponents(Graphics g) {
-        super.paintComponents(g);
-//        g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
-//        g.drawImage(_name, (int) getWidth() / 2 - getHeight() / 7, 50, getWidth() / 5, getHeight() / 6, null);
-    }
-
-
-
+    /**
+     * Loading the required images for this class.
+     */
     private void loadImg() {
         try {
             _image_agents = new BufferedImage[4];
@@ -48,21 +43,11 @@ public class GameViewPlus extends GameView {
             for (int i = 0; i < 3; i++) {
                 _image_fruits[i] = ImageIO.read(new File("img/fruit" + (i + 1) + ".png"));
             }
-
-
-
-
-//            _image_pok = ImageIO.read(new File("img/pokeball.png"));
-//            _name = ImageIO.read(new File("img/name.gif"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    //    @Override
-//    public void nodeIcon(Graphics g, int radius, geo_location fp) {
-//        g.drawImage(_image_node, (int) fp.x() - radius, (int) fp.y() - radius, 5 * radius, 5 * radius, null);
-//    }
     @Override
     protected void pokIcon(Graphics g, int radius, geo_location fp, int flag) {
         g.drawImage(_image_fruits[flag],
@@ -86,10 +71,8 @@ public class GameViewPlus extends GameView {
             if (f == null) continue;
             Point3D c = f.get_pos();
             int radius = 10;
-//            g.setColor(Color.green);
             if (f.get_type() < 0) {
                 flag = 1;
-//                g.setColor(Color.orange);
             }
             if (f.get_value() > 10) {
                 flag = 0;
@@ -115,15 +98,17 @@ public class GameViewPlus extends GameView {
             ex.printStackTrace();
         }
     }
+
+    @Override
+    public void paintComponents(Graphics g) {
+        super.paintComponents(g);
+    }
+
     public static void soundOff(){
         clip.stop();
     }
+
     public static void soundOn(){
         clip.start();
     }
-
-
-
-
-
 }

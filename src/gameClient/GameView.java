@@ -1,13 +1,13 @@
-package game;
+package gameClient;
 
 import api.directed_weighted_graph;
 import api.edge_data;
 import api.geo_location;
 import api.node_data;
-import game.util.Point3D;
-import game.util.Range;
-import game.util.Range2D;
-import game.util.Range2Range;
+import gameClient.util.Point3D;
+import gameClient.util.Range;
+import gameClient.util.Range2D;
+import gameClient.util.Range2Range;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,17 +15,18 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class contains the game board view, and game occurrence.
+ * All information about the shape of the graph, the location of the agents,
+ * the location of the Pokemon and more, is taken from the arena and displayed in this class.
+ */
 public class GameView extends JPanel {
 
-    JFrame _frame;
     private Arena _ar;
-    private int _scenario_num;
     private Range2Range _w2f;
 
-    public GameView(JFrame frame, int level) {
+    public GameView() {
         super();
-        _frame = frame;
-        _scenario_num = level;
     }
 
     public void set_ar(Arena ar) {
@@ -33,6 +34,9 @@ public class GameView extends JPanel {
         updateFrame();
     }
 
+    /**
+     * Updates the size and boundaries of the frame according to the given graph.
+     */
     private void updateFrame() {
         Range rx = new Range(40, this.getWidth() - 40);
         Range ry = new Range(this.getHeight() - 40, 40);
@@ -41,6 +45,10 @@ public class GameView extends JPanel {
         _w2f = Arena.w2f(g, frame);
     }
 
+    /**
+     * Paint with double buffers, to create a smooth displayץ
+     * @param g Graphics of this JPanel
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -55,11 +63,15 @@ public class GameView extends JPanel {
         }
     }
 
+    /**
+     * Paint the current state of the game on Graphics g.
+     * @param g Graphics of buffer image
+     */
     @Override
     public void paintComponents(Graphics g) {
         drawGraph(g);
         drawPokemons(g, _ar, _w2f);
-        drawAgants(g);
+        drawAgents(g);
         drawTimeLine(g);
         updateFrame();
     }
@@ -91,7 +103,7 @@ public class GameView extends JPanel {
         geo_location s0 = _w2f.world2frame(s);
         geo_location d0 = _w2f.world2frame(d);
 
-        // draw line edge
+        // draw edge line
         g.setColor(new Color(0x000099));
 //        g.drawLine((int) s0.x(), (int) s0.y(), (int) d0.x(), (int) d0.y());
         Graphics2D g2 = (Graphics2D) g;
@@ -106,7 +118,6 @@ public class GameView extends JPanel {
         int y = (int) ((s0.y() + d0.y()) / 2) - 3;
         if (e.getSrc() < e.getDest()) y += 15;
 //        g.drawString(t, x, y);
-
     }
 
     protected void nodeIcon(Graphics g, int radius, geo_location fp) {
@@ -142,7 +153,7 @@ public class GameView extends JPanel {
 
     }
 
-    private void drawAgants(Graphics g) {
+    private void drawAgents(Graphics g) {
         List<Agent> rs = _ar.getAgents();
         for (Agent a : rs) {
             geo_location loc = a.getPos();

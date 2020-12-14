@@ -1,13 +1,11 @@
 package trys;
 
-import game.Controller;
-import game.util.Point3D;
-import game.util.Range2Range;
+import gameClient.util.Point3D;
+import gameClient.util.Range2Range;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.StringJoiner;
 
 public class Try1 extends JFrame {
 

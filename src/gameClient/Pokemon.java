@@ -1,11 +1,11 @@
-package game;
+package gameClient;
 
 import api.directed_weighted_graph;
 import api.edge_data;
 import api.geo_location;
 import api.node_data;
 import com.google.gson.JsonObject;
-import game.util.Point3D;
+import gameClient.util.Point3D;
 
 /**
  * This class is a representation of Pokemon in the Pokemons Game.
@@ -23,6 +23,7 @@ public class Pokemon {
 
     /**
      * Constructor. uses update method.
+     *
      * @param json json object, coming from the server.
      */
     public Pokemon(JsonObject json) {
@@ -31,6 +32,7 @@ public class Pokemon {
 
     /**
      * update the field by the json
+     *
      * @param json json object, coming from the server.
      */
     public void update(JsonObject json) {
@@ -43,7 +45,8 @@ public class Pokemon {
     /**
      * Find the edge that this Pokemon on it. uses inOnEdge method and
      * check it on all the node in the _graph.
-     * @return
+     *
+     * @return edge_data on which the pokemon found
      */
     public edge_data findEdge() {
         for (node_data v : _graph.getV()) {
@@ -60,6 +63,7 @@ public class Pokemon {
      * Returns true iff this Pokemon location is on the giving edge.
      * the type field says if the pokemon on edge that src < dest -> -1 type,
      * or src > dest -> 1 type.
+     *
      * @param e edge_data
      * @return true if this is on e.
      */
@@ -113,6 +117,7 @@ public class Pokemon {
 
     /**
      * Returns true iff o is {@link Pokemon} and all the fields in this and o are equals.
+     *
      * @param o {@link java.util.Objects}
      * @return true iff o equals to this.
      */

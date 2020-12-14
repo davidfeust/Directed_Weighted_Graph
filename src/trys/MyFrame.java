@@ -1,7 +1,7 @@
 package trys;
 
-import game.GameView;
-import game.Panel;
+import gameClient.GameView;
+import gameClient.Panel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ public class MyFrame extends JFrame {
 //        _panel = new Panel(this);
 //        add(_panel);
 
-        _view = new GameView(this, 5);
+        _view = new GameView();
         add(_view);
 
 
