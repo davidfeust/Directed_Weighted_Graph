@@ -25,7 +25,7 @@ public class GameViewPlus extends GameView {
         super(frame, level);
         loadImg();
 //        setIconImage(_image_pok);
-//        sound();
+        sound();
     }
 
     @Override
@@ -115,9 +115,7 @@ public class GameViewPlus extends GameView {
             ex.printStackTrace();
         }
     }
-    public static void soundOff(){
-        clip.stop();
-    }
+    public static void soundOff(){ clip.stop(); }
     public static void soundOn(){
         clip.start();
     }
