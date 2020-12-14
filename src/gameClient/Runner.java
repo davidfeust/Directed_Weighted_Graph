@@ -1,11 +1,11 @@
-package game;
+package gameClient;
 
 import Server.Game_Server_Ex2;
 import api.directed_weighted_graph;
 import api.game_service;
 import com.google.gson.JsonParser;
 
-import static game.Algo.*;
+import static gameClient.Algo.*;
 
 /**
  * This Runnable class is responsible for running the Pokemon game.
@@ -22,8 +22,9 @@ public class Runner implements Runnable {
 
     /**
      * Constructor.
+     *
      * @param scenario_num level to get the proper scenario from the server
-     * @param id user's id to login
+     * @param id           user's id to login
      */
     public Runner(int scenario_num, int id) {
         _scenario_num = scenario_num;
@@ -116,7 +117,8 @@ public class Runner implements Runnable {
                 }
 //                System.out.println("minTimeToMove=" + minMoveTime);
                 try {
-                    Thread.sleep(100);
+//                    Thread.sleep(100);
+                    Thread.sleep(minMoveTime);
                 } catch (InterruptedException exception) {
                     exception.printStackTrace();
                 }
@@ -135,17 +137,13 @@ public class Runner implements Runnable {
 //            _game.move();
 //            _win.repaint();
         }
-
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
-        System.out.println("Level: " + _scenario_num + "\t\tGrade: " + _ar.getGrade() + "\tMoves: " + moves +
-                "\tAvg moves per sec: " + moves / ((double) sum_time / 1000));
-//        System.exit(0);
-//        mover.stop();
-//        painter.stop();
+        System.out.printf("Level: %d\t\tGrade: %d,\tMoves: %d,\tAvg moves per sec: %.3s%n", _scenario_num, _ar.getGrade(), moves, moves / ((double) sum_time / 1000));
     }
 
     /**
      * init the arena data base before starting game.
+     *
      * @param game game service
      */
     private void initArena(game_service game) {
@@ -164,7 +162,7 @@ public class Runner implements Runnable {
     private void initGUI() {
         _win.set_ar(_ar);
         _win.set_level(_scenario_num);
-        _win.setTitle("Pockemons Game " + _scenario_num);
+        _win.setTitle("Pokemons Game " + _scenario_num);
     }
 
     private void initAlgo() {

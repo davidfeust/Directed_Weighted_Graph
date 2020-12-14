@@ -1,4 +1,4 @@
-package game;
+package gameClient;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,6 @@ class RunnerTest {
             Thread thread = new Thread(run);
             Controller ctrl = new Controller(run, thread, _id, i);
             GameGUI win = new GameGUI(i, ctrl);
-//            GameGUIPlus win = new GameGUIPlus(i, ctrl);
             run.set_win(win);
             ctrl.set_win(win);
             thread.start();
@@ -23,7 +22,6 @@ class RunnerTest {
                 exception.printStackTrace();
             }
             win.setVisible(false);
-            thread.stop();
         }
     }
 }

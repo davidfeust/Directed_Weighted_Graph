@@ -1,4 +1,4 @@
-package game;
+package gameClient;
 
 import api.game_service;
 
@@ -57,10 +57,10 @@ public class Controller extends WindowAdapter implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String str = e.getActionCommand();
         if (str.equals("mute")) {
-            if (game.Panel.changeMuteIcon() == 1) {
-                game.GameViewPlus.soundOff();
+            if (gameClient.Panel.changeMuteIcon() == 1) {
+                gameClient.GameViewPlus.soundOff();
             } else {
-                game.GameViewPlus.soundOn();
+                gameClient.GameViewPlus.soundOn();
             }
         } else {
             if (str.equals("Submit")) {
@@ -80,7 +80,10 @@ public class Controller extends WindowAdapter implements ActionListener {
             }
 
             game_service game = _run.get_game();
-            game.stopGame();
+            if (game.isRunning()) {
+                System.out.print("Game stopped:\t");
+                game.stopGame();
+            }
             try {
                 _thread.join();
             } catch (InterruptedException exception) {

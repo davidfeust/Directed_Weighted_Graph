@@ -1,4 +1,4 @@
-package game;
+package gameClient;
 
 import api.*;
 
@@ -7,6 +7,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
+/**
+ * This class contains all the algorithms needed to manage the Pokemon game.
+ * algorithms like: places agent before starts the game, crate path, and choose the next move.
+ * all the function are static.
+ */
 public class Algo {
 
     private static Arena _ar;
@@ -20,8 +25,7 @@ public class Algo {
      * @param game          game_service
      */
     static void placeAgents(int num_of_agents, game_service game) {
-//        by value :
-        PriorityQueue<Pokemon> pq = new PriorityQueue<>(new Comparator<Pokemon>() {
+        PriorityQueue<Pokemon> pq = new PriorityQueue<>(new Comparator<>() {
             @Override
             public int compare(Pokemon o1, Pokemon o2) {
                 return Double.compare(o2.get_value(), o1.get_value());
@@ -38,11 +42,17 @@ public class Algo {
         }
     }
 
+    /**
+     * Place the agents in the start of the game, scatter the agents on the graph.
+     *
+     * @param num_of_agents in the current game.
+     * @param game          game_service
+     */
     static void placeAgentsByDist(int num_of_agents, game_service game) {
         dw_graph_algorithms ga = new WDGraph_Algo(_graph);
         ga.shortestPathDist(0, 0);
 
-        PriorityQueue<node_data> pq = new PriorityQueue<>(new Comparator<node_data>() {
+        PriorityQueue<node_data> pq = new PriorityQueue<>(new Comparator<>() {
             @Override
             public int compare(node_data o1, node_data o2) {
                 return Double.compare(o1.getWeight(), o2.getWeight());
@@ -60,7 +70,6 @@ public class Algo {
             }
         }
     }
-
 
     /**
      * Chooses the next move of the giving agent,
@@ -86,7 +95,6 @@ public class Algo {
         game.chooseNextEdge(id, next_dest);
         return next_dest;
 //        System.out.println("Agent: " + id + ", val: " + a.getValue() + "   turned to node: " + next_dest);
-//        System.out.println("\t\ton the way to: " + a.get_curr_fruit());
     }
 
     /**
@@ -107,6 +115,13 @@ public class Algo {
         }
     }
 
+    /**
+     * Create path for the giving agent.
+     * This method calculates the ratio of the distance to the value of each Pokemon,
+     * and returns the shortest path to the Pokemon that gives the best ratio.
+     *
+     * @param a an agent
+     */
     synchronized static void createPathByValDist(Agent a) {
         dw_graph_algorithms ga = new WDGraph_Algo();
         ga.init(_graph);
@@ -165,6 +180,13 @@ public class Algo {
     }
 */
 
+    /**
+     * Create path for the giving agent.
+     * This method calculates the shortest path (uses {@link WDGraph_Algo}) from a to all the Pokemons,
+     * and returns the shortest path to the shortest Pokemon.
+     *
+     * @param a an agent
+     */
     synchronized static void createPathByDistance(Agent a) {
         dw_graph_algorithms ga = new WDGraph_Algo();
         ga.init(_graph);
@@ -194,6 +216,15 @@ public class Algo {
         _ar.get_pokemonsWithOwner().add(min_pokemon);
     }
 
+    /**
+     * Returns the index within the giving Pokemons list of the first occurrence of
+     * the specified Pokemon.
+     * In either case, if no such character occurs in this List, then {@code -1} is returned.
+     *
+     * @param arr List of {@link Pokemon}
+     * @param pok {@link Pokemon} to search
+     * @return the index of the first occurrence of the Pokemon in the List, or -1 if the Pokemon does not occur.
+     */
     public static int indexOfPok(List<Pokemon> arr, Pokemon pok) {
         int ans = -1;
         for (int i = 0; i < arr.size(); i++) {
@@ -216,22 +247,32 @@ public class Algo {
         return false;
     }
 
+    /**
+     * Returns time to sleep (milliseconds) util the next call to move().
+     * calculates the walk time to the next node, or to the pokemon.
+     *
+     * @param a         an agent
+     * @param next_dest next destination node of a
+     * @return the length of time to sleep in milliseconds
+     */
     public synchronized static long toSleep(Agent a, int next_dest) {
         edge_data edge = _graph.getEdge(a.getSrcNode(), next_dest);
         if (next_dest == -1 || edge == null) {
-            return 0;
+            return 80;
         }
 //        System.out.println("src=" + a.getSrcNode()+ " dest= "+ next_dest);
         node_data node = _graph.getNode(next_dest);
 
-        // treat a scenario which the curr fruit cannot be found on the edge
-        if (a.get_curr_fruit() != null && edge != null && !edge.equals(a.get_curr_fruit().get_edge())) {
+        if (a.get_curr_fruit() != null && !edge.equals(a.get_curr_fruit().get_edge())) {
+            // treat a scenario which the curr fruit cannot be found on the edge
+
             double way = edge.getWeight() / a.get_speed();
             way *= 1000;
             return (long) way;
 
-            // treat a scenario which the curr fruit on the current edge
         } else if (edge.equals(a.get_curr_fruit().get_edge())) {
+            // treat a scenario which the curr fruit on the current edge
+
             double way = a.getPos().distance(a.get_curr_fruit().get_pos());
             double way_to_node = a.getPos().distance(node.getLocation());
             way = way / way_to_node;
@@ -239,31 +280,8 @@ public class Algo {
             way /= a.get_speed();
             way *= 1000;
             return (long) way;
-//            return 100;
         }
-        return 120;
-/*
-        if (isClose2Pok(a)){
-            System.out.println("close");
-            return 0;
-        }
-*/
-        /*if (Math.abs(a.getPos().distance(node.getLocation())) < 0.1) {
-            if (a.get_curr_fruit() != null && a.get_edge() != null && !a.get_edge().equals(a.get_curr_fruit().get_edge())) {
-                double way =  a.get_edge().getWeight() / a.get_speed();
-                way *= 1000;
-                System.out.println(way);
-                return (long) way;
-            }
-        } else {
-            return 100;
-        }*/
-
-//        geo_location pos = a.getPos();
-//        double speed = a.get_speed();
-//        edge_data edge = a.get_edge();
-
-
+        return -120;
     }
 
     public static void set_ar(Arena _ar) {
