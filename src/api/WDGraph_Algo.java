@@ -89,12 +89,15 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             }
 
             node_data connectedNode = _g.getV().iterator().next();
+
             int sum = this.connectedCheck(connectedNode, connectedNode, num);
 
+            //cheking if the value that we get from the connectedCheck function equal to the number of node in the graph
+            //if not we return false
             if (sum != _g.getV().size()) {
                 return false;
             }
-
+            // here we check if other node can connect to first node(connected node) if not we return false
             for (node_data i : _g.getV()) {
                 this.connectedCheck(i, connectedNode, ++num);
                 if (connectedNode.getTag() == num) {
@@ -102,6 +105,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
                 }
             }
         }
+        //we return true if all the node connected to another
         return true;
     }
 
@@ -110,6 +114,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      * if the tag = -1 the nodes are not connected
      *
      * @@param node_data
+     * @return the sum of the marked nodes
      */
     private int connectedCheck(node_data src, node_data dest, int num) {
         int sum = 0;
@@ -117,12 +122,15 @@ public class WDGraph_Algo implements dw_graph_algorithms {
         Queue<node_data> q = new LinkedList<>();
         src.setTag(num + 1);
         sum++;
+        //the Queue add the first node and then add their neighbors and so on
         q.add(src);
+
         while (!q.isEmpty()) {
             int temp = q.poll().getKey();
             for (edge_data i : this._g.getE(temp)) {
                 node_data n_d = _g.getNode(i.getDest());
                 if (n_d.getTag() != num + 1) {
+                    //every time that new unseen node enter the queue sum++
                     sum++;
                     q.add(n_d);
                     n_d.setTag(num + 1);
@@ -149,7 +157,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
     public List<node_data> shortestPath(int src, int dest) {
         List<node_data> ll = new ArrayList<>();
         double flag = shortestPathDist(src, dest);
-
+        //first we check if the nodes are connected and if so we use the function ShortPath to return the shortest Path
         if (flag != -1) {
             node_data Src = this._g.getNode(src);
             node_data Dest = this._g.getNode(dest);
@@ -210,17 +218,17 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      * @param distance
      */
     private List<node_data> ShortPath(node_data dest, node_data src, List<node_data> ll, double distance) {
-        // check if the nodes are even connected return an empty path if they dosnt
-        // connected
+        //we start by putting the dest in the stack
         Stack<node_data> stack = new Stack<>();
 
         stack.add(dest);
         node_data temp = stack.peek();
         temp.setTag(-2);
-
+        //then we check until we reach the source node
         while (temp != src) {
             NodeData n_d = (NodeData) temp;
             for (node_data i : n_d.getConnectedNode().values()) {
+                //if the neighbors weight + the edge wight to the node equal to the node wight then we putting it in the stack
                 if (n_d.getWeight() == i.getWeight() + _g.getEdge(i.getKey(), temp.getKey()).getWeight() && i.getTag() != -2) {//
                     stack.add(i);
                     temp = stack.peek();
@@ -231,6 +239,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
         }
 
         int t = stack.size();
+        //we changing the stack into list , and then return it
         for (int i = 0; i < t; i++) {
             ll.add(stack.pop());
         }
@@ -264,6 +273,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public boolean save(String file) {
+        //we save the file using json format
         JsonObject json_obj = new JsonObject();
         JsonArray nodes_arr = new JsonArray();
         for (node_data i : _g.getV()) {
@@ -316,6 +326,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public boolean load(String file) {
+        //we opening the json file that wee save and make from it a new graph
         JsonObject json_obj;
         try {
             String json_str = new String(Files.readAllBytes(Paths.get(file)));
