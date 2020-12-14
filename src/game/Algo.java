@@ -15,38 +15,11 @@ public class Algo {
 
     /**
      * Place the agents in the start of the game in near to the pokemons with the highest value.
+     *
      * @param num_of_agents in the current game.
-     * @param game game_service
+     * @param game          game_service
      */
     static void placeAgents(int num_of_agents, game_service game) {
-//        dw_graph_algorithms ga = new WDGraph_Algo(_graph);
-//        ga.shortestPathDist(0, 0);
-//
-////        by distance :
-//        PriorityQueue<node_data> pq = new PriorityQueue<>(new Comparator<node_data>() {
-//            @Override
-//            public int compare(node_data o1, node_data o2) {
-//                return Double.compare(o1.getWeight(), o2.getWeight());
-//            }
-//        });
-//
-//        for (Pokemon i : _ar.getPokemons()) {
-//            pq.add(_graph.getNode(i.get_edge().getSrc()));
-//        }
-//        int div = pq.size() / num_of_agents;
-//        for (int i = 0; i < num_of_agents; i++) {
-//            game.addAgent(pq.peek().getKey());
-//            for (int j = 0; j < div; j++) {
-//                System.out.println(pq.peek());
-//                pq.poll();
-//            }
-//        }
-//        for(; !pq.isEmpty();) {
-//            System.out.println(pq.poll());
-//        }
-//    }
-
-
 //        by value :
         PriorityQueue<Pokemon> pq = new PriorityQueue<>(new Comparator<Pokemon>() {
             @Override
@@ -56,17 +29,46 @@ public class Algo {
         });
         pq.addAll(_ar.getPokemons());
 
-        for (int i = 0; i < num_of_agents; i++) {
+        for (int i = 0; i < num_of_agents && !pq.isEmpty(); i++) {
             game.addAgent(pq.poll().get_edge().getSrc());
+            num_of_agents--;
+        }
+        if (num_of_agents > 0) {
+            placeAgentsByDist(num_of_agents, game);
         }
     }
+
+    static void placeAgentsByDist(int num_of_agents, game_service game) {
+        dw_graph_algorithms ga = new WDGraph_Algo(_graph);
+        ga.shortestPathDist(0, 0);
+
+        PriorityQueue<node_data> pq = new PriorityQueue<>(new Comparator<node_data>() {
+            @Override
+            public int compare(node_data o1, node_data o2) {
+                return Double.compare(o1.getWeight(), o2.getWeight());
+            }
+        });
+
+        for (Pokemon i : _ar.getPokemons()) {
+            pq.add(_graph.getNode(i.get_edge().getSrc()));
+        }
+        int div = pq.size() / num_of_agents;
+        for (int i = 0; i < num_of_agents && !pq.isEmpty(); i++) {
+            game.addAgent(pq.peek().getKey());
+            for (int j = 0; j < div; j++) {
+                pq.poll();
+            }
+        }
+    }
+
 
     /**
      * Chooses the next move of the giving agent,
      * the next move according to the agent's path.
      * if the destination pokemon of this agent already eaten, then the function call createPath.
+     *
      * @param game game_service
-     * @param a agent to choose his next move
+     * @param a    agent to choose his next move
      */
     static int nextMove(game_service game, Agent a) {
         int id = a.getId();
@@ -90,6 +92,7 @@ public class Algo {
     /**
      * Creates the current path of the giving agent, chooses the strategy of creating the path,
      * and calling the mache function.
+     *
      * @param a an agent
      */
     synchronized static void createPath(Agent a) {
@@ -227,7 +230,7 @@ public class Algo {
             way *= 1000;
             return (long) way;
 
-       // treat a scenario which the curr fruit on the current edge
+            // treat a scenario which the curr fruit on the current edge
         } else if (edge.equals(a.get_curr_fruit().get_edge())) {
             double way = a.getPos().distance(a.get_curr_fruit().get_pos());
             double way_to_node = a.getPos().distance(node.getLocation());

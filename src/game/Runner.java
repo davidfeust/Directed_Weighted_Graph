@@ -137,8 +137,8 @@ public class Runner implements Runnable {
         }
 
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
-        double m = sum_time;
-        System.out.println("Level: " + _scenario_num + "\t\tGrade: " + _ar.getGrade() + "\tMoves: " + moves + "\tMoves per sec: " + (m / 1000) / moves);
+        System.out.println("Level: " + _scenario_num + "\t\tGrade: " + _ar.getGrade() + "\tMoves: " + moves +
+                "\tAvg moves per sec: " + moves / ((double) sum_time / 1000));
 //        System.exit(0);
 //        mover.stop();
 //        painter.stop();
@@ -165,7 +165,6 @@ public class Runner implements Runnable {
         _win.set_ar(_ar);
         _win.set_level(_scenario_num);
         _win.setTitle("Pockemons Game " + _scenario_num);
-//        _win.setVisible(true);
     }
 
     private void initAlgo() {
