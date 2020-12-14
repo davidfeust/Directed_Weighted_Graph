@@ -1,6 +1,6 @@
 # Directed_Weighted_Graph
 
-## hello! we glad that you read and use our project
+## hello! we glad to see you here!
 ### This project base on directed weighted graph and including algorithems for finding shortest path from node to node (based on Dijkstra’s Shortest Path Algorithm)
 ### In the project we use the graph and the graph algoritems classes to build an auotomated game like the game packman
 ### we have 24 games in which the server will let the game know how much pokemons(agent like packman) you have and will randomly creat furit for them to eat
