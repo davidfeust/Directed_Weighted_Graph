@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * This class is the Controller of the GUI.
+ */
 public class Controller extends WindowAdapter implements ActionListener {
 
     public Runner _run;
@@ -14,6 +17,15 @@ public class Controller extends WindowAdapter implements ActionListener {
     private GameGUI _win;
     private int _id, _level;
 
+    /**
+     * Constructor.
+     * get the main Runner, and the thread performs it.
+     *
+     * @param run    the main Runner of the game
+     * @param thread the executor Tread
+     * @param id     user's id to login
+     * @param level  one of the scenario games
+     */
     public Controller(Runner run, Thread thread, int id, int level) {
         _run = run;
         _thread = thread;
@@ -21,12 +33,26 @@ public class Controller extends WindowAdapter implements ActionListener {
         _level = level;
     }
 
+    /**
+     * Closes window and exit the program
+     *
+     * @param e window event
+     */
     @Override
     public void windowClosing(WindowEvent e) {
         System.out.println("done");
         System.exit(0);
     }
 
+    /**
+     * Action Performed. handle about all action performed in {@link GameGUI}, and {@link Panel}.
+     * Possible actions:
+     * 1. mute / un-mute music
+     * 2. submit the entry id and level
+     * 3. choose level from menu.
+     *
+     * @param e action even
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String str = e.getActionCommand();
@@ -55,7 +81,12 @@ public class Controller extends WindowAdapter implements ActionListener {
 
             game_service game = _run.get_game();
             game.stopGame();
-//        _thread.stop();
+            try {
+                _thread.join();
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+
             _run = new Runner(_level, _id);
             _run.set_win(_win);
             _thread = new Thread(_run);

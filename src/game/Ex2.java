@@ -7,6 +7,7 @@ public class Ex2 {
     /**
      * Main of the Game Pokemons.
      * starts new Game with the giving id and level from args
+     *
      * @param args args[0]= id, args[1]= level.
      */
     public static void main(String[] args) {

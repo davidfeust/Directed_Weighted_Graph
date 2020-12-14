@@ -16,7 +16,7 @@ public class Panel extends JPanel {
     static boolean muteFlag;
 
     private static JTextField _id_field, _s_n;
-    private JButton _button;
+    private JButton _submit;
     private static JButton un_mute;
     private JLabel _id_label, _level_label, _time, _level, _score, _name_img;
     private BufferedImage _name;
@@ -35,7 +35,7 @@ public class Panel extends JPanel {
         nameImg();
 
         setPreferredSize(new Dimension(_frame.getWidth(), 110));
-        repaint();
+        setLayout(null);
     }
 
     private void insertBox() {
@@ -43,16 +43,17 @@ public class Panel extends JPanel {
         _level_label = new JLabel("level: ");
         _id_field = new JTextField();
         _s_n = new JTextField();
-        _button = new JButton("Submit");
-        _button.addActionListener(_ctrl);
+        _submit = new JButton("Submit");
+        _submit.addActionListener(_ctrl);
         _id_label.setForeground(Color.white);
         _level_label.setForeground(Color.white);
         _id_label.setForeground(Color.white);
-        add(_button);
+        add(_submit);
         add(_id_field);
         add(_s_n);
         add(_level_label);
         add(_id_label);
+        updateInsertBox();
     }
 
     private void updateInsertBox() {
@@ -60,7 +61,7 @@ public class Panel extends JPanel {
         _id_label.setBounds(getWidth() - 185, 20, 50, 22);
         _s_n.setBounds(getWidth() - 150, 45, 120, 22);
         _level_label.setBounds(getWidth() - 185, 45, 50, 22);
-        _button.setBounds(getWidth() - 135, 70, 95, 25);
+        _submit.setBounds(getWidth() - 135, 70, 95, 25);
     }
 
     private void infoBox() {
@@ -73,6 +74,7 @@ public class Panel extends JPanel {
         _score = new JLabel("Score: ");
         _score.setForeground(Color.white);
         add(_score);
+        updateInfoBox();
     }
 
     private void updateInfoBox() {
@@ -84,7 +86,6 @@ public class Panel extends JPanel {
         _time.setBounds(20, 20, 150, 30);
         _level.setBounds(20, 40, 150, 30);
         _score.setBounds(20, 60, 150, 30);
-
     }
 
     private void nameImg() {
@@ -99,6 +100,7 @@ public class Panel extends JPanel {
         double size = 0.8;
         _name_img.setIcon(new javax.swing.ImageIcon(_name.getScaledInstance((int) (324 * size), (int) (124 * size), WIDTH)));
         add(_name_img);
+        updateNameImg();
     }
 
     private void updateNameImg() {
@@ -115,7 +117,6 @@ public class Panel extends JPanel {
     }
 
     public void sound_button() {
-
         _image_sound = new ImageIcon[2];
 
         _image_sound[0] = (new ImageIcon("img/mute.png"));
@@ -135,6 +136,7 @@ public class Panel extends JPanel {
         un_mute.setIcon(_image_sound[0]);
         muteFlag = true;
         add(un_mute);
+        update_sound_button();
     }
 
     public void update_sound_button() {
@@ -169,5 +171,9 @@ public class Panel extends JPanel {
 
     public static String getId() {
         return _id_field.getText();
+    }
+
+    public JButton get_submit() {
+        return _submit;
     }
 }
