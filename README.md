@@ -1,4 +1,4 @@
-# Directed_Weighted_Graph
+# Directed Weighted Graph
 
 ## hello! we glad to see you here!
 ### This project base on directed weighted graph and including algorithems for finding shortest path from node to node (based on Dijkstra’s Shortest Path Algorithm)
