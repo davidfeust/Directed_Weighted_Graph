@@ -19,6 +19,8 @@ public class Runner implements Runnable {
     private directed_weighted_graph _graph;
     private game_service _game;
     private final int _scenario_num, _id;
+    private long _sleep;
+    private Thread _mover_thread, _painter_thread;
 
     /**
      * Constructor.
@@ -29,6 +31,8 @@ public class Runner implements Runnable {
     public Runner(int scenario_num, int id) {
         _scenario_num = scenario_num;
         _id = id;
+        _mover_thread = new Thread(new Mover());
+        _painter_thread = new Thread(new Painter());
     }
 
     /**
@@ -51,56 +55,14 @@ public class Runner implements Runnable {
         _game.startGame();
         long sum_time = _game.timeToEnd();
         _ar.set_timeStart(sum_time);
+        _ar.update(_game);
 
-        Thread painter = new Thread(new Runnable() {
-            @Override
-            public void run() {
-//                try {
-//                    while (_game.isRunning()) {
-//                        Thread.sleep((long) 1000 / 60);
-//                        _win.repaint();
-//                    }
-//                } catch (InterruptedException exception) {
-//                    exception.printStackTrace();
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
-            }
-        });
+        _painter_thread.start();
 
-        Thread mover = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                while (_game.isRunning()) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException exception) {
-                        exception.printStackTrace();
-                    }
-//                    _ar.update(_game);
-//                    _game.move();
-                    _win.repaint();
-
-//                    System.out.println(_game.move());
-                }
-            }
-        });
-
-//        mover.start();
-//        painter.start();
-        int num_of_moves = 0;
-
-        int iteration = 0;
         while (_game.isRunning()) {
-//            _game.move();
-
-            iteration++;
-            long minMoveTime = 100000;
-//            long minMoveTime = 0;
+            long minMoveTime = Integer.MAX_VALUE;
+            int next_dest = -1;
             synchronized (_win) {
-                int next_dest = -1;//a.getSrcNode();
                 for (Agent a : _ar.getAgents()) {
                     _ar.update(_game);
                     if (a.get_path().isEmpty()) {
@@ -115,30 +77,45 @@ public class Runner implements Runnable {
                         minMoveTime = timeToMove;
                     }
                 }
-//                System.out.println("minTimeToMove=" + minMoveTime);
-                try {
-//                    Thread.sleep(100);
-                    Thread.sleep(minMoveTime);
-                } catch (InterruptedException exception) {
-                    exception.printStackTrace();
-                }
-//                    _ar.update(_game);
-                _game.move();
-                _win.repaint();
-//                System.out.println(num_of_moves++);
             }
-//            try {
-//                if (minMoveTime > 10)
-//                    minMoveTime += 0;
-//                Thread.sleep(minMoveTime);
-//            } catch (InterruptedException exception) {
-//                exception.printStackTrace();
-//            }
-//            _game.move();
-//            _win.repaint();
+            _sleep = minMoveTime;
+            if (!_mover_thread.isAlive()) {
+                _mover_thread.run();
+            }
+
         }
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
         System.out.printf("Level: %d\t\tGrade: %d,\tMoves: %d,\tAvg moves per sec: %.3f%n", _scenario_num, _ar.getGrade(), moves, moves / ((double) sum_time / 1000));
+    }
+
+    class Painter implements Runnable {
+
+        @Override
+        public void run() {
+            while (_game.isRunning()) {
+                try {
+                    Thread.sleep(1000 / 60);
+                } catch (InterruptedException exception) {
+                    exception.printStackTrace();
+                }
+                _win.repaint();
+            }
+        }
+    }
+
+    class Mover implements Runnable {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(_sleep);
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+            synchronized (_win) {
+                _game.move();
+            }
+        }
+
     }
 
     /**

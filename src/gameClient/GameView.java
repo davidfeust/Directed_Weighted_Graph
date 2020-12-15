@@ -24,9 +24,11 @@ public class GameView extends JPanel {
 
     private Arena _ar;
     private Range2Range _w2f;
+    private long _startT;
 
     public GameView() {
         super();
+        _startT = System.currentTimeMillis();
     }
 
     public void set_ar(Arena ar) {
@@ -121,7 +123,6 @@ public class GameView extends JPanel {
     }
 
     protected void nodeIcon(Graphics g, int radius, geo_location fp) {
-//        g.setColor(Color.BLUE);
         g.setColor(new Color(0x000099));
         g.fillOval((int) fp.x() - radius, (int) fp.y() - radius, 2 * radius, 2 * radius);
     }
@@ -159,7 +160,6 @@ public class GameView extends JPanel {
             geo_location loc = a.getPos();
             int r = 8;
             geo_location fp = _w2f.world2frame(loc);
-//            g.setColor(Color.red);
             agentIcon(g, r, fp, a.getId());
             String v = (int) a.getValue() + "";
             g.setColor(Color.BLACK);
@@ -176,10 +176,10 @@ public class GameView extends JPanel {
     private void drawTimeLine(Graphics g) {
         g.setColor(new Color(0xCD1818));
         double ts = (double) _ar.get_timeStart();
-        double curT = (double) _ar.getTime();
-        double dt = ((ts - curT) / ts);
+        long curT = System.currentTimeMillis()-_startT;
+        double dt = curT / ts;
+
         double w = getWidth();
         g.fillRoundRect(0, 0, (int) (w * dt), 10, 10, 10);
     }
-
 }
