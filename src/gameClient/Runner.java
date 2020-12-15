@@ -99,7 +99,7 @@ public class Runner implements Runnable {
             iteration++;
             long minMoveTime = 100000;
 //            long minMoveTime = 0;
-            synchronized (this) {
+            synchronized (_win) {
                 int next_dest = -1;//a.getSrcNode();
                 for (Agent a : _ar.getAgents()) {
                     _ar.update(_game);
