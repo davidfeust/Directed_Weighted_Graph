@@ -52,90 +52,30 @@ public class Runner implements Runnable {
         long sum_time = _game.timeToEnd();
         _ar.set_timeStart(sum_time);
 
-        Thread painter = new Thread(new Runnable() {
-            @Override
-            public void run() {
-//                try {
-//                    while (_game.isRunning()) {
-//                        Thread.sleep((long) 1000 / 60);
-//                        _win.repaint();
-//                    }
-//                } catch (InterruptedException exception) {
-//                    exception.printStackTrace();
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
-            }
-        });
-
-        Thread mover = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                while (_game.isRunning()) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException exception) {
-                        exception.printStackTrace();
-                    }
-//                    _ar.update(_game);
-//                    _game.move();
-                    _win.repaint();
-
-//                    System.out.println(_game.move());
-                }
-            }
-        });
-
-//        mover.start();
-//        painter.start();
-        int num_of_moves = 0;
-
-        int iteration = 0;
         while (_game.isRunning()) {
-//            _game.move();
-
-            iteration++;
-            long minMoveTime = 100000;
-//            long minMoveTime = 0;
-            synchronized (this) {
-                int next_dest = -1;//a.getSrcNode();
-                for (Agent a : _ar.getAgents()) {
-                    _ar.update(_game);
-                    if (a.get_path().isEmpty()) {
-                        createPath(a);
-                    }
-                    _ar.update(_game);
-                    if (!a.isMoving()) {
-                        next_dest = nextMove(_game, a);
-                    }
-                    long timeToMove = toSleep(a, next_dest);
-                    if (timeToMove < minMoveTime) {
-                        minMoveTime = timeToMove;
-                    }
+            long minMoveTime = Integer.MAX_VALUE;
+            int next_dest = -1;
+            for (Agent a : _ar.getAgents()) {
+                _ar.update(_game);
+                if (a.get_path().isEmpty()) {
+                    createPath(a);
                 }
-//                System.out.println("minTimeToMove=" + minMoveTime);
-                try {
-//                    Thread.sleep(100);
-                    Thread.sleep(minMoveTime);
-                } catch (InterruptedException exception) {
-                    exception.printStackTrace();
+                _ar.update(_game);
+                if (!a.isMoving()) {
+                    next_dest = nextMove(_game, a);
                 }
-//                    _ar.update(_game);
-                _game.move();
-                _win.repaint();
-//                System.out.println(num_of_moves++);
+                long timeToMove = toSleep(a, next_dest);
+                if (timeToMove < minMoveTime) {
+                    minMoveTime = timeToMove;
+                }
             }
-//            try {
-//                if (minMoveTime > 10)
-//                    minMoveTime += 0;
-//                Thread.sleep(minMoveTime);
-//            } catch (InterruptedException exception) {
-//                exception.printStackTrace();
-//            }
-//            _game.move();
-//            _win.repaint();
+            try {
+                Thread.sleep(minMoveTime);
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+            _game.move();
+            _win.repaint();
         }
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
         System.out.printf("Level: %d\t\tGrade: %d,\tMoves: %d,\tAvg moves per sec: %.3f%n", _scenario_num, _ar.getGrade(), moves, moves / ((double) sum_time / 1000));

@@ -2,7 +2,7 @@ package gameClient;
 
 public class Ex2 {
 
-    private static int _id = 205474026, _level = 1;
+    private static int _id = 205474026, _level = 0;
 
     /**
      * Main of the Game Pokemons.
