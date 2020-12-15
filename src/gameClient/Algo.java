@@ -218,7 +218,7 @@ public class Algo {
      * @param next_dest next destination node of a
      * @return the length of time to sleep in milliseconds
      */
-    public synchronized static long toSleep(Agent a, int next_dest) {
+    synchronized static long toSleep(Agent a, int next_dest) {
         edge_data edge = _graph.getEdge(a.getSrcNode(), next_dest);
 
         if (next_dest == -1 || edge == null) {
