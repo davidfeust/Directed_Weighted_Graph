@@ -1,4 +1,4 @@
-# Directed Weighted Graph
+# Directed Weighted Graph & Pokémons Game
 
 ## Hello! we glad to see you here!
 This project base on directed weighted graph and including algorithms for finding the shortest path from node to node (based on Dijkstra’s Shortest Path Algorithm).\
