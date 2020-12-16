@@ -26,7 +26,7 @@ public class GameViewPlus extends GameView {
     public GameViewPlus() {
         super();
         loadImg();
-//        sound();
+        sound();
     }
 
     /**

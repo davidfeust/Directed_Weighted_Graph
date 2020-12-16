@@ -177,7 +177,6 @@ public class Algo {
                 if (dist_src < shortest_way) {
                     shortest_way = dist_src;
                     min_pokemon = p;
-                    n = s;
                 }
             }
         }

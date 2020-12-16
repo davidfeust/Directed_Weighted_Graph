@@ -47,10 +47,8 @@ public class Runner implements Runnable {
 
         if (_id != -1) {
             _game.login(_id);
-            System.out.println("logged in for " + _id);
         }
-
-//        System.out.println("Game Info: " + _game);
+        System.out.println("Game Info: " + _game);
 
         initArena(_game);
         initGUI();
@@ -151,10 +149,6 @@ public class Runner implements Runnable {
 
     public game_service get_game() {
         return _game;
-    }
-
-    public Arena get_ar() {
-        return _ar;
     }
 
     public void set_win(GameGUI win) {
