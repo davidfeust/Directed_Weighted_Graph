@@ -1,7 +1,5 @@
+package api;
 
-import api.*;
-import api.node_data;
-import api.NodeData;
 import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;
@@ -11,7 +9,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class Ex2Test {
+public class GraphGeneralTest {
 
     private static Random _rnd = new Random(0);
 
@@ -87,7 +85,7 @@ public class Ex2Test {
         dw_graph_algorithms ga2 = new WDGraph_Algo(g2);
         assertEquals(ga1.shortestPath(0, 10), ga2.shortestPath(0, 10));
         assertEquals(ga1.shortestPathDist(0, 10), ga2.shortestPathDist(0, 10));
-        g1.removeEdge(8,5);
+        g1.removeEdge(8, 5);
         assertNotEquals(ga1.shortestPath(0, 10), ga2.shortestPath(0, 10));
         assertNotEquals(ga1.shortestPathDist(0, 10), ga2.shortestPathDist(0, 10));
     }
@@ -117,7 +115,7 @@ public class Ex2Test {
 
         List<node_data> sp_actual2 = ga.shortestPath(5, 0);
         assertEquals(-1, ga.shortestPathDist(5, 0));
-        assertNull( sp_actual2);
+        assertNull(sp_actual2);
     }
 
     /**

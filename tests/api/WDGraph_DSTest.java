@@ -1,6 +1,5 @@
-//package ex2.tests;
+package api;
 
-import api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
