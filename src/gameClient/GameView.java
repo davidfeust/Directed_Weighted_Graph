@@ -24,12 +24,14 @@ public class GameView extends JPanel {
 
     private Arena _ar;
     private Range2Range _w2f;
-    private long _startT;
+    private static long _startT;
 
     public GameView() {
         super();
         _startT = System.currentTimeMillis();
     }
+
+
 
     public void set_ar(Arena ar) {
         _ar = ar;
@@ -181,5 +183,8 @@ public class GameView extends JPanel {
 
         double w = getWidth();
         g.fillRoundRect(0, 0, (int) (w * dt), 10, 10, 10);
+    }
+    public static void set_startT(long _startT1) {
+    _startT = _startT1;
     }
 }
