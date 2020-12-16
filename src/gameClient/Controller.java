@@ -63,6 +63,7 @@ public class Controller extends WindowAdapter implements ActionListener {
                 gameClient.GameViewPlus.soundOn();
             }
         } else {
+            int id = -1;
             if (str.equals("Submit")) {
                 try {
                     _level = Integer.parseInt(Panel.getLevel());
@@ -70,7 +71,7 @@ public class Controller extends WindowAdapter implements ActionListener {
                     return;
                 }
                 try {
-                    _id = Integer.parseInt(Panel.getId());
+                    id = Integer.parseInt(Panel.getId());
                 } catch (NumberFormatException ignored) {
                 }
 
@@ -90,7 +91,7 @@ public class Controller extends WindowAdapter implements ActionListener {
                 exception.printStackTrace();
             }
 
-            _run = new Runner(_level, _id);
+            _run = new Runner(_level, id);
             _run.set_win(_win);
             _thread = new Thread(_run);
             _thread.start();

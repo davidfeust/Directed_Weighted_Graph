@@ -2,8 +2,6 @@ package gameClient;
 
 public class Ex2 {
 
-    private static int _id = 205474026, _level = 0;
-
     /**
      * Main of the Game Pokemons.
      * starts new Game with the giving id and level from args
@@ -11,10 +9,13 @@ public class Ex2 {
      * @param args args[0]= id, args[1]= level.
      */
     public static void main(String[] args) {
+        int _id, _level;
         try {
             _id = Integer.parseInt(args[0]);
             _level = Integer.parseInt(args[1]);
         } catch (Exception ignored) {
+            _id = -1;
+            _level = 0;
         }
 
         Runner run = new Runner(_level, _id);

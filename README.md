@@ -21,7 +21,7 @@ intellij or some other IDE (recommended)
 ### Installing
 Clone that project to your workspace directory
 
-git clone https://github.com/NetanelAlbert/OopEx3-Map-Game.git
+git clone https://github.com/davidfeust/Directed_Weighted_Graph.git
 Open your IDE and make sure you see the project 
 
 ### Running the game

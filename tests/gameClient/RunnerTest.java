@@ -27,7 +27,7 @@ class RunnerTest {
 
     @Test
     void runFewGames() {
-        int[] levels = {17,16,22,23,0,1};
+        int[] levels = {0, 1, 16, 17, 22, 23};
         for (int i : levels) {
             Runner run = new Runner(i, _id);
             Thread thread = new Thread(run);

@@ -1,7 +1,8 @@
 //package ex2.tests;
 
 import api.*;
-import org.junit.jupiter.api.AfterEach;
+import api.NodeData;
+import api.node_data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,7 @@
-//package ex2.tests;
 
 import api.*;
-import org.junit.jupiter.api.Disabled;
+import api.node_data;
+import api.NodeData;
 import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;
