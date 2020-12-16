@@ -58,6 +58,7 @@ public class Runner implements Runnable {
         _game.startGame();
         long sum_time = _game.timeToEnd();
         _ar.set_timeStart(sum_time);
+        GameView.set_startT(System.currentTimeMillis());
         _ar.update(_game);
 
         _painter_thread.start();
