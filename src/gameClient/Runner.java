@@ -19,8 +19,7 @@ public class Runner implements Runnable {
     private directed_weighted_graph _graph;
     private game_service _game;
     private final int _scenario_num, _id;
-    private long _sleep;
-    private Thread _mover_thread, _painter_thread;
+    private final Thread _painter_thread;
 
     /**
      * Constructor.
@@ -31,7 +30,6 @@ public class Runner implements Runnable {
     public Runner(int scenario_num, int id) {
         _scenario_num = scenario_num;
         _id = id;
-        _mover_thread = new Thread(new Mover());
         _painter_thread = new Thread(new Painter());
     }
 
@@ -46,7 +44,12 @@ public class Runner implements Runnable {
     @Override
     public void run() {
         _game = Game_Server_Ex2.getServer(_scenario_num); // you have [0,23] games
-//        _game.login(_id);
+
+        if (_id != -1) {
+            _game.login(_id);
+            System.out.println("logged in for " + _id);
+        }
+
 //        System.out.println("Game Info: " + _game);
 
         initArena(_game);
@@ -60,36 +63,47 @@ public class Runner implements Runnable {
         _painter_thread.start();
 
         while (_game.isRunning()) {
-            long minMoveTime = Integer.MAX_VALUE;
+            long minSleepTime = Integer.MAX_VALUE;
             int next_dest = -1;
-            synchronized (_win) {
-                for (Agent a : _ar.getAgents()) {
-                    _ar.update(_game);
-                    if (a.get_path().isEmpty()) {
-                        createPath(a);
-                    }
-                    _ar.update(_game);
-                    if (!a.isMoving()) {
-                        next_dest = nextMove(_game, a);
-                    }
-                    long timeToMove = toSleep(a, next_dest);
-                    if (timeToMove < minMoveTime) {
-                        minMoveTime = timeToMove;
-                    }
+
+            for (Agent a : _ar.getAgents()) {
+                _ar.update(_game);
+                if (a.get_path().isEmpty()) {
+                    createPath(a);
+                }
+                _ar.update(_game);
+                if (!a.isMoving()) {
+                    next_dest = nextMove(_game, a);
+                }
+                long timeToSleep = toSleep(a, next_dest);
+                if (timeToSleep < minSleepTime) {
+                    minSleepTime = timeToSleep;
                 }
             }
-            _sleep = minMoveTime;
-            if (!_mover_thread.isAlive()) {
-                _mover_thread.run();
-            }
 
+            // sleep before move
+            try {
+                Thread.sleep(minSleepTime);
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+            _game.move();
+        }
+
+        // finish _painter_thread
+        try {
+            _painter_thread.join();
+        } catch (InterruptedException exception) {
+            exception.printStackTrace();
         }
         int moves = JsonParser.parseString(_game.toString()).getAsJsonObject().getAsJsonObject("GameServer").get("moves").getAsInt();
         System.out.printf("Level: %d\t\tGrade: %d,\tMoves: %d,\tAvg moves per sec: %.3f%n", _scenario_num, _ar.getGrade(), moves, moves / ((double) sum_time / 1000));
     }
 
+    /**
+     * Repaint the screen 60 times in second
+     */
     class Painter implements Runnable {
-
         @Override
         public void run() {
             while (_game.isRunning()) {
@@ -101,21 +115,6 @@ public class Runner implements Runnable {
                 _win.repaint();
             }
         }
-    }
-
-    class Mover implements Runnable {
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(_sleep);
-            } catch (InterruptedException exception) {
-                exception.printStackTrace();
-            }
-            synchronized (_win) {
-                _game.move();
-            }
-        }
-
     }
 
     /**
@@ -139,7 +138,7 @@ public class Runner implements Runnable {
     private void initGUI() {
         _win.set_ar(_ar);
         _win.set_level(_scenario_num);
-        _win.setTitle("Pokemons Game " + _scenario_num);
+        _win.setTitle("Pokemons Game " + _scenario_num + (_id != -1 ? (" - " + _id) : ""));
     }
 
     private void initAlgo() {
