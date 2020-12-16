@@ -1,17 +1,15 @@
 package gameClient;
 
 import Server.Game_Server_Ex2;
-import api.NodeData;
 import api.game_service;
 import api.node_data;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AlgoTest {
 
     static game_service _game;
@@ -22,7 +20,6 @@ class AlgoTest {
     @BeforeAll
     static void beforeAll() {
         _game = Game_Server_Ex2.getServer(0);
-//        _game.addAgent(0);
         _arena = new Arena(_game);
         Algo.set_ar(_arena);
         Algo.set_graph(_arena.get_graph());
@@ -59,28 +56,13 @@ class AlgoTest {
         assertEquals(arrayList, _agent.get_path());
     }
 
-/*
+    @Order(4)
     @Test
     void nextMove() {
-        System.out.println(_agent);
+        _game.startGame();
+        assertFalse(_agent.isMoving());
+        int nextMove = Algo.nextMove(_game, _agent);
+        assertEquals(8, nextMove);
     }
 
-    @Test
-    void placeAgentsByDist() {
-    }
-
-
-
-    @Test
-    void createPathByDistance() {
-    }
-
-    @Test
-    void indexOfPok() {
-    }
-
-    @Test
-    void toSleep() {
-    }
-*/
 }
