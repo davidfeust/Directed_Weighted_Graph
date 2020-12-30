@@ -357,4 +357,29 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             return false;
         }
     }
+
+
+    public List<node_data> connected_component(int id){
+        List<node_data> ll = new LinkedList<>();
+
+        node_data node = this._g.getNode(id);
+        setDistance(node);
+        for(node_data n :_g.getV()){
+            if (!(n.getWeight() < 0)) {ll.add(n);}
+        }
+        List<node_data> res = new LinkedList<>();
+        initNodeTag();
+        int num=0;
+//        for (node_data i : ll) {
+//            i.setTag(0); }
+
+//        node.setTag(1);
+
+        for (node_data i : ll) {
+            this.connectedCheck(i, node, ++num);
+            if (node.getTag()+1 != num) {res.add(i);}
+        }
+
+        return res;
+    }
 }

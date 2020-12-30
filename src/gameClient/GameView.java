@@ -50,7 +50,7 @@ public class GameView extends JPanel {
     }
 
     /**
-     * Paint with double buffers, to create a smooth displayץ
+     * Paint with double buffers, to create a smooth display
      * @param g Graphics of this JPanel
      */
     @Override
