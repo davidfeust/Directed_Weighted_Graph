@@ -99,13 +99,13 @@ class Compare_to_py {
     public void test_connected_components() {
         init("data/A5");
         long start_time = currentTimeMillis();
-//        ((WDGraph_Algo) _ga).connected_components();
+        ((WDGraph_Algo) _ga).connected_components();
         long end_time = currentTimeMillis();
         out.println("Java Graph: test_connected_components(): " + (end_time - start_time) / 1000.);
 
         init("data/A5_edited");
         start_time = currentTimeMillis();
-        ((WDGraph_Algo) _ga).connected_component(1);
+        ((WDGraph_Algo) _ga).connected_components();
         end_time = currentTimeMillis();
         out.println("Java Graph: test_connected_components(): " + (end_time - start_time) / 1000.);
     }
