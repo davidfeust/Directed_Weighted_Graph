@@ -23,6 +23,13 @@ class Compare_to_py {
 //        WDGraph_DS g = new WDGraph_DS();
         WDGraph_Algo ga = new WDGraph_Algo();
         ga.load("data/A5");
+//        System.out.println("ga.connected_component(0) = " + ga.connected_component(0));
+        System.out.println("ga.connected_components() = " + ga.connected_components());
+//        System.out.println(ga.getGraph());
+        ga.getGraph().removeEdge(13,14);
+        System.out.println("ga.connected_components() = " + ga.connected_components());
+//        System.out.println("ga.connected_component(0) = " + ga.connected_component(0));
+//        System.out.println(ga.getGraph());
         out.println("ga.connected_component(0) = " + ga.connected_component(0));
         out.println(ga.getGraph());
         ga.getGraph().removeEdge(13, 14);
