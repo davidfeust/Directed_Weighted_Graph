@@ -113,8 +113,8 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      * change the tag to the distance between node_data to the rest of the graph nodes until it reach the destination
      * if the tag = -1 the nodes are not connected
      *
-     * @@param node_data
      * @return the sum of the marked nodes
+     * @@param node_data
      */
     private int connectedCheck(node_data src, node_data dest, int num) {
         int sum = 0;
@@ -359,27 +359,71 @@ public class WDGraph_Algo implements dw_graph_algorithms {
     }
 
 
-    public List<node_data> connected_component(int id){
+    public List<node_data> connected_component(int id) {
+       node_data src = _g.getNode(id);
+        int num = -1;
+        for (node_data i : this._g.getV()) {
+            i.setTag(num);
+        }
+        num++;//==0
+        set_connected_tag(_g.getNode(id), num);
         List<node_data> ll = new LinkedList<>();
-
-        node_data node = this._g.getNode(id);
-        setDistance(node);
-        for(node_data n :_g.getV()){
-            if (!(n.getWeight() < 0)) {ll.add(n);}
+        ll.add(src);
+        for (node_data i : this._g.getV()) {
+            if (i.getTag() == 0) {
+                ll.add(i);}
         }
         List<node_data> res = new LinkedList<>();
-        initNodeTag();
-        int num=0;
-//        for (node_data i : ll) {
-//            i.setTag(0); }
-
-//        node.setTag(1);
 
         for (node_data i : ll) {
-            this.connectedCheck(i, node, ++num);
-            if (node.getTag()+1 != num) {res.add(i);}
+            num++;
+            if(connect_to_src(src,i,num)){
+                res.add(i);}
         }
 
-        return res;
+      return res;
+}
+
+
+    private void set_connected_tag(node_data src, int num) {
+        PriorityQueue<node_data> q = new PriorityQueue<>();
+        src.setTag(-2);
+        q.add(src);
+
+        while (!q.isEmpty()) {
+            node_data temp = q.poll();
+
+            for (edge_data i : _g.getE(temp.getKey())) {
+                node_data t_node = _g.getNode(i.getDest());
+                if (t_node.getTag() == -1 ) {
+                    //set tag to 0 if we can reach if from the src node
+                    t_node.setTag(num);
+                    q.add(t_node);
+                }
+            }
+        }
     }
+
+    private boolean connect_to_src(node_data src, node_data node, int num) {
+        if(src==node){return true;}
+        PriorityQueue<node_data> q = new PriorityQueue<>();
+        node.setTag(num);
+        q.add(node);
+
+        while (!q.isEmpty()) {
+            node_data temp = q.poll();
+            for (edge_data i : _g.getE(temp.getKey())) {
+                node_data t_node = _g.getNode(i.getDest());
+                if (t_node.getTag() != num ) {
+                    if(t_node.getTag()==-2){
+                        node.setTag(-2);
+                        return true;}
+                    t_node.setTag(num);
+                    q.add(t_node);
+                }
+            }
+        }
+            return false;
+    }
+
 }
