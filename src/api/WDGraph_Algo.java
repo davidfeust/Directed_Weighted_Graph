@@ -77,7 +77,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      * Returns true if and only if (iff) there is a valid path from each node to each
      * other node. NOTE: assume directional graph (all n*(n-1) ordered pairs).
      *
-     * @return
+     * @return directed_weighted_graph
      */
     @Override
     public boolean isConnected() {
@@ -92,8 +92,8 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
             int sum = this.connectedCheck(connectedNode, connectedNode, num);
 
-            //cheking if the value that we get from the connectedCheck function equal to the number of node in the graph
-            //if not we return false
+            // checking if the value that we get from the connectedCheck function equal to the number of node in the graph
+            // if not we return false
             if (sum != _g.getV().size()) {
                 return false;
             }
@@ -151,7 +151,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      *
      * @param src  - start node
      * @param dest - end (target) node
-     * @return
+     * @return List<node_data>
      */
     @Override
     public List<node_data> shortestPath(int src, int dest) {
@@ -162,7 +162,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             node_data Src = this._g.getNode(src);
             node_data Dest = this._g.getNode(dest);
 
-            return ShortPath(Dest, Src, ll, flag);
+            return ShortPath(Dest, Src, ll);
         }
         return null;
     }
@@ -173,7 +173,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      *
      * @param src  - start node
      * @param dest - end (target) node
-     * @return
+     * @return weight of shortest path
      */
     @Override
     public double shortestPathDist(int src, int dest) {
@@ -212,12 +212,11 @@ public class WDGraph_Algo implements dw_graph_algorithms {
     /**
      * return list with the path from one node to the other
      *
-     * @param src
-     * @param dest
-     * @param ll
-     * @param distance
+     * @param src  id of src node
+     * @param dest id of dest node
+     * @param ll   list
      */
-    private List<node_data> ShortPath(node_data dest, node_data src, List<node_data> ll, double distance) {
+    private List<node_data> ShortPath(node_data dest, node_data src, List<node_data> ll) {
         //we start by putting the dest in the stack
         Stack<node_data> stack = new Stack<>();
 
@@ -269,11 +268,11 @@ public class WDGraph_Algo implements dw_graph_algorithms {
      * file name - in JSON format
      *
      * @param file the file name (may include a relative path).
-     * @return true iff the file was successfully savedץ
+     * @return true iff the file was successfully saved.
      */
     @Override
     public boolean save(String file) {
-        //we save the file using json format
+        // we save the file using json format
         JsonObject json_obj = new JsonObject();
         JsonArray nodes_arr = new JsonArray();
         for (node_data i : _g.getV()) {
@@ -357,49 +356,47 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             return false;
         }
     }
+
     public List<List<node_data>> connected_components() {
         Set<node_data> ll = new LinkedHashSet<>();
         List<List<node_data>> res = new LinkedList<>();
-
         List<node_data> ll_index = new LinkedList<>(_g.getV());
 
-        for(node_data i : ll_index){
-            if(!ll.contains(i)){
-
+        for (node_data i : ll_index) {
+            if (!ll.contains(i)) {
                 List<node_data> temp = connected_component(i.getKey());
                 res.add(temp);
                 ll.addAll(temp);
             }
-
         }
         return res;
     }
 
-
     public List<node_data> connected_component(int id) {
-       node_data src = _g.getNode(id);
+        node_data src = _g.getNode(id);
         int num = -1;
         for (node_data i : this._g.getV()) {
             i.setTag(num);
         }
-        num++;//==0
+        num++; //==0
         set_connected_tag(_g.getNode(id), num);
         List<node_data> ll = new LinkedList<>();
         ll.add(src);
         for (node_data i : this._g.getV()) {
             if (i.getTag() == 0) {
-                ll.add(i);}
+                ll.add(i);
+            }
         }
         List<node_data> res = new LinkedList<>();
 
         for (node_data i : ll) {
             num++;
-            if(connect_to_src(src,i,num)){
-                res.add(i);}
+            if (connect_to_src(src, i, num)) {
+                res.add(i);
+            }
         }
-
-      return res;
-}
+        return res;
+    }
 
 
     private void set_connected_tag(node_data src, int num) {
@@ -412,7 +409,7 @@ public class WDGraph_Algo implements dw_graph_algorithms {
 
             for (edge_data i : _g.getE(temp.getKey())) {
                 node_data t_node = _g.getNode(i.getDest());
-                if (t_node.getTag() == -1 ) {
+                if (t_node.getTag() == -1) {
                     //set tag to 0 if we can reach if from the src node
                     t_node.setTag(num);
                     q.add(t_node);
@@ -422,7 +419,9 @@ public class WDGraph_Algo implements dw_graph_algorithms {
     }
 
     private boolean connect_to_src(node_data src, node_data node, int num) {
-        if(src==node){return true;}
+        if (src == node) {
+            return true;
+        }
         PriorityQueue<node_data> q = new PriorityQueue<>();
         node.setTag(num);
         q.add(node);
@@ -431,16 +430,16 @@ public class WDGraph_Algo implements dw_graph_algorithms {
             node_data temp = q.poll();
             for (edge_data i : _g.getE(temp.getKey())) {
                 node_data t_node = _g.getNode(i.getDest());
-                if (t_node.getTag() != num ) {
-                    if(t_node.getTag()==-2){
+                if (t_node.getTag() != num) {
+                    if (t_node.getTag() == -2) {
                         node.setTag(-2);
-                        return true;}
+                        return true;
+                    }
                     t_node.setTag(num);
                     q.add(t_node);
                 }
             }
         }
-            return false;
+        return false;
     }
-
 }
